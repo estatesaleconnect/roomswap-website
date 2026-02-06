@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room Swap Consignments | Furniture & Home Decor in Holly Hill, SC</title>
+    <meta name="description" content="Quality consignment furniture and home decor in Holly Hill, SC. Buy, sell, and consign unique pieces. Open Tuesday-Saturday 12-5pm.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="logo.png" alt="Room Swap Consignments" class="logo">
+            </div>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="about.html">How It Works</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Quality Furniture & Home Decor Worth a Second Look</h1>
+            <p class="tagline">4,000 square feet of curated consignment finds in Holly Hill, South Carolina</p>
+            <a href="contact.html" class="cta-button">Visit Us Today</a>
+        </div>
+    </section>
+
+    <main>
+        <section>
+            <h2 class="section-title">Welcome to Room Swap</h2>
+            <p>Room Swap Consignments is more than just a furniture store—it's where quality pieces find new homes and new stories begin. Our 4,000 square foot showroom in Holly Hill features carefully selected furniture, home decor, books, vinyl, and vintage treasures that bring character to any space.</p>
+            <p>Whether you're furnishing your first home, looking for that perfect statement piece, or ready to pass along furniture you no longer need, we're here to help. We buy select items outright and offer consignment services that make it easy to turn your furniture into cash.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">What We Offer</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Quality Furniture</h3>
+                    <p>From vintage finds to contemporary pieces, our rotating inventory features furniture that's built to last. Every piece is inspected for quality before hitting our showroom floor.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Home Decor & More</h3>
+                    <p>Discover books, vinyl records, vintage apparel, and unique decorative items that add personality to your space. Our expanding "Book Nook" offers a cozy place to browse.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Buying Services</h3>
+                    <p>We buy quality furniture, estate contents, and precious metals. Bring in your items for a fair evaluation, or contact us about larger estate purchases.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Easy Consignment</h3>
+                    <p>Turn your quality furniture into cash without the hassle of private selling. We handle everything from pricing to sales, and you get paid when your items sell.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Hours & Location</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Open Hours</h3>
+                    <p><strong>Tuesday - Saturday</strong><br>12:00 PM - 5:00 PM</p>
+                    <p>Closed Sunday & Monday</p>
+                </div>
+                <div class="info-card">
+                    <h3>Visit Us</h3>
+                    <p><strong>Room Swap Consignments</strong><br>Holly Hill, South Carolina</p>
+                    <p>4,000 sq ft showroom with ample parking</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Stay Connected</h2>
+            <p>Follow us on social media to see new arrivals, special finds, and what's happening at Room Swap. We update our inventory weekly with fresh pieces worth discovering.</p>
+            <div class="social-links">
+                <a href="https://www.facebook.com/RoomSwapSC" target="_blank" rel="noopener" class="social-link">
+                    Facebook
+                </a>
+                <a href="https://www.instagram.com/roomswapconsignments/" target="_blank" rel="noopener" class="social-link">
+                    Instagram
+                </a>
+                <a href="https://g.page/r/YOUR_GOOGLE_BUSINESS_ID/review" target="_blank" rel="noopener" class="social-link">
+                    Leave a Review
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Room Swap Consignments</strong></p>
+            <p>Holly Hill, South Carolina</p>
+            <p>Phone: <a href="tel:8439001420">843-900-142</a> | Email: <a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
+            <p style="margin-top: 1rem; opacity: 0.7;">Open Tuesday-Saturday, 12-5pm</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

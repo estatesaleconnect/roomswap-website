@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Room Swap Consignments</title>
+    <meta name="description" content="Visit Room Swap Consignments in Holly Hill, SC. Contact us about consignment, buying, or to schedule a visit.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="logo.png" alt="Room Swap Consignments" class="logo">
+            </div>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">How It Works</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h1 class="section-title">Visit Us</h1>
+            <p>The best way to experience Room Swap is to stop by in person. Browse our 4,000 square foot showroom, check out the quality of our pieces, and talk with us about consignment or selling options.</p>
+        </section>
+
+        <section>
+            <div class="contact-info">
+                <div class="contact-card">
+                    <h3>Hours</h3>
+                    <p><strong>Tuesday - Saturday</strong><br>12:00 PM - 5:00 PM</p>
+                    <p style="margin-top: 1rem;">Closed Sunday & Monday</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Location</h3>
+                    <p><strong>Room Swap Consignments</strong><br>Holly Hill, South Carolina</p>
+                    <p style="margin-top: 1rem;">4,000 sq ft showroom<br>Ample parking available</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Phone</h3>
+                    <p><a href="tel:8439001420">843-900-142</a></p>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; opacity: 0.8;">Call during business hours for questions about inventory, consignment, or buying services</p>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>Email</h3>
+                    <p><a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
+                    <p style="margin-top: 1rem; font-size: 0.95rem; opacity: 0.8;">Send photos of items you'd like to consign or sell, or inquire about estate purchases</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Connect With Us</h2>
+            <p>Follow us on social media to see new arrivals, special pieces, and what's happening at the shop. We post regularly with updates on inventory and behind-the-scenes looks at interesting finds.</p>
+            
+            <div class="social-links">
+                <a href="https://www.facebook.com/RoomSwapSC" target="_blank" rel="noopener" class="social-link">
+                    Follow on Facebook
+                </a>
+                <a href="https://www.instagram.com/roomswapconsignments/" target="_blank" rel="noopener" class="social-link">
+                    Follow on Instagram
+                </a>
+                <a href="https://g.page/r/YOUR_GOOGLE_BUSINESS_ID/review" target="_blank" rel="noopener" class="social-link">
+                    Leave a Google Review
+                </a>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Do I need an appointment?</h3>
+                    <p>No appointment needed during regular business hours. Just stop by! For large estate pickups or after-hours consultations, give us a call to schedule.</p>
+                </div>
+                <div class="info-card">
+                    <h3>What should I bring?</h3>
+                    <p>For consignment evaluation, bring photos of larger items or the actual pieces if they're portable. We can assess most items on the spot.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Do you deliver?</h3>
+                    <p>Contact us about delivery options for larger furniture purchases. We can discuss arrangements based on your location and item size.</p>
+                </div>
+                <div class="info-card">
+                    <h3>How quickly do items sell?</h3>
+                    <p>It varies by item, but quality pieces priced right typically move within a few weeks. We'll keep you updated on interest and pricing adjustments if needed.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Room Swap Consignments</strong></p>
+            <p>Holly Hill, South Carolina</p>
+            <p>Phone: <a href="tel:8439001420">843-900-142</a> | Email: <a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
+            <p style="margin-top: 1rem; opacity: 0.7;">Open Tuesday-Saturday, 12-5pm</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

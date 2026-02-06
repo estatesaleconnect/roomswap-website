@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works | Room Swap Consignments</title>
+    <meta name="description" content="Learn about our consignment process and what we buy. Easy, hassle-free furniture consignment in Holly Hill, SC.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <div class="logo-container">
+                <img src="logo.png" alt="Room Swap Consignments" class="logo">
+            </div>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html" class="active">How It Works</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section>
+            <h1 class="section-title">How Consignment Works</h1>
+            <p>Consignment at Room Swap is straightforward and hassle-free. You bring in your quality furniture, we evaluate it, and if it's a good fit for our showroom, we'll display and sell it for you. When it sells, you get paid. No yard sales, no online listings, no dealing with buyers. We handle everything.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">The Consignment Process</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>1. Bring It In</h3>
+                    <p>Stop by during business hours with photos of your items, or bring smaller pieces directly to our showroom. For larger furniture or estate contents, contact us to discuss pickup options.</p>
+                </div>
+                <div class="info-card">
+                    <h3>2. We Evaluate</h3>
+                    <p>We'll assess your items for quality, condition, and market demand. We're looking for pieces that are clean, functional, and in good condition. Not everything makes the cut, but we'll give you honest feedback.</p>
+                </div>
+                <div class="info-card">
+                    <h3>3. We Display & Sell</h3>
+                    <p>Accepted items go on our showroom floor where they're marketed to our steady stream of customers. We handle pricing, display, and all customer interactions.</p>
+                </div>
+                <div class="info-card">
+                    <h3>4. You Get Paid</h3>
+                    <p>When your item sells, you receive your consignment percentage. Payment is issued according to our consignment agreement terms. It's that simple.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">What We Accept</h2>
+            <p>We're selective about what goes on our showroom floor because we want every piece to reflect quality and value. Here's what we look for:</p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Furniture</h3>
+                    <p>Quality pieces in good condition including sofas, chairs, tables, dressers, beds, cabinets, and more. Both vintage and contemporary styles welcome.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Home Decor</h3>
+                    <p>Lamps, artwork, mirrors, rugs, and decorative items that complement furniture pieces. Items should be clean and in excellent condition.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Books & Media</h3>
+                    <p>Collectible books, vintage vinyl records, and interesting media items. We're building our Book Nook with curated selections.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Vintage Items</h3>
+                    <p>Vintage apparel, collectibles, and unique finds that have character and appeal. Authenticity and condition matter.</p>
+                </div>
+            </div>
+
+            <p style="margin-top: 2rem;"><strong>What we typically don't accept:</strong> Items with significant damage, stains, or wear; outdated electronics; clothing except vintage/collectible pieces; incomplete furniture sets.</p>
+        </section>
+
+        <section>
+            <h2 class="section-title">We Also Buy Outright</h2>
+            <p>In addition to consignment, we purchase select items directly:</p>
+            
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Quality Furniture</h3>
+                    <p>We buy furniture pieces that we know will move quickly. Bring items by for evaluation, or contact us about larger collections.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Estate Contents</h3>
+                    <p>We handle estate purchases and can arrange pickup for larger quantities. Contact us to discuss your estate sale needs.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Precious Metals</h3>
+                    <p>We buy gold, silver, and precious metals using professional testing equipment. Fair prices based on current market rates.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Ready to Get Started?</h2>
+            <p>The best way to see if your items are a good fit is to stop by during our business hours. Bring photos of larger items, or bring smaller pieces directly. We'll give you honest feedback and explain next steps if your items are accepted.</p>
+            <p style="margin-top: 2rem;">
+                <a href="contact.html" class="cta-button">Contact Us</a>
+            </p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Room Swap Consignments</strong></p>
+            <p>Holly Hill, South Carolina</p>
+            <p>Phone: <a href="tel:8439001420">843-900-142</a> | Email: <a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
+            <p style="margin-top: 1rem; opacity: 0.7;">Open Tuesday-Saturday, 12-5pm</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const nav = document.querySelector('nav');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
