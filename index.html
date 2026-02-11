@@ -135,6 +135,27 @@
             </div>
         </section>
 
+        <section class="compact-form-section">
+            <h2 class="section-title centered-title">Get in Touch</h2>
+            <p class="centered-text">Have a question or want to get started? Drop us a quick message — or call or text <a href="tel:8439001412">843-900-1412</a>.</p>
+            <form name="quick-contact" method="POST" data-netlify="true" class="site-form">
+                <input type="hidden" name="form-name" value="quick-contact">
+                <div class="form-row">
+                    <div>
+                        <label for="home-name">Your Name</label>
+                        <input type="text" id="home-name" name="name" required placeholder="Full name">
+                    </div>
+                    <div>
+                        <label for="home-phone">Phone or Email</label>
+                        <input type="text" id="home-phone" name="contact" required placeholder="How to reach you">
+                    </div>
+                </div>
+                <label for="home-message">Message</label>
+                <textarea id="home-message" name="message" rows="3" placeholder="What can we help you with?"></textarea>
+                <button type="submit" class="form-submit">Send Message</button>
+            </form>
+        </section>
+
         <section class="visit-banner">
             <div class="visit-banner-content">
                 <div class="visit-info">

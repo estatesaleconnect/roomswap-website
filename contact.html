@@ -73,6 +73,22 @@
         </section>
 
         <section>
+            <h2 class="section-title">Send Us a Message</h2>
+            <p>Have a question about consignment, selling, or our inventory? Fill out the form and we'll get back to you. You can also call or text <a href="tel:8439001412"><strong>843-900-1412</strong></a> for a faster response.</p>
+            <form name="general-inquiry" method="POST" data-netlify="true" class="site-form">
+                <input type="hidden" name="form-name" value="general-inquiry">
+                <label for="contact-name">Your Name</label>
+                <input type="text" id="contact-name" name="name" required placeholder="Full name">
+                <label for="contact-phone">Phone or Email</label>
+                <input type="text" id="contact-phone" name="contact" required placeholder="How should we reach you?">
+                <label for="contact-message">Message</label>
+                <textarea id="contact-message" name="message" placeholder="What can we help you with?"></textarea>
+                <button type="submit" class="form-submit">Send Message</button>
+                <p class="form-note">We typically respond within one business day.</p>
+            </form>
+        </section>
+
+        <section>
             <h2 class="section-title">Find Us</h2>
             <div class="map-container">
                 <iframe
