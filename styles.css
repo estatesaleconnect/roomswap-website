@@ -924,6 +924,17 @@ footer a:hover {
   margin-top: var(--spacing-xs);
 }
 
+.form-success {
+  padding: var(--spacing-md);
+  background: var(--off-white);
+  border-left: 4px solid var(--green-primary);
+  margin-top: var(--spacing-md);
+}
+
+.form-success h3 {
+  color: var(--green-primary);
+}
+
 /* Compact form variant (homepage) */
 .compact-form-section {
   text-align: center;

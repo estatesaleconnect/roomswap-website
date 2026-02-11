@@ -146,6 +146,10 @@
                 <button type="submit" class="form-submit">Send Request</button>
                 <p class="form-note">We typically respond within one business day.</p>
             </form>
+            <div class="form-success" style="display: none;">
+                <h3>Thank You!</h3>
+                <p>We've received your request and will be in touch soon. If you need immediate help, call or text <a href="tel:8439001412">843-900-1412</a>.</p>
+            </div>
         </section>
     </main>
 
@@ -176,6 +180,20 @@
             if (!nav.contains(event.target) && !toggle.contains(event.target)) {
                 nav.classList.remove('active');
             }
+        });
+
+        document.querySelector('.site-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            var data = new URLSearchParams(new FormData(form));
+            fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: data.toString() })
+            .then(function() {
+                form.style.display = 'none';
+                document.querySelector('.form-success').style.display = 'block';
+            })
+            .catch(function() {
+                alert('Something went wrong. Please try again or call us at 843-900-1412.');
+            });
         });
     </script>
 </body>
