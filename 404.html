@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | Room Swap Consignments</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-container" aria-label="Room Swap - Furniture & Treasures - Home">
+                <span class="logo-main">ROOM SWAP</span>
+                <span class="logo-divider"></span>
+                <span class="logo-sub">Furniture &amp; Treasures</span>
+            </a>
+            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">How It Works</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="sell.html">Sell to Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section style="text-align: center; min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+            <h1>Page Not Found</h1>
+            <p>Sorry, we couldn't find that page. It may have been moved or no longer exists.</p>
+            <div style="margin-top: 2rem;">
+                <a href="index.html" class="cta-button">Back to Home</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Room Swap Consignments</strong></p>
+            <p>8531 Old State Road, Holly Hill, SC 29059</p>
+            <p>Phone: <a href="tel:8439001412">843-900-1412</a> | Email: <a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
+            <p class="footer-hours">Open Tuesday – Saturday, 12 – 5 PM</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            document.querySelector('nav').classList.toggle('active');
+        });
+    </script>
+</body>
+</html>

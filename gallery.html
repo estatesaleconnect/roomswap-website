@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery | Room Swap Consignments</title>
-    <meta name="description" content="Browse our current inventory of quality furniture and home decor at Room Swap Consignments in Holly Hill, SC.">
+    <title>Gallery – Current Inventory | Room Swap Consignments in Holly Hill, SC</title>
+    <meta name="description" content="Browse current consignment furniture and home decor inventory at Room Swap in Holly Hill, SC. New pieces added weekly. Visit our 4,000 sq ft showroom.">
+    <link rel="canonical" href="https://www.roomswapconsignments.com/gallery.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta property="og:title" content="Current Inventory | Room Swap Consignments">
+    <meta property="og:description" content="Browse our latest consignment furniture, home decor, and vintage finds in Holly Hill, SC. New pieces weekly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.roomswapconsignments.com/gallery.html">
+    <meta property="og:site_name" content="Room Swap Consignments">
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,12 +25,14 @@
                 <span class="logo-divider"></span>
                 <span class="logo-sub">Furniture &amp; Treasures</span>
             </a>
+            <a href="tel:8439001412" class="header-phone" aria-label="Call us">843-900-1412</a>
             <button class="menu-toggle" aria-label="Toggle menu">☰</button>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">How It Works</a></li>
                     <li><a href="gallery.html" class="active">Gallery</a></li>
+                    <li><a href="sell.html">Sell to Us</a></li>
                     <li><a href="contact.html">Contact</a></li>
                 </ul>
             </nav>
@@ -34,8 +43,7 @@
         <section>
             <h1 class="section-title">Current Inventory</h1>
             <p>Our showroom inventory changes weekly as pieces sell and new items arrive. Stop by to see everything in person, or check back here regularly for updates on what's currently available.</p>
-            <p>If you can’t make it in today, call or text 843-900-1914. We’re happy to take Venmo or credit card payments over the phone.</p>
-
+            <p>If you can't make it in today, call or text 843-900-1914. We're happy to take Venmo or credit card payments over the phone.</p>
             <p style="margin-top: 1rem; color: var(--warm-gray); font-style: italic;">Photos are updated weekly. Inventory changes fast, and not all items shown may still be available.</p>
         </section>
 
@@ -47,24 +55,37 @@
                 <p>No photos have been added yet. Check back soon, or visit us in person to see our full inventory.</p>
             </div>
         </section>
+
+        <section class="gallery-cta-section">
+            <h2 class="section-title centered-title">See Something You Like?</h2>
+            <p class="centered-text">Items sell fast — if you see a piece you love, call or stop by before it's gone.</p>
+            <div class="centered-links">
+                <a href="tel:8439001412" class="cta-button">Call 843-900-1412</a>
+                <a href="contact.html" class="cta-button cta-button-outline">Get Directions</a>
+            </div>
+        </section>
     </main>
 
     <footer>
         <div class="footer-content">
             <p><strong>Room Swap Consignments</strong></p>
-            <p>8531 Old State Road, Holly Hill, South Carolina 29059</p>
-            <p>Phone: <a href="tel:8439001420">843-900-1412</a> | Email: <a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
-            <p style="margin-top: 1rem; opacity: 0.7;">Open Tuesday-Saturday, 12-5pm</p>
+            <p>8531 Old State Road, Holly Hill, SC 29059</p>
+            <p>Phone: <a href="tel:8439001412">843-900-1412</a> | Email: <a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
+            <p class="footer-hours">Open Tuesday – Saturday, 12 – 5 PM</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">How It Works</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="sell.html">Sell to Us</a>
+                <a href="contact.html">Contact</a>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Mobile menu toggle
         document.querySelector('.menu-toggle').addEventListener('click', function() {
             document.querySelector('nav').classList.toggle('active');
         });
-
-        // Close menu when clicking outside
         document.addEventListener('click', function(event) {
             const nav = document.querySelector('nav');
             const toggle = document.querySelector('.menu-toggle');
@@ -77,24 +98,24 @@
         async function loadGallery() {
             const container = document.getElementById('gallery-container');
             const noResults = document.getElementById('no-results');
-            
+
             try {
                 // Fetch gallery items from GitHub API
                 const response = await fetch('https://api.github.com/repos/estatesaleconnect/roomswap-website/contents/_gallery');
-                
+
                 if (!response.ok) {
                     throw new Error('Gallery not found');
                 }
-                
+
                 const files = await response.json();
                 const jsonFiles = files.filter(file => file.name.endsWith('.json') && file.name !== 'gallery.json');
-                
+
                 if (jsonFiles.length === 0) {
                     container.style.display = 'none';
                     noResults.style.display = 'block';
                     return;
                 }
-                
+
                 // Fetch each JSON file
                 const items = await Promise.all(
                     jsonFiles.map(async (file) => {
@@ -102,54 +123,54 @@
                         return await fileResponse.json();
                     })
                 );
-                
+
                 // Clear loading message
                 container.innerHTML = '';
-                
+
                 // Sort items by date (newest first)
                 items.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
+
                 // Create gallery items
                 items.forEach(item => {
                     const galleryItem = document.createElement('div');
                     galleryItem.className = 'gallery-item';
-                    
+
                     const img = document.createElement('img');
                     // Fix the image path - it's stored relative to root
                     img.src = item.image.startsWith('/') ? item.image : '/' + item.image;
                     img.alt = item.title || 'Room Swap inventory item';
                     img.loading = 'lazy';
-                    
+
                     // Error handling for broken images
                     img.onerror = function() {
                         this.parentElement.style.display = 'none';
                     };
-                    
+
                     galleryItem.appendChild(img);
-                    
+
                     // Add caption if there's a title or description
                     if (item.title || item.description) {
                         const caption = document.createElement('div');
                         caption.className = 'gallery-caption';
-                        
+
                         let captionText = '';
                         if (item.title) captionText += `<strong>${item.title}</strong>`;
                         if (item.description) captionText += (item.title ? '<br>' : '') + item.description;
-                        
+
                         caption.innerHTML = captionText;
                         galleryItem.appendChild(caption);
                     }
-                    
+
                     container.appendChild(galleryItem);
                 });
-                
+
             } catch (error) {
                 console.log('Gallery error:', error);
                 container.style.display = 'none';
                 noResults.style.display = 'block';
             }
         }
-        
+
         // Load gallery on page load
         loadGallery();
     </script>
