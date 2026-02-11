@@ -526,6 +526,47 @@ section {
   transform: translateY(0);
 }
 
+/* Inline Contact (subtle, near top of pages) */
+.inline-contact {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--off-white);
+  border-left: 4px solid var(--green-primary);
+}
+
+.inline-contact-text {
+  margin-bottom: var(--spacing-sm);
+  max-width: none;
+}
+
+.inline-contact-links {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.inline-contact-links .cta-button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+
+/* Estate Experience Block */
+.estate-experience {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-lg) var(--spacing-md);
+  background: var(--off-white);
+  border: 2px solid var(--dark-brown);
+}
+
+.estate-experience h3 {
+  color: var(--green-primary);
+  margin-bottom: var(--spacing-md);
+}
+
+.estate-experience p {
+  max-width: none;
+}
+
 /* Gallery CTA Section */
 .gallery-cta-section {
   text-align: center;
@@ -786,6 +827,10 @@ footer a:hover {
   .section-ctas {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .inline-contact-links {
+    flex-direction: column;
   }
 }
 
