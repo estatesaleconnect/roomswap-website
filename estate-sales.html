@@ -131,13 +131,19 @@
         </section>
 
         <section>
-            <h2 class="section-title">Ready to Discuss Your Estate?</h2>
-            <p>Consultations are always free with no obligation. Whether you're just starting to think about next steps or you need help right away, give us a call, send a text, or email us. We'll take the time to understand your situation and walk you through every option.</p>
-            <div class="section-ctas">
-                <a href="tel:8439001412" class="cta-button">Call or Text for a Free Consultation</a>
-                <a href="mailto:roomswapsc@gmail.com" class="cta-button cta-button-outline">Email Us</a>
-                <a href="contact.html" class="cta-button cta-button-outline">Get Directions</a>
-            </div>
+            <h2 class="section-title">Request a Free Consultation</h2>
+            <p>Fill out the form below and we'll get back to you to discuss your estate. No obligation, no pressure — just honest guidance. You can also call or text us directly at <a href="tel:8439001412"><strong>843-900-1412</strong></a>.</p>
+            <form name="estate-consultation" method="POST" data-netlify="true" class="site-form">
+                <input type="hidden" name="form-name" value="estate-consultation">
+                <label for="estate-name">Your Name</label>
+                <input type="text" id="estate-name" name="name" required placeholder="Full name">
+                <label for="estate-phone">Phone Number</label>
+                <input type="tel" id="estate-phone" name="phone" required placeholder="Best number to reach you">
+                <label for="estate-message">Tell Us About Your Situation</label>
+                <textarea id="estate-message" name="message" placeholder="For example: clearing a family home, downsizing, number of rooms, timeline, etc."></textarea>
+                <button type="submit" class="form-submit">Send Request</button>
+                <p class="form-note">We typically respond within one business day.</p>
+            </form>
         </section>
     </main>
 
