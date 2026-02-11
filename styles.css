@@ -123,6 +123,18 @@ header {
   white-space: nowrap;
 }
 
+.logo-secondary {
+  font-family: 'Crimson Text', Georgia, serif;
+  font-weight: 600;
+  font-size: clamp(0.55rem, 1.1vw, 0.72rem);
+  color: var(--dark-brown);
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  white-space: nowrap;
+  line-height: 1;
+  margin-top: 1px;
+}
+
 .logo-divider {
   display: block;
   width: 100%;
@@ -782,6 +794,11 @@ footer a:hover {
 
   .logo-main {
     font-size: 1.5rem;
+  }
+
+  .logo-secondary {
+    font-size: 0.5rem;
+    letter-spacing: 0.25em;
   }
 
   .logo-sub {
