@@ -146,14 +146,20 @@
                         <input type="text" id="home-name" name="name" required placeholder="Full name">
                     </div>
                     <div>
-                        <label for="home-phone">Phone or Email</label>
-                        <input type="text" id="home-phone" name="contact" required placeholder="How to reach you">
+                        <label for="home-phone">Phone Number</label>
+                        <input type="tel" id="home-phone" name="phone" placeholder="Best number to reach you">
                     </div>
                 </div>
+                <label for="home-email">Email Address</label>
+                <input type="email" id="home-email" name="email" placeholder="Your email address">
                 <label for="home-message">Message</label>
                 <textarea id="home-message" name="message" rows="3" placeholder="What can we help you with?"></textarea>
                 <button type="submit" class="form-submit">Send Message</button>
             </form>
+            <div class="form-success" style="display: none;">
+                <h3>Thank You!</h3>
+                <p>We've received your message and will get back to you soon.</p>
+            </div>
         </section>
 
         <section class="visit-banner">
@@ -209,6 +215,20 @@
             if (!nav.contains(event.target) && !toggle.contains(event.target)) {
                 nav.classList.remove('active');
             }
+        });
+
+        document.querySelector('.site-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = this;
+            var data = new URLSearchParams(new FormData(form));
+            fetch('/', { method: 'POST', headers: {'Content-Type': 'application/x-www-form-urlencoded'}, body: data.toString() })
+            .then(function() {
+                form.style.display = 'none';
+                document.querySelector('.form-success').style.display = 'block';
+            })
+            .catch(function() {
+                alert('Something went wrong. Please try again or call us at 843-900-1412.');
+            });
         });
     </script>
 </body>
