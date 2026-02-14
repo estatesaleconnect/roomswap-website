@@ -54,11 +54,19 @@
         </section>
 
         <section>
+            <div class="gallery-search-wrap">
+                <input type="text" id="gallery-search" class="gallery-search" placeholder="Search inventory — try &quot;dresser&quot;, &quot;lamp&quot;, &quot;vintage&quot;..." aria-label="Search gallery items">
+                <span class="gallery-search-icon">&#128269;</span>
+                <div id="gallery-count" class="gallery-count"></div>
+            </div>
             <div id="gallery-container" class="gallery-grid">
                 <div class="loading">Loading gallery...</div>
             </div>
             <div id="no-results" class="no-results" style="display: none;">
                 <p>No photos have been added yet. Check back soon, or visit us in person to see our full inventory.</p>
+            </div>
+            <div id="no-search-results" class="no-results" style="display: none;">
+                <p>No items match your search. Try a different term, or <a href="tel:8439001412">call us at 843-900-1412</a> to ask about specific pieces.</p>
             </div>
         </section>
 
@@ -107,10 +115,14 @@
             }
         });
 
+        // Gallery state
+        var allGalleryItems = [];
+
         // Load gallery from CMS via GitHub API
         async function loadGallery() {
             const container = document.getElementById('gallery-container');
             const noResults = document.getElementById('no-results');
+            const searchWrap = document.querySelector('.gallery-search-wrap');
 
             try {
                 // Fetch gallery items from GitHub API
@@ -126,6 +138,7 @@
                 if (jsonFiles.length === 0) {
                     container.style.display = 'none';
                     noResults.style.display = 'block';
+                    searchWrap.style.display = 'none';
                     return;
                 }
 
@@ -137,52 +150,112 @@
                     })
                 );
 
-                // Clear loading message
-                container.innerHTML = '';
-
                 // Sort items by date (newest first)
                 items.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-                // Create gallery items
-                items.forEach(item => {
-                    const galleryItem = document.createElement('div');
-                    galleryItem.className = 'gallery-item';
+                // Store globally for search filtering
+                allGalleryItems = items;
 
-                    const img = document.createElement('img');
-                    // Fix the image path - it's stored relative to root
-                    img.src = item.image.startsWith('/') ? item.image : '/' + item.image;
-                    img.alt = item.title || 'Room Swap inventory item';
-                    img.loading = 'lazy';
-
-                    // Error handling for broken images
-                    img.onerror = function() {
-                        this.parentElement.style.display = 'none';
-                    };
-
-                    galleryItem.appendChild(img);
-
-                    // Add caption if there's a title or description
-                    if (item.title || item.description) {
-                        const caption = document.createElement('div');
-                        caption.className = 'gallery-caption';
-
-                        let captionText = '';
-                        if (item.title) captionText += `<strong>${item.title}</strong>`;
-                        if (item.description) captionText += (item.title ? '<br>' : '') + item.description;
-
-                        caption.innerHTML = captionText;
-                        galleryItem.appendChild(caption);
-                    }
-
-                    container.appendChild(galleryItem);
-                });
+                // Render all items
+                renderGallery(items);
 
             } catch (error) {
                 console.log('Gallery error:', error);
                 container.style.display = 'none';
                 noResults.style.display = 'block';
+                searchWrap.style.display = 'none';
             }
         }
+
+        // Render gallery items to the page
+        function renderGallery(items) {
+            var container = document.getElementById('gallery-container');
+            var noResults = document.getElementById('no-results');
+            var noSearchResults = document.getElementById('no-search-results');
+            var countEl = document.getElementById('gallery-count');
+            var searchInput = document.getElementById('gallery-search');
+            var isSearching = searchInput.value.trim().length > 0;
+
+            container.innerHTML = '';
+
+            if (items.length === 0) {
+                container.style.display = 'none';
+                if (isSearching) {
+                    noSearchResults.style.display = 'block';
+                    noResults.style.display = 'none';
+                } else {
+                    noResults.style.display = 'block';
+                    noSearchResults.style.display = 'none';
+                }
+                countEl.textContent = '';
+                return;
+            }
+
+            container.style.display = '';
+            noResults.style.display = 'none';
+            noSearchResults.style.display = 'none';
+
+            if (isSearching) {
+                countEl.textContent = items.length + ' item' + (items.length !== 1 ? 's' : '') + ' found';
+            } else {
+                countEl.textContent = items.length + ' item' + (items.length !== 1 ? 's' : '') + ' in gallery';
+            }
+
+            items.forEach(function(item) {
+                var galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+
+                var img = document.createElement('img');
+                img.src = item.image.startsWith('/') ? item.image : '/' + item.image;
+                img.alt = item.title || 'Room Swap inventory item';
+                img.loading = 'lazy';
+
+                img.onerror = function() {
+                    this.parentElement.style.display = 'none';
+                };
+
+                galleryItem.appendChild(img);
+
+                if (item.title || item.description) {
+                    var caption = document.createElement('div');
+                    caption.className = 'gallery-caption';
+
+                    var captionText = '';
+                    if (item.title) captionText += '<strong>' + item.title + '</strong>';
+                    if (item.description) captionText += (item.title ? '<br>' : '') + item.description;
+
+                    caption.innerHTML = captionText;
+                    galleryItem.appendChild(caption);
+                }
+
+                container.appendChild(galleryItem);
+            });
+        }
+
+        // Search/filter gallery items
+        function filterGallery() {
+            var query = document.getElementById('gallery-search').value.trim().toLowerCase();
+
+            if (!query) {
+                renderGallery(allGalleryItems);
+                return;
+            }
+
+            var filtered = allGalleryItems.filter(function(item) {
+                var title = (item.title || '').toLowerCase();
+                var desc = (item.description || '').toLowerCase();
+                return title.indexOf(query) !== -1 || desc.indexOf(query) !== -1;
+            });
+
+            renderGallery(filtered);
+        }
+
+        // Search input listener with debounce
+        var searchTimeout;
+        document.getElementById('gallery-search').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(filterGallery, 200);
+        });
 
         // Load gallery on page load
         loadGallery();
