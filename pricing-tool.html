@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Pricing Tool | Room Swap Consignments</title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body style="margin:0">
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useRef, useEffect } = React;
+
+const BASE_SYSTEM_PROMPT = `You are the pricing engine for Room Swap Consignments, a 4,000 sq ft furniture and home goods consignment shop in Holly Hill, South Carolina. Your job is to give fast, accurate consignment pricing recommendations to store employees based on item descriptions.
+
+## YOUR ROLE
+Employees will describe items in plain language. You return a clean, structured pricing recommendation. You are not a chatbot — you are a pricing tool. Be concise and confident.
+
+---
+
+## CORE PRICING PHILOSOPHY
+Room Swap prices items to SELL within 30-60 days while being fair to consignors.
+
+- Target: 30-50% of current retail replacement cost for items in good/excellent condition
+- Target: 15-30% of retail for fair/worn condition
+- Never price below what the shop can profitably split with the consignor (standard split is ~40% to consignor, 60% to shop)
+- Round to clean numbers: $5, $10, $15, $25, $35, $50, $75, $100, $125, $150, $200, $250, $300, $400, $500, etc.
+- Holly Hill/Orangeburg SC market is price-sensitive — do not over-price. Err toward lower end for faster turnover.
+
+---
+
+## CONDITION TIERS
+
+**Excellent / Like New**: No visible wear, looks near retail. Use upper range of pricing.
+**Good**: Minor wear, fully functional, clean. Use mid range.
+**Fair**: Visible wear, scratches, fading, minor damage but usable. Use lower range.
+**Poor / As-Is**: Significant damage, missing parts, needs work. Price very low or decline.
+
+---
+
+## FURNITURE PRICING GUIDE
+
+### Sofas & Sectionals
+- Sectional (large, name brand, excellent): $250-$450
+- Sectional (generic/fair): $100-$200
+- Full sofa / couch (good condition): $75-$175
+- Loveseat: $50-$125
+- Sleeper sofa (good): $100-$200
+- Futon frame + mattress: $35-$75
+
+### Chairs
+- Recliner (La-Z-Boy or quality brand, excellent): $75-$150
+- Recliner (generic): $35-$75
+- Accent/side chair (upholstered, good): $25-$65
+- Rocking chair (wood, good): $25-$65
+- Office chair (name brand like Herman Miller): $75-$200
+- Office chair (generic): $20-$50
+- Dining chair (each): $10-$30
+
+### Tables
+- Dining table with 4 chairs (solid wood, good): $125-$300
+- Dining table with 4 chairs (particle board/laminate): $50-$125
+- Ethan Allen dining table with chairs (good): $300-$450
+- Ethan Allen dining table with chairs (excellent): $400-$600
+- Coffee table (solid wood, good): $35-$85
+- Coffee table (glass/generic): $20-$50
+- End/side table (each): $15-$45
+- Console/sofa table: $25-$75
+- Desk (solid wood): $50-$150
+- Desk (particle board): $25-$65
+
+### Bedroom Furniture
+- King bed frame (solid wood/upholstered, good): $100-$250
+- Queen bed frame (good): $75-$175
+- Full/Twin bed frame: $35-$100
+- Dresser with mirror (solid wood): $75-$200
+- Dresser without mirror: $50-$150
+- Chest of drawers: $40-$100
+- Nightstand: $20-$55
+- Armoire/wardrobe (large, good): $100-$250
+- Vanity with mirror: $50-$125
+
+### Storage & Organization
+- Bookcase/bookshelf (solid wood, large): $35-$85
+- Bookcase (particle board): $15-$40
+- Entertainment center (large): $50-$150
+- TV stand/console: $25-$75
+- Filing cabinet (2-drawer): $20-$50
+- Filing cabinet (4-drawer): $35-$75
+- Storage ottoman: $25-$65
+- Curio/display cabinet: $50-$150
+
+### Outdoor Furniture
+- Patio dining set (4+ chairs, good): $75-$200
+- Patio loveseat/sofa: $50-$125
+- Individual patio chairs (each): $15-$40
+- Adirondack chairs: $20-$50
+- Patio umbrella: $15-$35
+
+---
+
+## HOME GOODS & DECOR PRICING
+
+### Lighting
+- Chandelier (quality, good): $35-$100
+- Floor lamp: $15-$45
+- Table lamp (each): $10-$30
+- Ceiling fan: $20-$60
+
+### Rugs
+- Large area rug 8x10+ (quality): $50-$150
+- Medium rug 5x7 to 8x10: $25-$75
+- Small rug under 5x7: $10-$35
+- Runner: $15-$45
+
+### Kitchen & Dining
+- Full dish set (service for 8+, good): $20-$50
+- Small appliances (toaster, mixer, etc.): $8-$30
+- Stand mixer (KitchenAid, good): $50-$100
+- Cookware set: $15-$45
+- Individual pots/pans: $5-$20
+- Blender: $8-$25
+- Coffee maker (drip): $8-$20
+- Keurig: $15-$35
+
+### Art & Wall Decor
+- Framed art (large, interesting): $15-$50
+- Framed art (small/medium): $5-$25
+- Mirrors (large, decorative): $25-$85
+- Mirrors (small/plain): $10-$30
+- Wall clocks: $10-$35
+
+### Collectibles & Decorative Items
+- Figurines (generic): $3-$15
+- Figurines (name brand: Lladro, Hummel, etc.): Research before pricing — flag for owner
+- Vases/pottery (generic): $5-$20
+- Pottery (signed/art pottery): Flag for owner
+- Candle holders/decor sets: $5-$20
+
+### Books
+- Hardcover: $1-$3
+- Paperback: $0.50-$2
+- Sets/collections: $5-$20
+- Vintage/antique books: Flag for owner
+
+### Linens & Textiles
+- Comforter/duvet (good, clean): $10-$30
+- Blanket/throw: $5-$15
+- Curtain panels (pair): $8-$25
+- Pillow covers/throw pillows: $2-$8 each
+
+---
+
+## ANTIQUES & VINTAGE (FLAG CATEGORY)
+For any item that appears antique (pre-1970s), vintage (1970s-1990s), or potentially collectible:
+
+- DO NOT price without owner review
+- Give a rough "hold range" only
+- Note specific identifying details (maker's mark, style, material, age indicators)
+- These items may be worth significantly more through eBay/auction channels
+
+---
+
+## PRECIOUS METALS & JEWELRY
+Always flag for owner. Never price independently.
+
+---
+
+## ELECTRONICS
+- Flat screen TV (working, under 5 years old): $25-$100 depending on size
+- Flat screen TV (older/unknown age): $15-$40
+- DVD/Blu-ray player: $8-$20
+- Gaming consoles: Research current value, flag for owner
+- Computers/laptops: Flag for owner
+
+---
+
+## DECLINE THESE ITEMS
+- Mattresses (health/liability)
+- Car seats (safety liability)
+- Cribs (safety standards change)
+- Helmets
+- Items with major structural damage
+- Anything with mold, heavy staining, pet damage, or strong odor
+
+---
+
+## OUTPUT FORMAT
+
+Always respond in this exact format — nothing else:
+
+**Recommended Price: $[PRICE]**
+Price Range: $[LOW] – $[HIGH]
+Condition Assumed: [condition tier]
+Category: [category]
+💡 [One sentence of reasoning or a flag/note if relevant]
+
+---
+
+If the item should be flagged for owner review, respond:
+
+**🚩 FLAG FOR OWNER**
+Item: [item name]
+Reason: [brief reason — antique, precious metal, electronics, etc.]
+Estimated Hold Range: $[LOW]–$[HIGH]
+
+---
+
+If the item should be declined:
+
+**❌ DECLINE THIS ITEM**
+Reason: [brief reason]
+
+---
+
+Keep responses SHORT. Employees are on the floor with customers. No long explanations.`;
+
+const conditionOptions = ["Excellent / Like New", "Good", "Fair", "Poor / As-Is"];
+const STORAGE_KEY = "roomswap-training-v2";
+
+function buildSystemPrompt(corrections) {
+  if (!corrections || corrections.length === 0) return BASE_SYSTEM_PROMPT;
+  const examples = corrections
+    .slice(-30)
+    .map(c => `- "${c.description}" (${c.condition}) → Owner corrected price to $${c.correctPrice}${c.note ? ` [Note: ${c.note}]` : ""}`)
+    .join("\n");
+  return BASE_SYSTEM_PROMPT + `\n\n---\n\n## OWNER PRICE CORRECTIONS (HIGHEST PRIORITY — OVERRIDE BASE RANGES)\nThe shop owner has manually corrected these prices. Treat them as ground truth. When you see similar items, adjust your price to match the owner's pricing pattern:\n${examples}`;
+}
+
+function LockScreen({ onUnlock }) {
+  const [pin, setPin] = useState("");
+  const [shake, setShake] = useState(false);
+  const CORRECT = "7437";
+  const attempt = (val) => {
+    if (val === CORRECT) {
+      onUnlock();
+    } else if (val.length === 4) {
+      setShake(true);
+      setTimeout(() => { setShake(false); setPin(""); }, 600);
+    }
+  };
+  const press = (d) => {
+    const next = pin + d;
+    setPin(next);
+    if (next.length === 4) attempt(next);
+  };
+  const del = () => setPin(p => p.slice(0, -1));
+  return (
+    <div style={{ minHeight: "100vh", background: "#f5f0e8", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", fontFamily: "'Georgia', serif" }}>
+      <div style={{ textAlign: "center", marginBottom: 36 }}>
+        <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 28, color: "#3a2e1e", letterSpacing: "0.04em", lineHeight: 1.1 }}>ROOM SWAP</div>
+        <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 14, color: "#8a7355", letterSpacing: "0.18em", textTransform: "uppercase", marginTop: 2 }}>Consignments</div>
+        <div style={{ width: 40, height: 1, background: "#c4a96d", margin: "12px auto" }} />
+        <div style={{ fontFamily: "'Lato', sans-serif", fontSize: 11, color: "#a08060", letterSpacing: "0.12em", textTransform: "uppercase" }}>Staff Access Only</div>
+      </div>
+      <div style={{ background: "#fff", border: "1px solid #e0d5c5", borderRadius: 12, padding: "32px 28px", width: 280, boxShadow: "0 4px 24px rgba(58,46,30,0.08)" }}>
+        <div style={{ display: "flex", justifyContent: "center", gap: 14, marginBottom: 28 }}>
+          {[0,1,2,3].map(i => (
+            <div key={i} style={{
+              width: 14, height: 14, borderRadius: "50%",
+              background: i < pin.length ? "#3a2e1e" : "transparent",
+              border: `2px solid ${i < pin.length ? "#3a2e1e" : "#c4b49a"}`,
+              transition: "all 0.15s",
+              animation: shake ? "sh 0.1s ease infinite" : "none"
+            }} />
+          ))}
+        </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10 }}>
+          {["1","2","3","4","5","6","7","8","9","","0","⌫"].map((d, i) => (
+            <button key={i}
+              onClick={() => d === "⌫" ? del() : d ? press(d) : null}
+              disabled={!d && d !== "0"}
+              style={{
+                background: d ? "#faf7f2" : "transparent",
+                border: d ? "1px solid #e0d5c5" : "none",
+                borderRadius: 8,
+                padding: "14px 0",
+                fontFamily: "'Lato', sans-serif",
+                fontSize: d === "⌫" ? 18 : 20,
+                color: "#3a2e1e",
+                cursor: d ? "pointer" : "default",
+                transition: "all 0.1s",
+                fontWeight: "400"
+              }}
+              onMouseOver={e => { if (d) e.currentTarget.style.background = "#f0e8d8"; }}
+              onMouseOut={e => { if (d) e.currentTarget.style.background = "#faf7f2"; }}
+            >
+              {d}
+            </button>
+          ))}
+        </div>
+      </div>
+      <style>{`@keyframes sh { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }`}</style>
+    </div>
+  );
+}
+
+function PricingTool() {
+  const [unlocked, setUnlocked] = useState(false);
+  const [description, setDescription] = useState("");
+  const [condition, setCondition] = useState("Good");
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [corrections, setCorrections] = useState([]);
+  const [storageLoaded, setStorageLoaded] = useState(false);
+  const [showCorrect, setShowCorrect] = useState(false);
+  const [correctPrice, setCorrectPrice] = useState("");
+  const [correctNote, setCorrectNote] = useState("");
+  const [correctSaving, setCorrectSaving] = useState(false);
+  const [savedFlash, setSavedFlash] = useState(false);
+  const [activeTab, setActiveTab] = useState("lookup");
+  const [showSidebar, setShowSidebar] = useState(false);
+  const resultRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      var saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) setCorrections(JSON.parse(saved));
+    } catch (e) {}
+    setStorageLoaded(true);
+  }, []);
+
+  const saveCorrections = (updated) => {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch (e) {}
+  };
+
+  const getPrice = async () => {
+    if (!description.trim() || !storageLoaded) return;
+    setLoading(true);
+    setResult(null);
+    setShowCorrect(false);
+    const prompt = `Item description: ${description}\nCondition: ${condition}`;
+    try {
+      const response = await fetch("/.netlify/functions/pricing-proxy", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          model: "claude-sonnet-4-20250514",
+          max_tokens: 1000,
+          system: buildSystemPrompt(corrections),
+          messages: [{ role: "user", content: prompt }],
+        }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        setResult("Error: " + data.error);
+      } else {
+        const text = data.content?.map(b => b.text || "").join("") || "Error getting price.";
+        setResult(text);
+        setHistory(prev => [{ description, condition, result: text, id: Date.now() }, ...prev.slice(0, 9)]);
+      }
+    } catch (e) {
+      setResult("Connection error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const submitCorrection = () => {
+    if (!correctPrice || isNaN(parseFloat(correctPrice))) return;
+    setCorrectSaving(true);
+    const entry = {
+      id: Date.now(),
+      description, condition,
+      correctPrice: parseFloat(correctPrice).toFixed(0),
+      note: correctNote.trim(),
+      date: new Date().toLocaleDateString(),
+    };
+    const updated = [entry, ...corrections];
+    setCorrections(updated);
+    saveCorrections(updated);
+    setShowCorrect(false);
+    setCorrectPrice(""); setCorrectNote(""); setCorrectSaving(false);
+    setSavedFlash(true);
+    setTimeout(() => setSavedFlash(false), 2500);
+  };
+
+  const deleteCorrection = (id) => {
+    const updated = corrections.filter(c => c.id !== id);
+    setCorrections(updated);
+    saveCorrections(updated);
+  };
+
+  useEffect(() => {
+    if (result && resultRef.current) resultRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [result]);
+
+  const formatResult = (text) => {
+    if (!text) return null;
+    const isFlag = text.includes("FLAG FOR OWNER");
+    const isDecline = text.includes("DECLINE THIS ITEM");
+    return text.split("\n").map((line, i) => {
+      if (!line.trim()) return <div key={i} style={{ height: 6 }} />;
+      if (line.startsWith("**") && line.endsWith("**")) {
+        const inner = line.slice(2, -2);
+        return (
+          <div key={i} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 26, fontWeight: 700, marginBottom: 8, color: isFlag ? "#b8860b" : isDecline ? "#8b2020" : "#2d5a27", letterSpacing: "0.01em" }}>
+            {inner}
+          </div>
+        );
+      }
+      if (line.startsWith("\u{1F4A1}") || line.startsWith("\u{1F6A9}") || line.startsWith("\u274C")) {
+        return <div key={i} style={{ fontSize: 13, color: "#8a7355", marginTop: 10, fontStyle: "italic", fontFamily: "'Lato', sans-serif" }}>{line}</div>;
+      }
+      const parts = line.split("**").map((part, j) =>
+        j % 2 === 1 ? <strong key={j} style={{ color: "#3a2e1e", fontWeight: 600 }}>{part}</strong> : part
+      );
+      return <div key={i} style={{ fontSize: 14, color: "#6b5a42", lineHeight: 1.7, fontFamily: "'Lato', sans-serif" }}>{parts}</div>;
+    });
+  };
+
+  const canCorrect = result && !result.includes("DECLINE THIS ITEM") && !result.startsWith("Error") && !result.startsWith("Connection") && !loading;
+
+  if (!unlocked) return <LockScreen onUnlock={() => setUnlocked(true)} />;
+
+  const cream = "#f5f0e8";
+  const white = "#ffffff";
+  const tan = "#e8dfc8";
+  const gold = "#c4a96d";
+  const darkBrown = "#3a2e1e";
+  const midBrown = "#6b5a42";
+  const lightBrown = "#8a7355";
+  const border = "#e0d5c5";
+  const green = "#2d5a27";
+  const amber = "#b8860b";
+  const red = "#8b2020";
+  const inputBg = "#faf7f2";
+
+  return (
+    <div style={{ fontFamily: "'Lato', sans-serif", background: cream, minHeight: "100vh", color: darkBrown }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;600;700&display=swap');
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: ${cream}; }
+        ::-webkit-scrollbar-thumb { background: ${tan}; border-radius: 3px; }
+        .rs-input { background: ${inputBg}; border: 1.5px solid ${border}; color: ${darkBrown}; width: 100%; padding: 12px 14px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 14px; resize: none; transition: border-color 0.2s; outline: none; }
+        .rs-input:focus { border-color: ${gold}; }
+        .rs-input::placeholder { color: #c0b09a; }
+        .btn-primary { background: ${darkBrown}; border: 1.5px solid ${darkBrown}; color: #fff; padding: 12px 28px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; letter-spacing: 0.1em; text-transform: uppercase; }
+        .btn-primary:hover:not(:disabled) { background: #4a3a26; border-color: #4a3a26; }
+        .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-gold { background: transparent; border: 1.5px solid ${gold}; color: ${amber}; padding: 9px 18px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; transition: all 0.15s; letter-spacing: 0.08em; text-transform: uppercase; }
+        .btn-gold:hover { background: #f9f3e6; }
+        .btn-ghost { background: transparent; border: 1.5px solid ${border}; color: ${lightBrown}; padding: 12px 22px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+        .btn-ghost:hover { border-color: ${lightBrown}; color: ${darkBrown}; }
+        .btn-del { background: transparent; border: 1px solid #d4a5a5; color: ${red}; padding: 5px 10px; border-radius: 4px; font-family: 'Lato', sans-serif; font-size: 11px; cursor: pointer; transition: all 0.15s; }
+        .btn-del:hover { background: #fdf0f0; }
+        .cond-btn { background: ${white}; border: 1.5px solid ${border}; color: ${lightBrown}; padding: 8px 13px; border-radius: 20px; font-family: 'Lato', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; font-weight: 400; }
+        .cond-btn.active { background: ${darkBrown}; border-color: ${darkBrown}; color: #fff; font-weight: 600; }
+        .cond-btn:hover:not(.active) { border-color: ${lightBrown}; color: ${darkBrown}; }
+        .result-card { background: ${white}; border: 1.5px solid ${border}; border-radius: 8px; padding: 20px 22px; box-shadow: 0 2px 12px rgba(58,46,30,0.06); }
+        .hist-item { background: ${white}; border: 1px solid ${border}; border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.15s; }
+        .hist-item:hover { border-color: ${gold}; box-shadow: 0 2px 8px rgba(196,169,109,0.15); }
+        .correction-row { background: ${white}; border: 1px solid ${border}; border-radius: 8px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 14px; }
+        .tab-btn { background: transparent; border: none; border-bottom: 2px solid transparent; color: ${lightBrown}; padding: 10px 16px 9px; font-family: 'Lato', sans-serif; font-size: 11px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; transition: all 0.15s; }
+        .tab-btn.active { color: ${darkBrown}; border-bottom-color: ${gold}; }
+        .tab-btn:hover:not(.active) { color: ${midBrown}; }
+        .overlay { position: fixed; inset: 0; background: rgba(58,46,30,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal { background: ${white}; border: 1px solid ${border}; border-radius: 12px; padding: 28px; width: 420px; max-width: 95vw; box-shadow: 0 8px 40px rgba(58,46,30,0.15); }
+        .shimmer { animation: shim 1.6s infinite linear; background: linear-gradient(90deg, ${tan} 25%, ${cream} 50%, ${tan} 75%); background-size: 200% 100%; border-radius: 4px; height: 14px; }
+        @keyframes shim { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+        .flash-toast { position: fixed; bottom: 24px; right: 24px; background: ${darkBrown}; color: #fff; padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; z-index: 200; animation: fadeup 0.3s ease; box-shadow: 0 4px 16px rgba(58,46,30,0.25); }
+        @keyframes fadeup { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        .badge { display: inline-block; background: ${gold}; color: ${white}; border-radius: 10px; padding: 1px 7px; font-size: 10px; margin-left: 6px; font-weight: 700; }
+        .divider { width: 100%; height: 1px; background: ${border}; }
+        label { font-size: 11px; color: ${lightBrown}; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 8px; }
+        .sidebar-toggle { display: none; background: transparent; border: 1.5px solid ${gold}; color: ${gold}; padding: 6px 12px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 11px; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+        @media (max-width: 768px) {
+          .desktop-grid { grid-template-columns: 1fr !important; }
+          .sidebar { display: none; border-left: none !important; padding-left: 0 !important; padding-top: 24px; border-top: 1px solid ${border}; }
+          .sidebar.show-mobile { display: block; }
+          .sidebar-toggle { display: inline-block; }
+          .correction-row { flex-direction: column; }
+        }
+      `}</style>
+
+      {/* HEADER */}
+      <div style={{ background: darkBrown, padding: "14px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+        <div>
+          <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 18, color: "#fff", letterSpacing: "0.06em", lineHeight: 1.1 }}>ROOM SWAP CONSIGNMENTS</div>
+          <div style={{ fontFamily: "'Lato', sans-serif", fontSize: 10, color: gold, letterSpacing: "0.18em", textTransform: "uppercase", marginTop: 2 }}>Furniture & Treasures &middot; Staff Pricing Tool</div>
+        </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+          <button className={`tab-btn ${activeTab === "lookup" ? "active" : ""}`}
+            style={{ color: activeTab === "lookup" ? "#fff" : gold, borderBottomColor: activeTab === "lookup" ? gold : "transparent" }}
+            onClick={() => setActiveTab("lookup")}>
+            Price Lookup
+          </button>
+          <button className={`tab-btn ${activeTab === "training" ? "active" : ""}`}
+            style={{ color: activeTab === "training" ? "#fff" : gold, borderBottomColor: activeTab === "training" ? gold : "transparent" }}
+            onClick={() => setActiveTab("training")}>
+            Training{corrections.length > 0 && <span className="badge">{corrections.length}</span>}
+          </button>
+        </div>
+      </div>
+      <div style={{ height: 3, background: `linear-gradient(90deg, ${gold}, #e8c97a, ${gold})` }} />
+
+      {/* LOOKUP TAB */}
+      {activeTab === "lookup" && (
+        <div className="desktop-grid" style={{ display: "grid", gridTemplateColumns: "1fr 260px", maxWidth: 960, margin: "0 auto", padding: "28px 20px", gap: 0 }}>
+          <div style={{ paddingRight: 28 }}>
+            <div style={{ marginBottom: 18 }}>
+              <label>Describe the Item</label>
+              <textarea className="rs-input" rows={4}
+                placeholder="e.g. Ethan Allen solid wood dining table with 6 chairs, minor surface scratches..."
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) getPrice(); }}
+              />
+              <div style={{ fontSize: 11, color: "#c0b09a", marginTop: 5, fontStyle: "italic" }}>Ctrl + Enter to submit</div>
+            </div>
+            <div style={{ marginBottom: 22 }}>
+              <label>Condition</label>
+              <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+                {conditionOptions.map(c => (
+                  <button key={c} className={`cond-btn ${condition === c ? "active" : ""}`} onClick={() => setCondition(c)}>{c}</button>
+                ))}
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+              <button className="btn-primary" onClick={getPrice} disabled={loading || !description.trim() || !storageLoaded}>
+                {loading ? "Checking Prices..." : "Get Price \u2192"}
+              </button>
+              <button className="sidebar-toggle" onClick={() => setShowSidebar(s => !s)}>
+                {showSidebar ? "Hide History" : "History & Ref"}
+              </button>
+              {corrections.length > 0 && (
+                <span style={{ fontSize: 11, color: green, fontWeight: 600 }}>
+                  ● {corrections.length} correction{corrections.length !== 1 ? "s" : ""} active
+                </span>
+              )}
+            </div>
+
+            <div ref={resultRef} style={{ marginTop: 22 }}>
+              {loading && (
+                <div className="result-card">
+                  <div className="shimmer" style={{ width: "55%", marginBottom: 12 }} />
+                  <div className="shimmer" style={{ width: "38%", marginBottom: 9 }} />
+                  <div className="shimmer" style={{ width: "46%", marginBottom: 9 }} />
+                  <div className="shimmer" style={{ width: "70%", marginTop: 14 }} />
+                </div>
+              )}
+              {result && !loading && (
+                <>
+                  <div className="result-card">{formatResult(result)}</div>
+                  {canCorrect && (
+                    <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
+                      <button className="btn-gold" onClick={() => setShowCorrect(true)}>&#9998; Correct This Price</button>
+                      <span style={{ fontSize: 11, color: "#c0b09a", fontStyle: "italic" }}>Owner only — trains the tool</span>
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+
+          {/* SIDEBAR */}
+          <div className={`sidebar ${showSidebar ? "show-mobile" : ""}`} style={{ borderLeft: `1px solid ${border}`, paddingLeft: 24 }}>
+            <div style={{ marginBottom: 14 }}>
+              <label>Recent Lookups</label>
+              {history.length === 0 && <div style={{ fontSize: 12, color: "#c0b09a", fontStyle: "italic" }}>No lookups yet this session.</div>}
+              <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
+                {history.map(item => {
+                  const isFlag = item.result.includes("FLAG FOR OWNER");
+                  const isDecline = item.result.includes("DECLINE THIS ITEM");
+                  const priceMatch = item.result.match(/\$[\d,]+/);
+                  const price = priceMatch ? priceMatch[0] : isFlag ? "FLAG" : isDecline ? "DECLINE" : "\u2014";
+                  return (
+                    <div key={item.id} className="hist-item"
+                      onClick={() => { setDescription(item.description); setCondition(item.condition); setResult(item.result); setShowCorrect(false); }}>
+                      <div style={{ fontSize: 11, color: lightBrown, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", marginBottom: 3 }}>
+                        {item.description.length > 36 ? item.description.slice(0, 36) + "\u2026" : item.description}
+                      </div>
+                      <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, fontWeight: 700, color: isFlag ? amber : isDecline ? red : green }}>
+                        {price}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="divider" style={{ margin: "18px 0" }} />
+            <div>
+              <label>Quick Reference</label>
+              {[
+                ["\u{1F6A9} Flag for Owner", "Antiques, jewelry, metals, gaming consoles"],
+                ["\u274C Always Decline", "Mattresses, car seats, cribs, helmets"],
+                ["\u{1F4CB} Consignor Split", "40% consignor / 60% shop"],
+                ["\u{1F3AF} Turnover Goal", "30\u201360 days"],
+              ].map(([l, n]) => (
+                <div key={l} style={{ marginBottom: 12 }}>
+                  <div style={{ fontSize: 12, color: darkBrown, fontWeight: 600, marginBottom: 2 }}>{l}</div>
+                  <div style={{ fontSize: 11, color: lightBrown, lineHeight: 1.4 }}>{n}</div>
+                </div>
+              ))}
+            </div>
+            <div className="divider" style={{ margin: "18px 0" }} />
+            <div style={{ textAlign: "center" }}>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, color: lightBrown, fontStyle: "italic" }}>Room Swap Consignments</div>
+              <div style={{ fontSize: 10, color: "#c0b09a", marginTop: 2 }}>Holly Hill, SC &middot; 843-900-1412</div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TRAINING TAB */}
+      {activeTab === "training" && (
+        <div style={{ maxWidth: 700, margin: "0 auto", padding: "28px 20px" }}>
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, color: darkBrown, marginBottom: 6 }}>Price Corrections</div>
+            <div style={{ fontSize: 13, color: midBrown, lineHeight: 1.7, maxWidth: 500 }}>
+              Every correction you save is automatically applied to all future price lookups. The more you train it, the more it reflects your market and your instincts.
+            </div>
+          </div>
+          {corrections.length === 0 ? (
+            <div style={{ background: white, border: `1.5px dashed ${border}`, borderRadius: 10, padding: "44px 28px", textAlign: "center" }}>
+              <div style={{ fontSize: 36, marginBottom: 12 }}>{"\u{1F3AF}"}</div>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, color: midBrown, marginBottom: 8 }}>No corrections yet</div>
+              <div style={{ fontSize: 12, color: lightBrown, maxWidth: 340, margin: "0 auto", lineHeight: 1.7 }}>
+                After getting a price on the Lookup tab, click "Correct This Price" to save your real-world number. It trains the tool immediately.
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {corrections.map(c => (
+                <div key={c.id} className="correction-row">
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, color: darkBrown, marginBottom: 4, lineHeight: 1.5, fontWeight: 600 }}>{c.description}</div>
+                    <div style={{ fontSize: 11, color: lightBrown, marginBottom: c.note ? 6 : 0 }}>{c.condition} &middot; {c.date}</div>
+                    {c.note && <div style={{ fontSize: 12, color: midBrown, fontStyle: "italic" }}>"{c.note}"</div>}
+                  </div>
+                  <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
+                    <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: green }}>${c.correctPrice}</div>
+                    <button className="btn-del" onClick={() => deleteCorrection(c.id)}>Remove</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* CORRECTION MODAL */}
+      {showCorrect && (
+        <div className="overlay" onClick={() => setShowCorrect(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: darkBrown, marginBottom: 4 }}>Correct This Price</div>
+            <div style={{ height: 2, width: 40, background: gold, marginBottom: 16 }} />
+            <div style={{ fontSize: 12, color: lightBrown, marginBottom: 18, lineHeight: 1.6 }}>
+              Item: <span style={{ color: midBrown, fontStyle: "italic" }}>{description.length > 65 ? description.slice(0, 65) + "\u2026" : description}</span>
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label>Your Price ($)</label>
+              <input className="rs-input" type="number" placeholder="e.g. 350" value={correctPrice}
+                onChange={e => setCorrectPrice(e.target.value)}
+                onKeyDown={e => { if (e.key === "Enter") submitCorrection(); }}
+                style={{ padding: "11px 14px" }} autoFocus />
+            </div>
+            <div style={{ marginBottom: 22 }}>
+              <label>Note (optional)</label>
+              <input className="rs-input" type="text" placeholder="e.g. Ethan Allen commands premium in this market"
+                value={correctNote} onChange={e => setCorrectNote(e.target.value)}
+                style={{ padding: "11px 14px" }} />
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button className="btn-primary" onClick={submitCorrection} disabled={correctSaving || !correctPrice}>
+                {correctSaving ? "Saving..." : "Save Correction"}
+              </button>
+              <button className="btn-ghost" onClick={() => setShowCorrect(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {savedFlash && (
+        <div className="flash-toast">{"\u2713"} Correction saved — tool is now updated</div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<PricingTool />);
+</script>
+</body>
+</html>
