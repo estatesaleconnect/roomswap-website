@@ -221,14 +221,208 @@ Keep responses SHORT. Employees are on the floor with customers. No long explana
 
 const conditionOptions = ["Excellent / Like New", "Good", "Fair", "Poor / As-Is"];
 const STORAGE_KEY = "roomswap-training-v2";
+const SALES_KEY = "roomswap-sales-v1";
+const CATEGORIES = [
+  "Sofas & Sectionals", "Chairs", "Tables", "Bedroom", "Storage & Organization",
+  "Outdoor", "Lighting", "Rugs", "Kitchen & Dining", "Art & Decor",
+  "Collectibles", "Books", "Linens", "Electronics", "Jewelry", "Other"
+];
 
-function buildSystemPrompt(corrections) {
-  if (!corrections || corrections.length === 0) return BASE_SYSTEM_PROMPT;
-  const examples = corrections
-    .slice(-30)
-    .map(c => `- "${c.description}" (${c.condition}) → Owner corrected price to $${c.correctPrice}${c.note ? ` [Note: ${c.note}]` : ""}`)
-    .join("\n");
-  return BASE_SYSTEM_PROMPT + `\n\n---\n\n## OWNER PRICE CORRECTIONS (HIGHEST PRIORITY — OVERRIDE BASE RANGES)\nThe shop owner has manually corrected these prices. Treat them as ground truth. When you see similar items, adjust your price to match the owner's pricing pattern:\n${examples}`;
+function getSeasonalContext() {
+  var month = new Date().getMonth();
+  var monthNames = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  var currentMonth = monthNames[month];
+  var season, adjustments;
+
+  if (month >= 2 && month <= 4) {
+    season = "Spring";
+    adjustments = [
+      "Outdoor/patio furniture: HIGH demand \u2014 price at upper range (+15-20%)",
+      "Garden decor, planters: Strong demand (+10%)",
+      "Indoor furniture: Neutral \u2014 standard pricing",
+      "Spring cleaning drives consignment volume \u2014 price competitively for faster turnover"
+    ];
+  } else if (month >= 5 && month <= 7) {
+    season = "Summer";
+    adjustments = [
+      "Outdoor/patio furniture: Still strong demand (+10-15%)",
+      "Fans, cooling items: Premium pricing (+10%)",
+      "Indoor heavy furniture (large tables, armoires): Slower \u2014 consider lower range (-5-10%)",
+      "Summer travel slows foot traffic \u2014 price for quick turnover on slow movers"
+    ];
+  } else if (month >= 8 && month <= 10) {
+    season = "Fall";
+    adjustments = [
+      "Indoor furniture: Demand rises as people furnish for holidays (+10%)",
+      "Outdoor/patio: Demand dropping \u2014 price at lower range (-10-15%)",
+      "Holiday decor (especially late November): Increasing demand",
+      "Cozy items (rugs, blankets, lamps): Strong demand (+10%)"
+    ];
+  } else {
+    season = "Winter";
+    adjustments = [
+      "Holiday decor (December): Peak demand (+15-20%)",
+      "Outdoor/patio furniture: Low demand \u2014 price aggressively low (-15-20%)",
+      "Cozy items (rugs, blankets, throw pillows): Good demand (+10%)",
+      "Indoor furniture: Steady \u2014 standard pricing",
+      "January\u2013February: Post-holiday slowdown \u2014 price for fast turnover"
+    ];
+  }
+
+  return "\n\n---\n\n## SEASONAL PRICING ADJUSTMENTS (Current: " + currentMonth + " \u2014 " + season + ")\nAdjust your recommendations based on current seasonal demand in the Holly Hill / SC Lowcountry market:\n" + adjustments.map(function(a) { return "- " + a; }).join("\n");
+}
+
+// Known keywords to detect in sales descriptions
+var BRAND_KEYWORDS = ["ethan allen","la-z-boy","lazboy","lazy boy","ashley","broyhill","thomasville","drexel","henredon","bassett","lane","flexsteel","kitchenaid","herman miller","pottery barn","restoration hardware","crate and barrel","crate & barrel","ikea","pier 1","rooms to go","wayfair","bernhardt","stanley","hooker","bob timberlake","kincaid","century","lexington","universal"];
+var COLOR_KEYWORDS = ["brown","black","white","cream","beige","tan","gray","grey","red","blue","green","navy","ivory","natural","espresso","honey","dark","light"];
+var MATERIAL_KEYWORDS = ["leather","fabric","wood","solid wood","metal","glass","wicker","rattan","marble","granite","upholstered","particle board","laminate","iron","brass","copper","ceramic","oak","walnut","cherry","mahogany","pine","maple","teak","cedar","bamboo","velvet","linen","microfiber","suede"];
+var STYLE_KEYWORDS = ["antique","vintage","modern","mid-century","mid century","farmhouse","rustic","industrial","contemporary","traditional","art deco","victorian","shabby chic","coastal","bohemian","retro","colonial","craftsman","mission","french country"];
+
+function buildSalesSummary(sales) {
+  if (!sales || sales.length === 0) return "";
+
+  // --- Category-level stats ---
+  var catStats = {};
+  sales.forEach(function(s) {
+    var cat = s.category || "Other";
+    if (!catStats[cat]) catStats[cat] = { prices: [], days: [], descriptions: [] };
+    catStats[cat].prices.push(parseInt(s.salePrice));
+    if (s.daysOnFloor) catStats[cat].days.push(s.daysOnFloor);
+    catStats[cat].descriptions.push((s.description || "").toLowerCase());
+  });
+
+  var catSummary = Object.keys(catStats).sort(function(a, b) {
+    return catStats[b].prices.length - catStats[a].prices.length;
+  }).map(function(cat) {
+    var d = catStats[cat];
+    var avg = Math.round(d.prices.reduce(function(a, b) { return a + b; }, 0) / d.prices.length);
+    var min = Math.min.apply(null, d.prices);
+    var max = Math.max.apply(null, d.prices);
+    var line = "- " + cat + ": " + d.prices.length + " sold, avg $" + avg + ", range $" + min + "\u2013$" + max;
+    if (d.days.length > 0) {
+      var avgDays = Math.round(d.days.reduce(function(a, b) { return a + b; }, 0) / d.days.length);
+      line += ", avg " + avgDays + " days on floor";
+    }
+    // Fast vs slow seller insight
+    var fast = [], slow = [];
+    sales.forEach(function(s) {
+      if ((s.category || "Other") === cat && s.daysOnFloor) {
+        if (s.daysOnFloor <= 14) fast.push(parseInt(s.salePrice));
+        if (s.daysOnFloor >= 45) slow.push(parseInt(s.salePrice));
+      }
+    });
+    if (fast.length >= 2) {
+      var fastAvg = Math.round(fast.reduce(function(a, b) { return a + b; }, 0) / fast.length);
+      line += ". Fast sellers (\u226414 days) avg $" + fastAvg;
+    }
+    if (slow.length >= 2) {
+      var slowAvg = Math.round(slow.reduce(function(a, b) { return a + b; }, 0) / slow.length);
+      line += ". Slow sellers (\u226545 days) avg $" + slowAvg;
+    }
+    return line;
+  }).join("\n");
+
+  // --- Keyword pattern analysis ---
+  var kwData = {};
+  var allKeywords = [].concat(BRAND_KEYWORDS, COLOR_KEYWORDS, MATERIAL_KEYWORDS, STYLE_KEYWORDS);
+
+  sales.forEach(function(s) {
+    var desc = (s.description || "").toLowerCase();
+    var price = parseInt(s.salePrice);
+    var days = s.daysOnFloor;
+    allKeywords.forEach(function(kw) {
+      if (desc.indexOf(kw) !== -1) {
+        if (!kwData[kw]) kwData[kw] = { prices: [], days: [], count: 0 };
+        kwData[kw].prices.push(price);
+        if (days) kwData[kw].days.push(days);
+        kwData[kw].count++;
+      }
+    });
+  });
+
+  // Only include keywords with 2+ sales
+  var significantKw = Object.keys(kwData).filter(function(kw) {
+    return kwData[kw].count >= 2;
+  }).sort(function(a, b) {
+    return kwData[b].count - kwData[a].count;
+  }).slice(0, 25);
+
+  var kwSummary = "";
+  if (significantKw.length > 0) {
+    // Group by type for cleaner output
+    var brandHits = significantKw.filter(function(kw) { return BRAND_KEYWORDS.indexOf(kw) !== -1; });
+    var colorHits = significantKw.filter(function(kw) { return COLOR_KEYWORDS.indexOf(kw) !== -1; });
+    var materialHits = significantKw.filter(function(kw) { return MATERIAL_KEYWORDS.indexOf(kw) !== -1; });
+    var styleHits = significantKw.filter(function(kw) { return STYLE_KEYWORDS.indexOf(kw) !== -1; });
+
+    function formatKwGroup(label, keywords) {
+      if (keywords.length === 0) return "";
+      var lines = keywords.map(function(kw) {
+        var d = kwData[kw];
+        var avg = Math.round(d.prices.reduce(function(a, b) { return a + b; }, 0) / d.prices.length);
+        var line = '- "' + kw + '": ' + d.count + " sold, avg $" + avg;
+        if (d.days.length >= 2) {
+          var avgDays = Math.round(d.days.reduce(function(a, b) { return a + b; }, 0) / d.days.length);
+          line += ", avg " + avgDays + " days";
+          if (avgDays <= 14) line += " (FAST mover)";
+          else if (avgDays >= 45) line += " (SLOW mover)";
+        }
+        return line;
+      });
+      return "\n**" + label + ":**\n" + lines.join("\n");
+    }
+
+    kwSummary = formatKwGroup("Brands", brandHits) +
+                formatKwGroup("Colors", colorHits) +
+                formatKwGroup("Materials", materialHits) +
+                formatKwGroup("Styles", styleHits);
+  }
+
+  // --- Overall stats ---
+  var totalSold = sales.length;
+  var allPrices = sales.map(function(s) { return parseInt(s.salePrice); });
+  var overallAvg = Math.round(allPrices.reduce(function(a, b) { return a + b; }, 0) / allPrices.length);
+  var allDays = sales.filter(function(s) { return s.daysOnFloor; }).map(function(s) { return s.daysOnFloor; });
+  var overallAvgDays = allDays.length > 0 ? Math.round(allDays.reduce(function(a, b) { return a + b; }, 0) / allDays.length) : null;
+
+  var overallLine = "Total: " + totalSold + " items sold. Overall avg sale price: $" + overallAvg;
+  if (overallAvgDays) overallLine += ". Overall avg days on floor: " + overallAvgDays;
+
+  var summary = overallLine + "\n\n### Sales by Category\n" + catSummary;
+  if (kwSummary) summary += "\n\n### Pricing Patterns by Keyword (from real sales)" + kwSummary;
+
+  return summary;
+}
+
+function buildSystemPrompt(corrections, sales) {
+  var prompt = BASE_SYSTEM_PROMPT;
+
+  // Add seasonal context
+  prompt += getSeasonalContext();
+
+  // Add sales intelligence (summary + recent examples)
+  if (sales && sales.length > 0) {
+    var summary = buildSalesSummary(sales);
+    prompt += "\n\n---\n\n## REAL SALES DATA FROM ROOM SWAP (HIGH PRIORITY \u2014 USE TO CALIBRATE ALL PRICING)\nBelow is analyzed sales data from this store. Use these patterns to calibrate every recommendation to the actual Holly Hill market. Brand items, specific colors, materials, and styles all affect pricing \u2014 pay attention to the keyword patterns.\n\nItems that sold quickly (\u226414 days) were priced right or under-priced. Items that took 45+ days were over-priced for this market. Adjust your recommendations accordingly.\n\n" + summary;
+
+    // Also include the 20 most recent raw sales for specific item context
+    var recentRaw = sales.slice(0, 20).map(function(s) {
+      var line = '- "' + s.description + '" (' + s.category + ') \u2192 $' + s.salePrice;
+      if (s.daysOnFloor) line += ", " + s.daysOnFloor + " days";
+      return line;
+    }).join("\n");
+    prompt += "\n\n### 20 Most Recent Sales (for specific item reference)\n" + recentRaw;
+  }
+
+  // Add owner corrections (highest priority)
+  if (corrections && corrections.length > 0) {
+    var examples = corrections.slice(-30).map(function(c) {
+      return '- "' + c.description + '" (' + c.condition + ') \u2192 Owner corrected price to $' + c.correctPrice + (c.note ? " [Note: " + c.note + "]" : "");
+    }).join("\n");
+    prompt += "\n\n---\n\n## OWNER PRICE CORRECTIONS (HIGHEST PRIORITY \u2014 OVERRIDE ALL OTHER RANGES)\nThe shop owner has manually corrected these prices. Treat them as absolute ground truth. When you see similar items, adjust your price to match the owner\u2019s pricing pattern:\n" + examples;
+  }
+
+  return prompt;
 }
 
 function LockScreen({ onUnlock }) {
@@ -313,20 +507,46 @@ function PricingTool() {
   const [correctNote, setCorrectNote] = useState("");
   const [correctSaving, setCorrectSaving] = useState(false);
   const [savedFlash, setSavedFlash] = useState(false);
+  const [flashMsg, setFlashMsg] = useState("Saved!");
   const [activeTab, setActiveTab] = useState("lookup");
   const [showSidebar, setShowSidebar] = useState(false);
-  const resultRef = useRef(null);
 
+  // Sales data state
+  const [sales, setSales] = useState([]);
+  const [showSaleEntry, setShowSaleEntry] = useState(false);
+  const [saleDesc, setSaleDesc] = useState("");
+  const [saleCat, setSaleCat] = useState("Other");
+  const [salePrice, setSalePrice] = useState("");
+  const [saleDays, setSaleDays] = useState("");
+  const [saleDate, setSaleDate] = useState(new Date().toISOString().split("T")[0]);
+  const [csvPreview, setCsvPreview] = useState(null);
+
+  const resultRef = useRef(null);
+  const csvInputRef = useRef(null);
+
+  // Load data from localStorage
   useEffect(() => {
     try {
       var saved = localStorage.getItem(STORAGE_KEY);
       if (saved) setCorrections(JSON.parse(saved));
+      var savedSales = localStorage.getItem(SALES_KEY);
+      if (savedSales) setSales(JSON.parse(savedSales));
     } catch (e) {}
     setStorageLoaded(true);
   }, []);
 
   const saveCorrections = (updated) => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(updated)); } catch (e) {}
+  };
+
+  const saveSales = (updated) => {
+    try { localStorage.setItem(SALES_KEY, JSON.stringify(updated)); } catch (e) {}
+  };
+
+  const flash = (msg) => {
+    setFlashMsg(msg);
+    setSavedFlash(true);
+    setTimeout(() => setSavedFlash(false), 2500);
   };
 
   const getPrice = async () => {
@@ -342,7 +562,7 @@ function PricingTool() {
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1000,
-          system: buildSystemPrompt(corrections),
+          system: buildSystemPrompt(corrections, sales),
           messages: [{ role: "user", content: prompt }],
         }),
       });
@@ -376,14 +596,89 @@ function PricingTool() {
     saveCorrections(updated);
     setShowCorrect(false);
     setCorrectPrice(""); setCorrectNote(""); setCorrectSaving(false);
-    setSavedFlash(true);
-    setTimeout(() => setSavedFlash(false), 2500);
+    flash("\u2713 Correction saved \u2014 tool updated");
   };
 
   const deleteCorrection = (id) => {
     const updated = corrections.filter(c => c.id !== id);
     setCorrections(updated);
     saveCorrections(updated);
+  };
+
+  // Sales functions
+  const addSale = () => {
+    if (!saleDesc.trim() || !salePrice || isNaN(parseFloat(salePrice))) return;
+    const entry = {
+      id: Date.now(),
+      description: saleDesc.trim(),
+      category: saleCat,
+      salePrice: parseFloat(salePrice).toFixed(0),
+      daysOnFloor: saleDays ? parseInt(saleDays) : null,
+      dateSold: saleDate,
+    };
+    const updated = [entry, ...sales];
+    setSales(updated);
+    saveSales(updated);
+    setSaleDesc(""); setSalePrice(""); setSaleDays("");
+    setSaleCat("Other");
+    setShowSaleEntry(false);
+    flash("\u2713 Sale recorded \u2014 AI will learn from this");
+  };
+
+  const deleteSale = (id) => {
+    const updated = sales.filter(s => s.id !== id);
+    setSales(updated);
+    saveSales(updated);
+  };
+
+  const handleCsvUpload = (e) => {
+    var file = e.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(evt) {
+      try {
+        var text = evt.target.result;
+        var lines = text.split("\n").map(function(l) { return l.trim(); }).filter(function(l) { return l; });
+        if (lines.length < 2) { alert("CSV needs a header row and at least one data row."); return; }
+        var rows = lines.slice(1).map(function(line) {
+          var cols = [];
+          var current = "";
+          var inQuotes = false;
+          for (var i = 0; i < line.length; i++) {
+            if (line[i] === '"') { inQuotes = !inQuotes; }
+            else if (line[i] === ',' && !inQuotes) { cols.push(current.trim()); current = ""; }
+            else { current += line[i]; }
+          }
+          cols.push(current.trim());
+          return cols;
+        }).filter(function(cols) { return cols.length >= 2 && cols[0]; });
+        if (rows.length === 0) { alert("No valid data rows found. Check your CSV format."); return; }
+        setCsvPreview(rows);
+      } catch (err) {
+        alert("Could not read CSV file. Check the format.");
+      }
+    };
+    reader.readAsText(file);
+    e.target.value = "";
+  };
+
+  const importCsv = () => {
+    if (!csvPreview) return;
+    var newSales = csvPreview.map(function(cols, i) {
+      return {
+        id: Date.now() + i,
+        description: cols[0] || "Unknown item",
+        category: cols[1] || "Other",
+        salePrice: parseFloat(cols[2] || 0).toFixed(0),
+        daysOnFloor: cols[3] ? parseInt(cols[3]) : null,
+        dateSold: cols[4] || new Date().toISOString().split("T")[0],
+      };
+    });
+    var updated = newSales.concat(sales);
+    setSales(updated);
+    saveSales(updated);
+    setCsvPreview(null);
+    flash("\u2713 " + newSales.length + " sales imported!");
   };
 
   useEffect(() => {
@@ -414,6 +709,19 @@ function PricingTool() {
     });
   };
 
+  // Sales stats
+  const getSalesStats = () => {
+    if (sales.length === 0) return null;
+    var totalRev = sales.reduce(function(sum, s) { return sum + parseInt(s.salePrice); }, 0);
+    var avgPrice = Math.round(totalRev / sales.length);
+    var withDays = sales.filter(function(s) { return s.daysOnFloor; });
+    var avgDays = withDays.length > 0 ? Math.round(withDays.reduce(function(sum, s) { return sum + s.daysOnFloor; }, 0) / withDays.length) : null;
+    var catCounts = {};
+    sales.forEach(function(s) { catCounts[s.category] = (catCounts[s.category] || 0) + 1; });
+    var topCat = Object.entries(catCounts).sort(function(a, b) { return b[1] - a[1]; })[0];
+    return { totalRev: totalRev, avgPrice: avgPrice, avgDays: avgDays, topCat: topCat, total: sales.length };
+  };
+
   const canCorrect = result && !result.includes("DECLINE THIS ITEM") && !result.startsWith("Error") && !result.startsWith("Connection") && !loading;
 
   if (!unlocked) return <LockScreen onUnlock={() => setUnlocked(true)} />;
@@ -431,6 +739,8 @@ function PricingTool() {
   const red = "#8b2020";
   const inputBg = "#faf7f2";
 
+  var stats = getSalesStats();
+
   return (
     <div style={{ fontFamily: "'Lato', sans-serif", background: cream, minHeight: "100vh", color: darkBrown }}>
       <style>{`
@@ -442,6 +752,8 @@ function PricingTool() {
         .rs-input { background: ${inputBg}; border: 1.5px solid ${border}; color: ${darkBrown}; width: 100%; padding: 12px 14px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 14px; resize: none; transition: border-color 0.2s; outline: none; }
         .rs-input:focus { border-color: ${gold}; }
         .rs-input::placeholder { color: #c0b09a; }
+        .rs-select { background: ${inputBg}; border: 1.5px solid ${border}; color: ${darkBrown}; width: 100%; padding: 11px 14px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 14px; outline: none; -webkit-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238a7355' d='M6 8L1 3h10z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; cursor: pointer; }
+        .rs-select:focus { border-color: ${gold}; }
         .btn-primary { background: ${darkBrown}; border: 1.5px solid ${darkBrown}; color: #fff; padding: 12px 28px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; letter-spacing: 0.1em; text-transform: uppercase; }
         .btn-primary:hover:not(:disabled) { background: #4a3a26; border-color: #4a3a26; }
         .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
@@ -458,11 +770,15 @@ function PricingTool() {
         .hist-item { background: ${white}; border: 1px solid ${border}; border-radius: 6px; padding: 10px 12px; cursor: pointer; transition: all 0.15s; }
         .hist-item:hover { border-color: ${gold}; box-shadow: 0 2px 8px rgba(196,169,109,0.15); }
         .correction-row { background: ${white}; border: 1px solid ${border}; border-radius: 8px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 14px; }
-        .tab-btn { background: transparent; border: none; border-bottom: 2px solid transparent; color: ${lightBrown}; padding: 10px 16px 9px; font-family: 'Lato', sans-serif; font-size: 11px; cursor: pointer; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; transition: all 0.15s; }
+        .sale-row { background: ${white}; border: 1px solid ${border}; border-radius: 8px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 14px; }
+        .stat-card { background: ${white}; border: 1px solid ${border}; border-radius: 8px; padding: 16px; text-align: center; }
+        .stat-number { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: ${green}; }
+        .stat-label { font-size: 10px; color: ${lightBrown}; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 4px; }
+        .tab-btn { background: transparent; border: none; border-bottom: 2px solid transparent; color: ${lightBrown}; padding: 10px 12px 9px; font-family: 'Lato', sans-serif; font-size: 11px; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; transition: all 0.15s; white-space: nowrap; }
         .tab-btn.active { color: ${darkBrown}; border-bottom-color: ${gold}; }
         .tab-btn:hover:not(.active) { color: ${midBrown}; }
-        .overlay { position: fixed; inset: 0; background: rgba(58,46,30,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        .modal { background: ${white}; border: 1px solid ${border}; border-radius: 12px; padding: 28px; width: 420px; max-width: 95vw; box-shadow: 0 8px 40px rgba(58,46,30,0.15); }
+        .overlay { position: fixed; inset: 0; background: rgba(58,46,30,0.5); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; }
+        .modal { background: ${white}; border: 1px solid ${border}; border-radius: 12px; padding: 28px; width: 480px; max-width: 100%; box-shadow: 0 8px 40px rgba(58,46,30,0.15); max-height: 90vh; overflow-y: auto; }
         .shimmer { animation: shim 1.6s infinite linear; background: linear-gradient(90deg, ${tan} 25%, ${cream} 50%, ${tan} 75%); background-size: 200% 100%; border-radius: 4px; height: 14px; }
         @keyframes shim { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
         .flash-toast { position: fixed; bottom: 24px; right: 24px; background: ${darkBrown}; color: #fff; padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; letter-spacing: 0.04em; z-index: 200; animation: fadeup 0.3s ease; box-shadow: 0 4px 16px rgba(58,46,30,0.25); }
@@ -471,12 +787,18 @@ function PricingTool() {
         .divider { width: 100%; height: 1px; background: ${border}; }
         label { font-size: 11px; color: ${lightBrown}; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 8px; }
         .sidebar-toggle { display: none; background: transparent; border: 1.5px solid ${gold}; color: ${gold}; padding: 6px 12px; border-radius: 6px; font-family: 'Lato', sans-serif; font-size: 11px; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 600; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+        .csv-table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 12px 0; }
+        .csv-table th { background: ${cream}; text-align: left; padding: 8px 10px; font-weight: 600; color: ${darkBrown}; border-bottom: 2px solid ${border}; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+        .csv-table td { padding: 6px 10px; border-bottom: 1px solid ${border}; color: ${midBrown}; }
         @media (max-width: 768px) {
           .desktop-grid { grid-template-columns: 1fr !important; }
           .sidebar { display: none; border-left: none !important; padding-left: 0 !important; padding-top: 24px; border-top: 1px solid ${border}; }
           .sidebar.show-mobile { display: block; }
           .sidebar-toggle { display: inline-block; }
-          .correction-row { flex-direction: column; }
+          .correction-row, .sale-row { flex-direction: column; }
+          .form-row { grid-template-columns: 1fr; }
+          .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
       `}</style>
 
@@ -486,7 +808,7 @@ function PricingTool() {
           <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 18, color: "#fff", letterSpacing: "0.06em", lineHeight: 1.1 }}>ROOM SWAP CONSIGNMENTS</div>
           <div style={{ fontFamily: "'Lato', sans-serif", fontSize: 10, color: gold, letterSpacing: "0.18em", textTransform: "uppercase", marginTop: 2 }}>Furniture & Treasures &middot; Staff Pricing Tool</div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 0, flexWrap: "wrap" }}>
           <button className={`tab-btn ${activeTab === "lookup" ? "active" : ""}`}
             style={{ color: activeTab === "lookup" ? "#fff" : gold, borderBottomColor: activeTab === "lookup" ? gold : "transparent" }}
             onClick={() => setActiveTab("lookup")}>
@@ -496,6 +818,11 @@ function PricingTool() {
             style={{ color: activeTab === "training" ? "#fff" : gold, borderBottomColor: activeTab === "training" ? gold : "transparent" }}
             onClick={() => setActiveTab("training")}>
             Training{corrections.length > 0 && <span className="badge">{corrections.length}</span>}
+          </button>
+          <button className={`tab-btn ${activeTab === "sales" ? "active" : ""}`}
+            style={{ color: activeTab === "sales" ? "#fff" : gold, borderBottomColor: activeTab === "sales" ? gold : "transparent" }}
+            onClick={() => setActiveTab("sales")}>
+            Sales Log{sales.length > 0 && <span className="badge">{sales.length}</span>}
           </button>
         </div>
       </div>
@@ -530,9 +857,9 @@ function PricingTool() {
               <button className="sidebar-toggle" onClick={() => setShowSidebar(s => !s)}>
                 {showSidebar ? "Hide History" : "History & Ref"}
               </button>
-              {corrections.length > 0 && (
+              {(corrections.length > 0 || sales.length > 0) && (
                 <span style={{ fontSize: 11, color: green, fontWeight: 600 }}>
-                  ● {corrections.length} correction{corrections.length !== 1 ? "s" : ""} active
+                  ● {corrections.length + sales.length} data point{corrections.length + sales.length !== 1 ? "s" : ""} training AI
                 </span>
               )}
             </div>
@@ -646,6 +973,83 @@ function PricingTool() {
         </div>
       )}
 
+      {/* SALES LOG TAB */}
+      {activeTab === "sales" && (
+        <div style={{ maxWidth: 700, margin: "0 auto", padding: "28px 20px" }}>
+          <div style={{ marginBottom: 24 }}>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 20, color: darkBrown, marginBottom: 6 }}>Sales Log</div>
+            <div style={{ fontSize: 13, color: midBrown, lineHeight: 1.7, maxWidth: 520 }}>
+              Record what actually sells and for how much. The AI uses this real sales data to calibrate prices to your market. Items that sold fast teach it to price higher; slow sellers teach it to price lower.
+            </div>
+          </div>
+
+          {/* Action buttons */}
+          <div style={{ display: "flex", gap: 10, marginBottom: 24, flexWrap: "wrap" }}>
+            <button className="btn-primary" onClick={() => setShowSaleEntry(true)}>+ Log a Sale</button>
+            <button className="btn-gold" onClick={() => csvInputRef.current && csvInputRef.current.click()}>
+              Upload CSV
+            </button>
+            <input ref={csvInputRef} type="file" accept=".csv,.txt" onChange={handleCsvUpload} style={{ display: "none" }} />
+          </div>
+
+          {/* Stats cards */}
+          {stats && (
+            <div className="stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 24 }}>
+              <div className="stat-card">
+                <div className="stat-number">{stats.total}</div>
+                <div className="stat-label">Sales Logged</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">${stats.avgPrice}</div>
+                <div className="stat-label">Avg Sale Price</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number">{stats.avgDays !== null ? stats.avgDays + "d" : "\u2014"}</div>
+                <div className="stat-label">Avg Days on Floor</div>
+              </div>
+              <div className="stat-card">
+                <div className="stat-number" style={{ fontSize: 16 }}>{stats.topCat ? stats.topCat[0] : "\u2014"}</div>
+                <div className="stat-label">Top Category</div>
+              </div>
+            </div>
+          )}
+
+          {/* Sales list */}
+          {sales.length === 0 ? (
+            <div style={{ background: white, border: `1.5px dashed ${border}`, borderRadius: 10, padding: "44px 28px", textAlign: "center" }}>
+              <div style={{ fontSize: 36, marginBottom: 12 }}>{"\u{1F4CA}"}</div>
+              <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 16, color: midBrown, marginBottom: 8 }}>No sales logged yet</div>
+              <div style={{ fontSize: 12, color: lightBrown, maxWidth: 380, margin: "0 auto", lineHeight: 1.7 }}>
+                Click "Log a Sale" to add items one at a time, or "Upload CSV" to import sales in bulk. The more data you add, the smarter the pricing gets.
+              </div>
+              <div style={{ marginTop: 16, padding: 14, background: cream, borderRadius: 6, fontSize: 11, color: midBrown, lineHeight: 1.8 }}>
+                <strong>CSV format:</strong> item, category, price, days_on_floor, date_sold<br />
+                Example: "Oak dining table", Tables, 225, 14, 2025-12-15
+              </div>
+            </div>
+          ) : (
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {sales.map(s => (
+                <div key={s.id} className="sale-row">
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 13, color: darkBrown, marginBottom: 4, lineHeight: 1.5, fontWeight: 600 }}>{s.description}</div>
+                    <div style={{ fontSize: 11, color: lightBrown }}>
+                      {s.category}
+                      {s.daysOnFloor ? " \u00b7 " + s.daysOnFloor + " days on floor" : ""}
+                      {s.dateSold ? " \u00b7 Sold " + s.dateSold : ""}
+                    </div>
+                  </div>
+                  <div style={{ textAlign: "right", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8, flexShrink: 0 }}>
+                    <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: green }}>${s.salePrice}</div>
+                    <button className="btn-del" onClick={() => deleteSale(s.id)}>Remove</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* CORRECTION MODAL */}
       {showCorrect && (
         <div className="overlay" onClick={() => setShowCorrect(false)}>
@@ -678,8 +1082,109 @@ function PricingTool() {
         </div>
       )}
 
+      {/* SALE ENTRY MODAL */}
+      {showSaleEntry && (
+        <div className="overlay" onClick={() => setShowSaleEntry(false)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: darkBrown, marginBottom: 4 }}>Log a Sale</div>
+            <div style={{ height: 2, width: 40, background: gold, marginBottom: 16 }} />
+            <div style={{ fontSize: 12, color: lightBrown, marginBottom: 18, lineHeight: 1.6 }}>
+              Record what sold and for how much. This trains the AI with real market data.
+            </div>
+            <div style={{ marginBottom: 14 }}>
+              <label>Item Description</label>
+              <input className="rs-input" type="text" placeholder='e.g. "La-Z-Boy leather recliner, brown, good condition"'
+                value={saleDesc} onChange={e => setSaleDesc(e.target.value)}
+                style={{ padding: "11px 14px" }} autoFocus />
+            </div>
+            <div className="form-row">
+              <div>
+                <label>Category</label>
+                <select className="rs-select" value={saleCat} onChange={e => setSaleCat(e.target.value)}>
+                  {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
+                </select>
+              </div>
+              <div>
+                <label>Sale Price ($)</label>
+                <input className="rs-input" type="number" placeholder="e.g. 95" value={salePrice}
+                  onChange={e => setSalePrice(e.target.value)}
+                  style={{ padding: "11px 14px" }} />
+              </div>
+            </div>
+            <div className="form-row">
+              <div>
+                <label>Days on Floor (optional)</label>
+                <input className="rs-input" type="number" placeholder="e.g. 12" value={saleDays}
+                  onChange={e => setSaleDays(e.target.value)}
+                  style={{ padding: "11px 14px" }} />
+              </div>
+              <div>
+                <label>Date Sold</label>
+                <input className="rs-input" type="date" value={saleDate}
+                  onChange={e => setSaleDate(e.target.value)}
+                  style={{ padding: "11px 14px" }} />
+              </div>
+            </div>
+            <div style={{ display: "flex", gap: 10, marginTop: 8 }}>
+              <button className="btn-primary" onClick={addSale} disabled={!saleDesc.trim() || !salePrice}>
+                Save Sale
+              </button>
+              <button className="btn-ghost" onClick={() => setShowSaleEntry(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* CSV PREVIEW MODAL */}
+      {csvPreview && (
+        <div className="overlay" onClick={() => setCsvPreview(null)}>
+          <div className="modal" onClick={e => e.stopPropagation()}>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, color: darkBrown, marginBottom: 4 }}>Import CSV Preview</div>
+            <div style={{ height: 2, width: 40, background: gold, marginBottom: 16 }} />
+            <div style={{ fontSize: 12, color: lightBrown, marginBottom: 8, lineHeight: 1.6 }}>
+              Found <strong style={{ color: darkBrown }}>{csvPreview.length} sales</strong> in your file. Preview below — click Import to add them all.
+            </div>
+            <div style={{ overflowX: "auto" }}>
+              <table className="csv-table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Days</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {csvPreview.slice(0, 10).map((row, i) => (
+                    <tr key={i}>
+                      <td>{(row[0] || "").slice(0, 40)}{(row[0] || "").length > 40 ? "\u2026" : ""}</td>
+                      <td>{row[1] || "\u2014"}</td>
+                      <td style={{ color: green, fontWeight: 600 }}>{row[2] ? "$" + row[2] : "\u2014"}</td>
+                      <td>{row[3] || "\u2014"}</td>
+                      <td>{row[4] || "\u2014"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {csvPreview.length > 10 && (
+              <div style={{ fontSize: 11, color: lightBrown, fontStyle: "italic", marginBottom: 12 }}>
+                ...and {csvPreview.length - 10} more rows
+              </div>
+            )}
+            <div style={{ display: "flex", gap: 10 }}>
+              <button className="btn-primary" onClick={importCsv}>
+                Import {csvPreview.length} Sales
+              </button>
+              <button className="btn-ghost" onClick={() => setCsvPreview(null)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {savedFlash && (
-        <div className="flash-toast">{"\u2713"} Correction saved — tool is now updated</div>
+        <div className="flash-toast">{flashMsg}</div>
       )}
     </div>
   );
