@@ -272,22 +272,146 @@ function getSeasonalContext() {
   return "\n\n---\n\n## SEASONAL PRICING ADJUSTMENTS (Current: " + currentMonth + " \u2014 " + season + ")\nAdjust your recommendations based on current seasonal demand in the Holly Hill / SC Lowcountry market:\n" + adjustments.map(function(a) { return "- " + a; }).join("\n");
 }
 
+// Known keywords to detect in sales descriptions
+var BRAND_KEYWORDS = ["ethan allen","la-z-boy","lazboy","lazy boy","ashley","broyhill","thomasville","drexel","henredon","bassett","lane","flexsteel","kitchenaid","herman miller","pottery barn","restoration hardware","crate and barrel","crate & barrel","ikea","pier 1","rooms to go","wayfair","bernhardt","stanley","hooker","bob timberlake","kincaid","century","lexington","universal"];
+var COLOR_KEYWORDS = ["brown","black","white","cream","beige","tan","gray","grey","red","blue","green","navy","ivory","natural","espresso","honey","dark","light"];
+var MATERIAL_KEYWORDS = ["leather","fabric","wood","solid wood","metal","glass","wicker","rattan","marble","granite","upholstered","particle board","laminate","iron","brass","copper","ceramic","oak","walnut","cherry","mahogany","pine","maple","teak","cedar","bamboo","velvet","linen","microfiber","suede"];
+var STYLE_KEYWORDS = ["antique","vintage","modern","mid-century","mid century","farmhouse","rustic","industrial","contemporary","traditional","art deco","victorian","shabby chic","coastal","bohemian","retro","colonial","craftsman","mission","french country"];
+
+function buildSalesSummary(sales) {
+  if (!sales || sales.length === 0) return "";
+
+  // --- Category-level stats ---
+  var catStats = {};
+  sales.forEach(function(s) {
+    var cat = s.category || "Other";
+    if (!catStats[cat]) catStats[cat] = { prices: [], days: [], descriptions: [] };
+    catStats[cat].prices.push(parseInt(s.salePrice));
+    if (s.daysOnFloor) catStats[cat].days.push(s.daysOnFloor);
+    catStats[cat].descriptions.push((s.description || "").toLowerCase());
+  });
+
+  var catSummary = Object.keys(catStats).sort(function(a, b) {
+    return catStats[b].prices.length - catStats[a].prices.length;
+  }).map(function(cat) {
+    var d = catStats[cat];
+    var avg = Math.round(d.prices.reduce(function(a, b) { return a + b; }, 0) / d.prices.length);
+    var min = Math.min.apply(null, d.prices);
+    var max = Math.max.apply(null, d.prices);
+    var line = "- " + cat + ": " + d.prices.length + " sold, avg $" + avg + ", range $" + min + "\u2013$" + max;
+    if (d.days.length > 0) {
+      var avgDays = Math.round(d.days.reduce(function(a, b) { return a + b; }, 0) / d.days.length);
+      line += ", avg " + avgDays + " days on floor";
+    }
+    // Fast vs slow seller insight
+    var fast = [], slow = [];
+    sales.forEach(function(s) {
+      if ((s.category || "Other") === cat && s.daysOnFloor) {
+        if (s.daysOnFloor <= 14) fast.push(parseInt(s.salePrice));
+        if (s.daysOnFloor >= 45) slow.push(parseInt(s.salePrice));
+      }
+    });
+    if (fast.length >= 2) {
+      var fastAvg = Math.round(fast.reduce(function(a, b) { return a + b; }, 0) / fast.length);
+      line += ". Fast sellers (\u226414 days) avg $" + fastAvg;
+    }
+    if (slow.length >= 2) {
+      var slowAvg = Math.round(slow.reduce(function(a, b) { return a + b; }, 0) / slow.length);
+      line += ". Slow sellers (\u226545 days) avg $" + slowAvg;
+    }
+    return line;
+  }).join("\n");
+
+  // --- Keyword pattern analysis ---
+  var kwData = {};
+  var allKeywords = [].concat(BRAND_KEYWORDS, COLOR_KEYWORDS, MATERIAL_KEYWORDS, STYLE_KEYWORDS);
+
+  sales.forEach(function(s) {
+    var desc = (s.description || "").toLowerCase();
+    var price = parseInt(s.salePrice);
+    var days = s.daysOnFloor;
+    allKeywords.forEach(function(kw) {
+      if (desc.indexOf(kw) !== -1) {
+        if (!kwData[kw]) kwData[kw] = { prices: [], days: [], count: 0 };
+        kwData[kw].prices.push(price);
+        if (days) kwData[kw].days.push(days);
+        kwData[kw].count++;
+      }
+    });
+  });
+
+  // Only include keywords with 2+ sales
+  var significantKw = Object.keys(kwData).filter(function(kw) {
+    return kwData[kw].count >= 2;
+  }).sort(function(a, b) {
+    return kwData[b].count - kwData[a].count;
+  }).slice(0, 25);
+
+  var kwSummary = "";
+  if (significantKw.length > 0) {
+    // Group by type for cleaner output
+    var brandHits = significantKw.filter(function(kw) { return BRAND_KEYWORDS.indexOf(kw) !== -1; });
+    var colorHits = significantKw.filter(function(kw) { return COLOR_KEYWORDS.indexOf(kw) !== -1; });
+    var materialHits = significantKw.filter(function(kw) { return MATERIAL_KEYWORDS.indexOf(kw) !== -1; });
+    var styleHits = significantKw.filter(function(kw) { return STYLE_KEYWORDS.indexOf(kw) !== -1; });
+
+    function formatKwGroup(label, keywords) {
+      if (keywords.length === 0) return "";
+      var lines = keywords.map(function(kw) {
+        var d = kwData[kw];
+        var avg = Math.round(d.prices.reduce(function(a, b) { return a + b; }, 0) / d.prices.length);
+        var line = '- "' + kw + '": ' + d.count + " sold, avg $" + avg;
+        if (d.days.length >= 2) {
+          var avgDays = Math.round(d.days.reduce(function(a, b) { return a + b; }, 0) / d.days.length);
+          line += ", avg " + avgDays + " days";
+          if (avgDays <= 14) line += " (FAST mover)";
+          else if (avgDays >= 45) line += " (SLOW mover)";
+        }
+        return line;
+      });
+      return "\n**" + label + ":**\n" + lines.join("\n");
+    }
+
+    kwSummary = formatKwGroup("Brands", brandHits) +
+                formatKwGroup("Colors", colorHits) +
+                formatKwGroup("Materials", materialHits) +
+                formatKwGroup("Styles", styleHits);
+  }
+
+  // --- Overall stats ---
+  var totalSold = sales.length;
+  var allPrices = sales.map(function(s) { return parseInt(s.salePrice); });
+  var overallAvg = Math.round(allPrices.reduce(function(a, b) { return a + b; }, 0) / allPrices.length);
+  var allDays = sales.filter(function(s) { return s.daysOnFloor; }).map(function(s) { return s.daysOnFloor; });
+  var overallAvgDays = allDays.length > 0 ? Math.round(allDays.reduce(function(a, b) { return a + b; }, 0) / allDays.length) : null;
+
+  var overallLine = "Total: " + totalSold + " items sold. Overall avg sale price: $" + overallAvg;
+  if (overallAvgDays) overallLine += ". Overall avg days on floor: " + overallAvgDays;
+
+  var summary = overallLine + "\n\n### Sales by Category\n" + catSummary;
+  if (kwSummary) summary += "\n\n### Pricing Patterns by Keyword (from real sales)" + kwSummary;
+
+  return summary;
+}
+
 function buildSystemPrompt(corrections, sales) {
   var prompt = BASE_SYSTEM_PROMPT;
 
   // Add seasonal context
   prompt += getSeasonalContext();
 
-  // Add real sales data
+  // Add sales intelligence (summary + recent examples)
   if (sales && sales.length > 0) {
-    var recentSales = sales.slice(0, 50);
-    var salesText = recentSales.map(function(s) {
-      var line = '- "' + s.description + '" (' + s.category + ') \u2192 Sold for $' + s.salePrice;
-      if (s.daysOnFloor) line += " in " + s.daysOnFloor + " days";
-      if (s.dateSold) line += " on " + s.dateSold;
+    var summary = buildSalesSummary(sales);
+    prompt += "\n\n---\n\n## REAL SALES DATA FROM ROOM SWAP (HIGH PRIORITY \u2014 USE TO CALIBRATE ALL PRICING)\nBelow is analyzed sales data from this store. Use these patterns to calibrate every recommendation to the actual Holly Hill market. Brand items, specific colors, materials, and styles all affect pricing \u2014 pay attention to the keyword patterns.\n\nItems that sold quickly (\u226414 days) were priced right or under-priced. Items that took 45+ days were over-priced for this market. Adjust your recommendations accordingly.\n\n" + summary;
+
+    // Also include the 20 most recent raw sales for specific item context
+    var recentRaw = sales.slice(0, 20).map(function(s) {
+      var line = '- "' + s.description + '" (' + s.category + ') \u2192 $' + s.salePrice;
+      if (s.daysOnFloor) line += ", " + s.daysOnFloor + " days";
       return line;
     }).join("\n");
-    prompt += "\n\n---\n\n## ACTUAL SALES DATA (HIGH PRIORITY \u2014 USE TO CALIBRATE PRICING)\nThese are real items that actually sold at Room Swap. Use this data to calibrate your pricing to the local market. Items that sold quickly (under 14 days) were likely priced right or under-priced. Items that took 45+ days were likely over-priced.\n" + salesText;
+    prompt += "\n\n### 20 Most Recent Sales (for specific item reference)\n" + recentRaw;
   }
 
   // Add owner corrections (highest priority)
