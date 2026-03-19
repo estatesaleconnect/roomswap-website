@@ -291,6 +291,24 @@ nav a.active {
   border-color: var(--green-primary);
 }
 
+/* Hero CTA overrides for image background */
+.hero .cta-button {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.hero .cta-button-outline {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--green-primary);
+  border-color: rgba(255, 255, 255, 0.9);
+  font-weight: 700;
+}
+
+.hero .cta-button-outline:hover {
+  background: #fff;
+  border-color: #fff;
+  color: var(--green-primary);
+}
+
 /* Main Content */
 main {
   max-width: 1400px;
