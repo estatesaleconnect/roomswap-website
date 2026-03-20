@@ -819,6 +819,13 @@ footer a:hover {
   color: var(--green-primary);
 }
 
+.footer-fine-print {
+  font-size: 0.75rem;
+  color: #999;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
 /* Mobile Menu Toggle */
 .menu-toggle {
   display: none;
