@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Swap Squad — Monthly Membership | Room Swap Consignments</title>
+    <meta name="description" content="Join The Swap Squad: $25/month for a curated mystery box, monthly 10% off coupon, after-hours access, item holds, and members-only perks at Room Swap Consignments in Holly Hill, SC.">
+    <link rel="canonical" href="https://www.roomswapsc.com/swap-squad.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <meta property="og:title" content="The Swap Squad — Monthly Membership | Room Swap Consignments">
+    <meta property="og:description" content="A monthly mystery box, members-only perks, and first dibs on everything that walks through our doors. $25/month. Cancel anytime.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.roomswapsc.com/swap-squad.html">
+    <meta property="og:site_name" content="Room Swap Consignments">
+    <meta property="og:image" content="https://www.roomswapsc.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="The Swap Squad — monthly mystery box and members-only perks from Room Swap Consignments">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .swap-hero {
+            text-align: center;
+            padding: var(--spacing-xl) var(--spacing-md);
+            background: var(--off-white);
+            border-bottom: 3px solid var(--dark-brown);
+        }
+        .swap-hero .price-tag {
+            display: inline-block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--green-primary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: var(--spacing-sm);
+        }
+        .swap-hero p.tagline {
+            max-width: 650px;
+            margin: 0 auto var(--spacing-md);
+            font-size: 1.25rem;
+            color: var(--warm-gray);
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: var(--spacing-md);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+        .benefit-tile {
+            background: var(--off-white);
+            border: 2px solid var(--dark-brown);
+            padding: var(--spacing-md);
+            text-align: left;
+        }
+        .benefit-tile .benefit-number {
+            display: inline-block;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--green-primary);
+            margin-bottom: var(--spacing-xs);
+            font-weight: 700;
+        }
+        .benefit-tile h3 {
+            font-size: 1.35rem;
+            margin-bottom: 0.5rem;
+        }
+        .benefit-tile p {
+            color: var(--warm-gray);
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+        .steps-section {
+            padding: var(--spacing-lg) var(--spacing-md);
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+        }
+        .step-card {
+            text-align: center;
+            padding: var(--spacing-md);
+        }
+        .step-card .step-num {
+            display: inline-block;
+            width: 3rem;
+            height: 3rem;
+            line-height: 3rem;
+            border-radius: 50%;
+            background: var(--green-primary);
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: var(--spacing-lg) var(--spacing-md);
+        }
+        .faq-item {
+            border-bottom: 1px solid var(--dark-brown);
+            padding: var(--spacing-sm) 0;
+        }
+        .faq-item summary {
+            cursor: pointer;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            color: var(--dark-brown);
+            font-weight: 700;
+            padding: 0.5rem 0;
+            list-style: none;
+            position: relative;
+            padding-right: 2rem;
+        }
+        .faq-item summary::-webkit-details-marker { display: none; }
+        .faq-item summary::after {
+            content: '+';
+            position: absolute;
+            right: 0;
+            top: 0.4rem;
+            font-size: 1.5rem;
+            color: var(--green-primary);
+            transition: transform 0.2s ease;
+        }
+        .faq-item[open] summary::after { content: '−'; }
+        .faq-item p {
+            margin-top: var(--spacing-xs);
+            color: var(--warm-gray);
+        }
+        .signup-section {
+            background: var(--off-white);
+            border-top: 3px solid var(--dark-brown);
+            border-bottom: 3px solid var(--dark-brown);
+            padding: var(--spacing-lg) var(--spacing-md);
+        }
+        .signup-section .form-wrap {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .signup-section .site-form { max-width: 100%; }
+        .signup-section fieldset {
+            border: 2px solid var(--dark-brown);
+            padding: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+        .signup-section legend {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            padding: 0 0.5rem;
+        }
+        .signup-section .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-sm);
+        }
+        .signup-section .form-row-3 {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: var(--spacing-sm);
+        }
+        @media (max-width: 600px) {
+            .signup-section .form-row,
+            .signup-section .form-row-3 { grid-template-columns: 1fr; }
+        }
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem 1rem;
+            margin-bottom: var(--spacing-sm);
+        }
+        .checkbox-grid label,
+        .consent-row label {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            font-weight: 400;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-bottom: 0;
+        }
+        .checkbox-grid input[type="checkbox"],
+        .consent-row input[type="checkbox"] {
+            width: auto;
+            margin: 0.3rem 0 0 0;
+            -webkit-appearance: checkbox;
+            border: 1px solid var(--dark-brown);
+            padding: 0;
+            flex-shrink: 0;
+        }
+        .consent-row { margin-bottom: var(--spacing-sm); }
+        .clothing-sizes { display: none; }
+        .clothing-sizes.visible { display: block; }
+        .field-error {
+            display: block;
+            color: #a02828;
+            font-size: 0.95rem;
+            margin: -0.5rem 0 var(--spacing-sm);
+            font-style: italic;
+        }
+        .form-status {
+            margin-top: var(--spacing-sm);
+            font-style: italic;
+            color: var(--warm-gray);
+        }
+        .form-status.error { color: #a02828; }
+        .price-line {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: var(--spacing-md);
+        }
+        .price-line strong { color: var(--green-primary); }
+        .section-heading {
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+    </style>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "The Swap Squad Membership",
+        "description": "Monthly membership at Room Swap Consignments. Includes a curated mystery box, monthly 10% off coupon, after-hours access, 48-hour item holds, members-only flash sales, and a birthday coupon.",
+        "brand": { "@type": "Brand", "name": "Room Swap Consignments" },
+        "offers": {
+            "@type": "Offer",
+            "price": "25.00",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock",
+            "url": "https://www.roomswapsc.com/swap-squad.html"
+        }
+    }
+    </script>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-container" aria-label="Room Swap - Where Modern Meets Vintage - Home">
+                <span class="logo-main">ROOM SWAP</span>
+                <span class="logo-secondary">CONSIGNMENTS</span>
+                <span class="logo-divider"></span>
+                <span class="logo-sub">Where Modern Meets Vintage</span>
+            </a>
+            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us">843-900-1412</a>
+            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">How It Works</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="sell.html">Sell to Us</a></li>
+                    <li><a href="estate-sales.html">Estate Sales</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="swap-hero">
+            <span class="price-tag">$25 / Month · Cancel Anytime</span>
+            <h1>Join The Swap Squad</h1>
+            <p class="tagline">A monthly mystery box, members-only perks, and first dibs on everything that walks through our doors.</p>
+            <a href="#join" class="cta-button">Join the Squad — $25/mo</a>
+        </section>
+
+        <section style="padding: var(--spacing-lg) 0;">
+            <h2 class="section-title centered-title">What You Get</h2>
+            <div class="benefits-grid">
+                <div class="benefit-tile">
+                    <span class="benefit-number">01</span>
+                    <h3>Monthly Mystery Box</h3>
+                    <p>A curated box of finds picked to your interests, shipped to your door every month.</p>
+                </div>
+                <div class="benefit-tile">
+                    <span class="benefit-number">02</span>
+                    <h3>Monthly 10% Off Coupon</h3>
+                    <p>A fresh coupon every month, good for one visit (max $25 off).</p>
+                </div>
+                <div class="benefit-tile">
+                    <span class="benefit-number">03</span>
+                    <h3>After-Hours Access</h3>
+                    <p>Exclusive members-only late-night shopping events.</p>
+                </div>
+                <div class="benefit-tile">
+                    <span class="benefit-number">04</span>
+                    <h3>48-Hour Item Holds</h3>
+                    <p>Text us and we'll set anything aside for two days.</p>
+                </div>
+                <div class="benefit-tile">
+                    <span class="benefit-number">05</span>
+                    <h3>Free Welcome Tote</h3>
+                    <p>A Swap Squad tote bag waiting for you at signup.</p>
+                </div>
+                <div class="benefit-tile">
+                    <span class="benefit-number">06</span>
+                    <h3>Weekly Insider Newsletter</h3>
+                    <p>First look at new intake and what's coming to the floor.</p>
+                </div>
+                <div class="benefit-tile">
+                    <span class="benefit-number">07</span>
+                    <h3>Members-Only Flash Sales</h3>
+                    <p>Hit your inbox before they hit the floor.</p>
+                </div>
+                <div class="benefit-tile">
+                    <span class="benefit-number">08</span>
+                    <h3>Birthday 20% Off Coupon</h3>
+                    <p>A bigger coupon every year on your birthday month.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="steps-section">
+            <h2 class="section-title centered-title">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <span class="step-num">1</span>
+                    <h3>Sign Up</h3>
+                    <p>Tell us what you love so we can pack your box right.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">2</span>
+                    <h3>We Ship Your Box</h3>
+                    <p>$25/month charged. Your first box ships within 7 days.</p>
+                </div>
+                <div class="step-card">
+                    <span class="step-num">3</span>
+                    <h3>Show Up &amp; Save</h3>
+                    <p>Give your name at the register for member perks anytime you visit.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="join" class="signup-section">
+            <div class="form-wrap">
+                <h2 class="section-heading">Join the Swap Squad</h2>
+                <p class="price-line"><strong>$25/month</strong> · Cancel anytime</p>
+
+                <form id="swap-squad-form" class="site-form" novalidate>
+                    <fieldset>
+                        <legend>Contact</legend>
+                        <div class="form-row">
+                            <div>
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" name="firstName" autocomplete="given-name" required>
+                            </div>
+                            <div>
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" name="lastName" autocomplete="family-name" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" autocomplete="email" required>
+                            </div>
+                            <div>
+                                <label for="phone">Phone *</label>
+                                <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" required placeholder="(843) 555-1234">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Shipping Address</legend>
+                        <label for="addressLine1">Street Address *</label>
+                        <input type="text" id="addressLine1" name="addressLine1" autocomplete="address-line1" required>
+                        <label for="addressLine2">Apt / Suite (optional)</label>
+                        <input type="text" id="addressLine2" name="addressLine2" autocomplete="address-line2">
+                        <div class="form-row-3">
+                            <div>
+                                <label for="city">City *</label>
+                                <input type="text" id="city" name="city" autocomplete="address-level2" required>
+                            </div>
+                            <div>
+                                <label for="state">State *</label>
+                                <select id="state" name="state" autocomplete="address-level1" required>
+                                    <option value="">Select…</option>
+                                    <option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option>
+                                    <option value="AR">AR</option><option value="CA">CA</option><option value="CO">CO</option>
+                                    <option value="CT">CT</option><option value="DE">DE</option><option value="DC">DC</option>
+                                    <option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option>
+                                    <option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option>
+                                    <option value="IA">IA</option><option value="KS">KS</option><option value="KY">KY</option>
+                                    <option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option>
+                                    <option value="MA">MA</option><option value="MI">MI</option><option value="MN">MN</option>
+                                    <option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option>
+                                    <option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option>
+                                    <option value="NJ">NJ</option><option value="NM">NM</option><option value="NY">NY</option>
+                                    <option value="NC">NC</option><option value="ND">ND</option><option value="OH">OH</option>
+                                    <option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option>
+                                    <option value="RI">RI</option><option value="SC" selected>SC</option><option value="SD">SD</option>
+                                    <option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option>
+                                    <option value="VT">VT</option><option value="VA">VA</option><option value="WA">WA</option>
+                                    <option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="zip">ZIP *</label>
+                                <input type="text" id="zip" name="zip" autocomplete="postal-code" inputmode="numeric" pattern="\d{5}(-?\d{4})?" required>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Birthday</legend>
+                        <p class="form-note" style="margin: 0 0 var(--spacing-sm) 0;">Month and day only — we use this for your birthday coupon each year.</p>
+                        <div class="form-row">
+                            <div>
+                                <label for="birthdayMonth">Month *</label>
+                                <select id="birthdayMonth" name="birthdayMonth" required>
+                                    <option value="">Select…</option>
+                                    <option value="1">January</option><option value="2">February</option>
+                                    <option value="3">March</option><option value="4">April</option>
+                                    <option value="5">May</option><option value="6">June</option>
+                                    <option value="7">July</option><option value="8">August</option>
+                                    <option value="9">September</option><option value="10">October</option>
+                                    <option value="11">November</option><option value="12">December</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="birthdayDay">Day *</label>
+                                <select id="birthdayDay" name="birthdayDay" required>
+                                    <option value="">Select…</option>
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Box Personalization</legend>
+                        <label>Interests — pick all that apply</label>
+                        <div class="checkbox-grid" id="interests-grid">
+                            <label><input type="checkbox" name="interests" value="Vintage clothing (men's)" data-clothing="1"> Vintage clothing (men's)</label>
+                            <label><input type="checkbox" name="interests" value="Vintage clothing (women's)" data-clothing="1"> Vintage clothing (women's)</label>
+                            <label><input type="checkbox" name="interests" value="Kitchenware & Pyrex"> Kitchenware &amp; Pyrex</label>
+                            <label><input type="checkbox" name="interests" value="Records & vinyl"> Records &amp; vinyl</label>
+                            <label><input type="checkbox" name="interests" value="Books"> Books</label>
+                            <label><input type="checkbox" name="interests" value="Vintage electronics & audio"> Vintage electronics &amp; audio</label>
+                            <label><input type="checkbox" name="interests" value="Tools & hardware"> Tools &amp; hardware</label>
+                            <label><input type="checkbox" name="interests" value="Toys & collectibles"> Toys &amp; collectibles</label>
+                            <label><input type="checkbox" name="interests" value="Jewelry & accessories"> Jewelry &amp; accessories</label>
+                            <label><input type="checkbox" name="interests" value="Home decor"> Home decor</label>
+                            <label><input type="checkbox" name="interests" value="Art & crafts"> Art &amp; crafts</label>
+                            <label><input type="checkbox" name="interests" value="Sports & outdoors"> Sports &amp; outdoors</label>
+                        </div>
+
+                        <div class="clothing-sizes" id="clothingSizes">
+                            <div class="form-row-3">
+                                <div>
+                                    <label for="topSize">Top size</label>
+                                    <select id="topSize" name="topSize">
+                                        <option value="">—</option>
+                                        <option value="XS">XS</option><option value="S">S</option>
+                                        <option value="M">M</option><option value="L">L</option>
+                                        <option value="XL">XL</option><option value="2XL">2XL</option>
+                                        <option value="3XL">3XL</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="bottomSize">Bottom size</label>
+                                    <input type="text" id="bottomSize" name="bottomSize" placeholder="e.g. 32x32 or M">
+                                </div>
+                                <div>
+                                    <label for="shoeSize">Shoe size</label>
+                                    <input type="text" id="shoeSize" name="shoeSize" placeholder="e.g. 9.5">
+                                </div>
+                            </div>
+                        </div>
+
+                        <label for="styleNotes">Anything else we should know?</label>
+                        <textarea id="styleNotes" name="styleNotes" maxlength="500" placeholder="Brands you love, things to avoid, decades you collect, etc."></textarea>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Almost There</legend>
+                        <div class="consent-row">
+                            <label>
+                                <input type="checkbox" id="consent" name="consent" required>
+                                <span>I agree to be charged $25/month until I cancel.</span>
+                            </label>
+                        </div>
+                        <div class="consent-row">
+                            <label>
+                                <input type="checkbox" id="newsletterOptin" name="newsletterOptin" checked>
+                                <span>Send me the weekly newsletter with new intake first looks.</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <button type="submit" class="form-submit" id="submitBtn">Join the Squad — $25/mo</button>
+                    <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+                    <p class="form-note">Secure checkout powered by Stripe. We never see your card details.</p>
+                </form>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2 class="section-title centered-title">Frequently Asked Questions</h2>
+            <details class="faq-item">
+                <summary>Can I cancel anytime?</summary>
+                <p>Yes, anytime in your member portal or by emailing us at roomswapsc@gmail.com. No fees, no hassle.</p>
+            </details>
+            <details class="faq-item">
+                <summary>When do boxes ship?</summary>
+                <p>Boxes ship the first week of each month. Your first box ships within 7 days of signup.</p>
+            </details>
+            <details class="faq-item">
+                <summary>What's in the box?</summary>
+                <p>Curated based on your interests — vintage finds, collectibles, small home goods. Approximate retail value: $35–50.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Do you ship outside South Carolina?</summary>
+                <p>Yes, anywhere in the continental US. Shipping is included in your $25.</p>
+            </details>
+            <details class="faq-item">
+                <summary>Can I gift a membership?</summary>
+                <p>Coming soon — for now, contact us directly at 843-900-1412 and we'll set it up.</p>
+            </details>
+        </section>
+
+        <section class="visit-banner">
+            <div class="visit-banner-content">
+                <div class="visit-info">
+                    <h2>Ready to Join?</h2>
+                    <p class="visit-detail">Sign up takes about 3 minutes. Cancel anytime.</p>
+                </div>
+                <div class="visit-actions">
+                    <a href="#join" class="cta-button">Join the Squad — $25/mo</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Room Swap Consignments</strong></p>
+            <p>Where Modern Meets Vintage — Holly Hill's Favorite Consignment Shop</p>
+            <p>8531 Old State Road, Holly Hill, SC 29059</p>
+            <p>Phone: <a href="tel:8439001412">843-900-1412</a> | Email: <a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
+            <p class="footer-hours">Open Tuesday – Saturday, 12 – 5 PM</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">How It Works</a>
+                <a href="gallery.html">Gallery</a>
+                <a href="sell.html">Sell to Us</a>
+                <a href="estate-sales.html">Estate Sales</a>
+                <a href="blog.html">Blog</a>
+                <a href="contact.html">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile nav
+        document.querySelector('.menu-toggle').addEventListener('click', function () {
+            document.querySelector('nav').classList.toggle('active');
+        });
+        document.addEventListener('click', function (event) {
+            const nav = document.querySelector('nav');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(event.target) && !toggle.contains(event.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // Birthday day dropdown — populate based on month
+        const monthEl = document.getElementById('birthdayMonth');
+        const dayEl = document.getElementById('birthdayDay');
+        const daysInMonth = (m) => [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][m - 1] || 0;
+        function populateDays() {
+            const m = parseInt(monthEl.value, 10);
+            const max = m ? daysInMonth(m) : 31;
+            const current = parseInt(dayEl.value, 10);
+            dayEl.innerHTML = '<option value="">Select…</option>';
+            for (let d = 1; d <= max; d++) {
+                const opt = document.createElement('option');
+                opt.value = String(d);
+                opt.textContent = String(d);
+                if (d === current) opt.selected = true;
+                dayEl.appendChild(opt);
+            }
+        }
+        monthEl.addEventListener('change', populateDays);
+        populateDays();
+
+        // Show clothing sizes only when a clothing interest is checked
+        const clothingBox = document.getElementById('clothingSizes');
+        const interestsGrid = document.getElementById('interests-grid');
+        function updateClothingVisibility() {
+            const anyClothing = interestsGrid.querySelectorAll('input[data-clothing="1"]:checked').length > 0;
+            clothingBox.classList.toggle('visible', anyClothing);
+        }
+        interestsGrid.addEventListener('change', updateClothingVisibility);
+        updateClothingVisibility();
+
+        // Form submission
+        const form = document.getElementById('swap-squad-form');
+        const submitBtn = document.getElementById('submitBtn');
+        const statusEl = document.getElementById('formStatus');
+
+        function setStatus(msg, isError) {
+            statusEl.textContent = msg || '';
+            statusEl.classList.toggle('error', !!isError);
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            setStatus('');
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const interests = Array.from(form.querySelectorAll('input[name="interests"]:checked'))
+                .map(el => el.value);
+
+            const payload = {
+                firstName: form.firstName.value.trim(),
+                lastName: form.lastName.value.trim(),
+                email: form.email.value.trim(),
+                phone: form.phone.value.trim(),
+                addressLine1: form.addressLine1.value.trim(),
+                addressLine2: form.addressLine2.value.trim(),
+                city: form.city.value.trim(),
+                state: form.state.value,
+                zip: form.zip.value.trim(),
+                birthdayMonth: parseInt(form.birthdayMonth.value, 10),
+                birthdayDay: parseInt(form.birthdayDay.value, 10),
+                interests,
+                topSize: form.topSize.value,
+                bottomSize: form.bottomSize.value.trim(),
+                shoeSize: form.shoeSize.value.trim(),
+                styleNotes: form.styleNotes.value.trim(),
+                consent: form.consent.checked,
+                newsletterOptin: form.newsletterOptin.checked,
+            };
+
+            submitBtn.disabled = true;
+            const originalLabel = submitBtn.textContent;
+            submitBtn.textContent = 'Setting up your membership…';
+            setStatus('Redirecting to secure checkout…');
+
+            try {
+                const res = await fetch('/.netlify/functions/swap-squad-signup', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                const data = await res.json();
+                if (!res.ok || !data.url) {
+                    throw new Error(data.error || 'Signup failed.');
+                }
+                window.location.href = data.url;
+            } catch (err) {
+                console.error(err);
+                setStatus(err.message + ' Please try again or call 843-900-1412.', true);
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalLabel;
+            }
+        });
+    </script>
+</body>
+</html>

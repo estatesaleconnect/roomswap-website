@@ -38,6 +38,28 @@
   to = "/blog.html"
   status = 301
 
+[[redirects]]
+  from = "/swap-squad"
+  to = "/swap-squad.html"
+  status = 301
+
+[[redirects]]
+  from = "/swap-squad/welcome"
+  to = "/swap-squad-welcome.html"
+  status = 301
+
+[[redirects]]
+  from = "/swap-squad/join"
+  to = "/swap-squad.html"
+  status = 301
+
+# Cleaner path for the Stripe webhook
+[[redirects]]
+  from = "/api/stripe-webhook"
+  to = "/.netlify/functions/stripe-webhook"
+  status = 200
+  force = true
+
 # Proper 404 for all unmatched routes
 [[redirects]]
   from = "/*"
