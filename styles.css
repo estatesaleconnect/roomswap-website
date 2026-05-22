@@ -1293,3 +1293,56 @@ footer a:hover {
     align-items: center;
   }
 }
+
+/* Blog share buttons */
+.blog-share {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: var(--spacing-md);
+  padding-top: var(--spacing-md);
+  border-top: 1px solid #d4cfc7;
+}
+
+.blog-share-label {
+  font-family: 'Crimson Text', serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--warm-gray);
+}
+
+.blog-share-buttons {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  font-family: 'Crimson Text', serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border: 1.5px solid var(--dark-brown);
+  color: var(--dark-brown);
+  background: transparent;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.share-btn:hover {
+  background: var(--dark-brown);
+  color: var(--cream);
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .blog-share {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
