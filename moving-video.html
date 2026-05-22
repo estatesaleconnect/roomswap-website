@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moving Video Creator | Room Swap Consignments</title>
+    <meta name="description" content="Turn any photo into a cinematic moving video in seconds — perfect for sharing furniture finds on Facebook, Instagram & TikTok. Free tool from Room Swap Consignments.">
+    <link rel="canonical" href="https://www.roomswapsc.com/moving-video.html">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        /* ── Video Creator Page Styles ── */
+        .video-hero {
+            background: var(--dark-brown);
+            color: var(--cream);
+            padding: var(--spacing-lg) var(--spacing-md);
+            text-align: center;
+        }
+        .video-hero h1 {
+            color: var(--cream);
+            margin-bottom: var(--spacing-sm);
+        }
+        .video-hero p {
+            max-width: 60ch;
+            margin: 0 auto var(--spacing-sm);
+            color: #c9c0b0;
+            font-size: 1.15rem;
+        }
+
+        .creator-wrapper {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: var(--spacing-lg) var(--spacing-md);
+        }
+
+        /* Steps */
+        .step-section {
+            margin-bottom: var(--spacing-lg);
+        }
+        .step-label {
+            display: inline-block;
+            background: var(--green-primary);
+            color: #fff;
+            font-family: 'Crimson Text', serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.75rem;
+            border-radius: 2px;
+            margin-bottom: 0.75rem;
+        }
+        .step-section h2 {
+            font-size: clamp(1.6rem, 3vw, 2.2rem);
+            margin-bottom: var(--spacing-sm);
+        }
+        .step-section p {
+            color: var(--warm-gray);
+        }
+
+        /* Upload zone */
+        .upload-zone {
+            border: 3px dashed var(--green-primary);
+            border-radius: 8px;
+            background: var(--off-white);
+            padding: var(--spacing-lg) var(--spacing-md);
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+            position: relative;
+        }
+        .upload-zone:hover,
+        .upload-zone.drag-over {
+            background: #edf4ed;
+            border-color: var(--green-dark);
+        }
+        .upload-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+        .upload-icon-wrap {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            line-height: 1;
+        }
+        .upload-zone h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-brown);
+        }
+        .upload-zone p {
+            color: var(--warm-gray);
+            font-size: 1rem;
+            margin: 0 0 1.25rem;
+        }
+        .upload-zone .cta-button {
+            position: relative;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Thumbnail preview strip */
+        .photo-preview-strip {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.25rem;
+            padding: 1rem;
+            background: var(--off-white);
+            border-radius: 6px;
+            border: 2px solid #ddd;
+        }
+        .photo-thumb {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 2px solid var(--green-primary);
+            flex-shrink: 0;
+        }
+        .photo-info {
+            flex: 1;
+        }
+        .photo-info strong {
+            display: block;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            color: var(--dark-brown);
+            word-break: break-all;
+        }
+        .photo-info span {
+            font-size: 0.9rem;
+            color: var(--warm-gray);
+        }
+        .change-photo-btn {
+            background: none;
+            border: 2px solid var(--warm-gray);
+            color: var(--warm-gray);
+            padding: 0.4rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Crimson Text', serif;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, color 0.2s;
+            flex-shrink: 0;
+        }
+        .change-photo-btn:hover {
+            border-color: var(--dark-brown);
+            color: var(--dark-brown);
+        }
+
+        /* Effects grid */
+        .effects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .effect-card {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 1.25rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            background: var(--off-white);
+            transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+            user-select: none;
+        }
+        .effect-card:hover {
+            border-color: var(--green-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .effect-card.selected {
+            border-color: var(--green-primary);
+            background: #edf4ed;
+            box-shadow: 0 0 0 3px rgba(61,111,60,0.2);
+        }
+        .effect-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .effect-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.25rem;
+            color: var(--dark-brown);
+        }
+        .effect-card p {
+            font-size: 0.9rem;
+            color: var(--warm-gray);
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Duration slider */
+        .duration-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .duration-row label {
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            color: var(--dark-brown);
+            white-space: nowrap;
+        }
+        .duration-row input[type="range"] {
+            flex: 1;
+            min-width: 120px;
+            accent-color: var(--green-primary);
+        }
+        .duration-val {
+            font-weight: 700;
+            color: var(--green-primary);
+            min-width: 3ch;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.05rem;
+        }
+
+        /* Canvas area */
+        .canvas-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .canvas-frame {
+            position: relative;
+            width: 100%;
+            max-width: 540px;
+            aspect-ratio: 1 / 1;
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+        }
+        .canvas-frame canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        .canvas-placeholder {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            gap: 0.5rem;
+            pointer-events: none;
+        }
+        .canvas-placeholder span {
+            font-size: 2.5rem;
+        }
+        .canvas-frame canvas.visible + .canvas-placeholder {
+            display: none;
+        }
+
+        /* Action buttons */
+        .action-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .action-row .cta-button {
+            min-width: 180px;
+            text-align: center;
+        }
+        .action-row .cta-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Recording progress */
+        .recording-panel {
+            width: 100%;
+            max-width: 540px;
+            background: var(--off-white);
+            border: 2px solid var(--green-primary);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            text-align: center;
+            display: none;
+        }
+        .recording-panel.visible {
+            display: block;
+        }
+        .progress-track {
+            background: #ddd;
+            border-radius: 999px;
+            height: 8px;
+            margin: 0.75rem 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--green-primary);
+            border-radius: 999px;
+            width: 0%;
+            transition: width 0.15s linear;
+        }
+        .recording-panel p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--warm-gray);
+        }
+        .recording-panel strong {
+            color: var(--green-primary);
+        }
+
+        /* Download banner */
+        .download-banner {
+            width: 100%;
+            max-width: 540px;
+            background: #edf4ed;
+            border: 2px solid var(--green-primary);
+            border-radius: 8px;
+            padding: 1.25rem 1.5rem;
+            text-align: center;
+            display: none;
+        }
+        .download-banner.visible {
+            display: block;
+        }
+        .download-banner h3 {
+            color: var(--green-dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        .download-banner p {
+            color: var(--warm-gray);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+        .download-banner .cta-button {
+            display: inline-block;
+        }
+
+        /* Tips section */
+        .tips-section {
+            background: var(--dark-brown);
+            color: var(--cream);
+            padding: var(--spacing-lg) var(--spacing-md);
+            margin-top: var(--spacing-xl);
+        }
+        .tips-section h2 {
+            color: var(--cream);
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+        }
+        .tips-grid {
+            max-width: 860px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+        .tip-card {
+            background: rgba(255,255,255,0.06);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+        .tip-card h3 {
+            color: #c8e6c7;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        .tip-card p {
+            color: #b0a898;
+            font-size: 0.95rem;
+            margin: 0;
+            line-height: 1.5;
+            max-width: none;
+        }
+
+        @media (max-width: 600px) {
+            .effects-grid { grid-template-columns: 1fr 1fr; }
+            .action-row { flex-direction: column; align-items: center; }
+            .photo-preview-strip { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <a href="index.html" class="logo-container" aria-label="Room Swap - Where Modern Meets Vintage - Home">
+                <span class="logo-main">ROOM SWAP</span>
+                <span class="logo-secondary">CONSIGNMENTS</span>
+                <span class="logo-divider"></span>
+                <span class="logo-sub">Where Modern Meets Vintage</span>
+            </a>
+            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us">843-900-1412</a>
+            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">How It Works</a></li>
+                    <li><a href="sell.html">Sell to Us</a></li>
+                    <li><a href="estate-sales.html">Estate Sales</a></li>
+                    <li><a href="moving-video.html" class="active">Moving Video</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="video-hero">
+        <h1>Make a Moving Video</h1>
+        <p>Upload any photo, pick a cinematic effect, and download a moving video ready to share on Facebook, Instagram, or TikTok — in under 60 seconds.</p>
+    </section>
+
+    <main>
+        <div class="creator-wrapper">
+
+            <!-- Step 1: Upload -->
+            <section class="step-section" id="stepUpload">
+                <span class="step-label">Step 1</span>
+                <h2>Upload Your Photo</h2>
+                <p>Any photo works — a piece of furniture, a room scene, a product shot.</p>
+
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="fileInput" accept="image/*" aria-label="Upload photo">
+                    <div class="upload-icon-wrap">&#128247;</div>
+                    <h3>Drag &amp; drop your photo here</h3>
+                    <p>or click anywhere in this box to browse</p>
+                    <button class="cta-button" tabindex="-1">Choose Photo</button>
+                </div>
+
+                <div class="photo-preview-strip" id="photoPreviewStrip" style="display:none;">
+                    <img class="photo-thumb" id="photoThumb" src="" alt="Selected photo">
+                    <div class="photo-info">
+                        <strong id="photoName"></strong>
+                        <span id="photoSize"></span>
+                    </div>
+                    <button class="change-photo-btn" id="changePhotoBtn">Change photo</button>
+                </div>
+            </section>
+
+            <!-- Step 2: Effect -->
+            <section class="step-section" id="stepEffect" style="display:none;">
+                <span class="step-label">Step 2</span>
+                <h2>Choose Your Effect</h2>
+                <p>Each effect creates a different feel — try them all with the Preview button below.</p>
+
+                <div class="effects-grid">
+                    <div class="effect-card selected" data-effect="kenburns">
+                        <span class="effect-icon">&#127916;</span>
+                        <h3>Ken Burns</h3>
+                        <p>Slow, elegant zoom &amp; pan — classic documentary style</p>
+                    </div>
+                    <div class="effect-card" data-effect="zoom">
+                        <span class="effect-icon">&#128269;</span>
+                        <h3>Dramatic Zoom</h3>
+                        <p>Bold pull-in with rich vignette — high-impact social content</p>
+                    </div>
+                    <div class="effect-card" data-effect="sweep">
+                        <span class="effect-icon">&#8596;&#65039;</span>
+                        <h3>Cinematic Sweep</h3>
+                        <p>Widescreen pan across the frame — great for wide room shots</p>
+                    </div>
+                    <div class="effect-card" data-effect="pulse">
+                        <span class="effect-icon">&#10084;&#65039;</span>
+                        <h3>Heartbeat</h3>
+                        <p>Gentle pulsing rhythm — warm &amp; inviting</p>
+                    </div>
+                </div>
+
+                <div class="duration-row">
+                    <label for="durationSlider">Duration:</label>
+                    <input type="range" id="durationSlider" min="4" max="15" value="8" step="1">
+                    <span class="duration-val" id="durationVal">8s</span>
+                </div>
+            </section>
+
+            <!-- Step 3: Preview & Download -->
+            <section class="step-section" id="stepPreview" style="display:none;">
+                <span class="step-label">Step 3</span>
+                <h2>Preview &amp; Download</h2>
+                <p>Hit Preview to watch your effect, then Create Video to generate your download.</p>
+
+                <div class="canvas-section">
+                    <div class="canvas-frame">
+                        <canvas id="videoCanvas" width="1080" height="1080"></canvas>
+                        <div class="canvas-placeholder" id="canvasPlaceholder">
+                            <span>&#127916;</span>
+                            <p>Hit Preview to see your video</p>
+                        </div>
+                    </div>
+
+                    <div class="action-row">
+                        <button class="cta-button cta-button-outline" id="previewBtn">&#9654; Preview</button>
+                        <button class="cta-button" id="recordBtn">&#11015;&#65039; Create Video</button>
+                    </div>
+
+                    <div class="recording-panel" id="recordingPanel">
+                        <strong>Creating your video&hellip;</strong>
+                        <div class="progress-track">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+                        <p id="recordingStatus">Recording frame 1&hellip;</p>
+                    </div>
+
+                    <div class="download-banner" id="downloadBanner">
+                        <h3>&#10003; Your video is ready!</h3>
+                        <p>Download it and share on Facebook, Instagram, or TikTok.</p>
+                        <a id="downloadLink" class="cta-button" download="moving-video.webm" href="#">Download Video</a>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <section class="tips-section">
+        <h2>Tips for Great Moving Videos</h2>
+        <div class="tips-grid">
+            <div class="tip-card">
+                <h3>Use Good Lighting</h3>
+                <p>Natural light near a window gives furniture photos warmth and depth that animation really brings to life.</p>
+            </div>
+            <div class="tip-card">
+                <h3>Fill the Frame</h3>
+                <p>Get close to your subject. The Ken Burns and Zoom effects look most dramatic when the item fills most of the photo.</p>
+            </div>
+            <div class="tip-card">
+                <h3>Try the Sweep for Rooms</h3>
+                <p>The Cinematic Sweep is perfect for wide room shots — it pans across the full space like a professional walk-through.</p>
+            </div>
+            <div class="tip-card">
+                <h3>Share on Facebook</h3>
+                <p>Moving videos outperform still photos on Facebook. Upload your video directly to a post for the best reach.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p><strong>Room Swap Consignments</strong></p>
+            <p>Where Modern Meets Vintage &mdash; Holly Hill's Favorite Consignment Shop</p>
+            <p>8531 Old State Road, Holly Hill, SC 29059</p>
+            <p>Phone: <a href="tel:8439001412">843-900-1412</a> | Email: <a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
+            <p class="footer-hours">Open Tuesday &ndash; Saturday, 12 &ndash; 5 PM</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="about.html">How It Works</a>
+                <a href="sell.html">Sell to Us</a>
+                <a href="estate-sales.html">Estate Sales</a>
+                <a href="moving-video.html">Moving Video</a>
+                <a href="blog.html">Blog</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p class="footer-fine-print">Room Swap Consignments is Holly Hill's curated alternative to the typical thrift store &mdash; quality consignment, antiques &amp; vintage finds since 2019.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ── Mobile nav ── */
+        document.querySelector('.menu-toggle').addEventListener('click', function () {
+            document.querySelector('nav').classList.toggle('active');
+        });
+        document.addEventListener('click', function (e) {
+            const nav = document.querySelector('nav');
+            const toggle = document.querySelector('.menu-toggle');
+            if (!nav.contains(e.target) && !toggle.contains(e.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        /* ── State ── */
+        let loadedImage = null;
+        let selectedEffect = 'kenburns';
+        let duration = 8;
+        let animFrameId = null;
+        let animStartTime = null;
+        let isAnimating = false;
+
+        const canvas = document.getElementById('videoCanvas');
+        const ctx = canvas.getContext('2d');
+        const W = canvas.width;
+        const H = canvas.height;
+
+        /* ── Upload ── */
+        const fileInput = document.getElementById('fileInput');
+        const uploadZone = document.getElementById('uploadZone');
+        const photoPreviewStrip = document.getElementById('photoPreviewStrip');
+        const photoThumb = document.getElementById('photoThumb');
+        const photoName = document.getElementById('photoName');
+        const photoSize = document.getElementById('photoSize');
+        const changePhotoBtn = document.getElementById('changePhotoBtn');
+
+        uploadZone.addEventListener('dragover', function (e) {
+            e.preventDefault();
+            uploadZone.classList.add('drag-over');
+        });
+        uploadZone.addEventListener('dragleave', function () {
+            uploadZone.classList.remove('drag-over');
+        });
+        uploadZone.addEventListener('drop', function (e) {
+            e.preventDefault();
+            uploadZone.classList.remove('drag-over');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) loadFile(file);
+        });
+        fileInput.addEventListener('change', function () {
+            if (fileInput.files[0]) loadFile(fileInput.files[0]);
+        });
+        changePhotoBtn.addEventListener('click', function () {
+            fileInput.value = '';
+            fileInput.click();
+        });
+
+        function loadFile(file) {
+            const url = URL.createObjectURL(file);
+            const img = new Image();
+            img.onload = function () {
+                loadedImage = img;
+                photoThumb.src = url;
+                photoName.textContent = file.name;
+                photoSize.textContent = formatBytes(file.size);
+                photoPreviewStrip.style.display = 'flex';
+                document.getElementById('stepEffect').style.display = '';
+                document.getElementById('stepPreview').style.display = '';
+                resetDownload();
+                drawFirstFrame();
+                document.getElementById('canvasPlaceholder').style.display = 'flex';
+            };
+            img.src = url;
+        }
+
+        function formatBytes(bytes) {
+            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(0) + ' KB';
+            return (bytes / 1024 / 1024).toFixed(1) + ' MB';
+        }
+
+        /* ── Effect selection ── */
+        document.querySelectorAll('.effect-card').forEach(function (card) {
+            card.addEventListener('click', function () {
+                document.querySelectorAll('.effect-card').forEach(function (c) { c.classList.remove('selected'); });
+                card.classList.add('selected');
+                selectedEffect = card.dataset.effect;
+                resetDownload();
+                stopAnimation();
+                if (loadedImage) {
+                    drawFirstFrame();
+                    document.getElementById('canvasPlaceholder').style.display = 'flex';
+                }
+            });
+        });
+
+        /* ── Duration slider ── */
+        const durationSlider = document.getElementById('durationSlider');
+        const durationVal = document.getElementById('durationVal');
+        durationSlider.addEventListener('input', function () {
+            duration = parseInt(durationSlider.value, 10);
+            durationVal.textContent = duration + 's';
+        });
+
+        /* ── Drawing helpers ── */
+        function drawCenteredImage(img, cx, cy, scale) {
+            const imgAspect = img.width / img.height;
+            const canvasAspect = W / H;
+            let w, h;
+            if (imgAspect > canvasAspect) {
+                h = H;
+                w = h * imgAspect;
+            } else {
+                w = W;
+                h = w / imgAspect;
+            }
+            w *= scale;
+            h *= scale;
+            ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
+        }
+
+        function easeInOut(t) {
+            return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        }
+
+        function easeIn(t) {
+            return t * t * t;
+        }
+
+        function addVignette(strength) {
+            const grad = ctx.createRadialGradient(W / 2, H / 2, W * 0.3, W / 2, H / 2, W * 0.9);
+            grad.addColorStop(0, 'rgba(0,0,0,0)');
+            grad.addColorStop(1, 'rgba(0,0,0,' + strength + ')');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, W, H);
+        }
+
+        /* ── Effect renderers ── */
+        function renderKenBurns(progress, img) {
+            const t = easeInOut(progress);
+            const scale = 1 + t * 0.35;
+            const panX = W / 2 + t * W * 0.06;
+            const panY = H / 2 - t * H * 0.04;
+            ctx.clearRect(0, 0, W, H);
+            drawCenteredImage(img, panX, panY, scale);
+            addVignette(0.15);
+        }
+
+        function renderDramaticZoom(progress, img) {
+            const t = easeIn(progress);
+            const scale = 1 + t * 1.2;
+            ctx.clearRect(0, 0, W, H);
+            drawCenteredImage(img, W / 2, H / 2, scale);
+            addVignette(0.12 + t * 0.45);
+        }
+
+        function renderCinematicSweep(progress, img) {
+            const t = easeInOut(progress);
+            const totalPan = W * 0.18;
+            const panX = W / 2 - totalPan / 2 + t * totalPan;
+            ctx.clearRect(0, 0, W, H);
+            drawCenteredImage(img, panX, H / 2, 1.22);
+            /* letterbox */
+            const bar = Math.round(H * 0.09);
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, W, bar);
+            ctx.fillRect(0, H - bar, W, bar);
+            addVignette(0.1);
+        }
+
+        function renderPulse(progress, img) {
+            const beats = 3;
+            const beatProg = (progress * beats) % 1;
+            const pulse = Math.sin(beatProg * Math.PI);
+            const scale = 1 + pulse * 0.06;
+            ctx.clearRect(0, 0, W, H);
+            drawCenteredImage(img, W / 2, H / 2, scale);
+            addVignette(0.08 + pulse * 0.08);
+        }
+
+        function renderFrame(progress) {
+            if (!loadedImage) return;
+            switch (selectedEffect) {
+                case 'kenburns':     renderKenBurns(progress, loadedImage);     break;
+                case 'zoom':         renderDramaticZoom(progress, loadedImage);  break;
+                case 'sweep':        renderCinematicSweep(progress, loadedImage); break;
+                case 'pulse':        renderPulse(progress, loadedImage);         break;
+            }
+        }
+
+        function drawFirstFrame() {
+            renderFrame(0);
+        }
+
+        /* ── Preview animation ── */
+        function stopAnimation() {
+            if (animFrameId) {
+                cancelAnimationFrame(animFrameId);
+                animFrameId = null;
+            }
+            isAnimating = false;
+        }
+
+        function startPreview() {
+            stopAnimation();
+            document.getElementById('canvasPlaceholder').style.display = 'none';
+            isAnimating = true;
+            animStartTime = null;
+
+            function tick(ts) {
+                if (!isAnimating) return;
+                if (!animStartTime) animStartTime = ts;
+                const elapsed = (ts - animStartTime) / 1000;
+                const progress = Math.min(elapsed / duration, 1);
+                renderFrame(progress);
+                if (progress < 1) {
+                    animFrameId = requestAnimationFrame(tick);
+                } else {
+                    isAnimating = false;
+                    animFrameId = null;
+                }
+            }
+            animFrameId = requestAnimationFrame(tick);
+        }
+
+        document.getElementById('previewBtn').addEventListener('click', function () {
+            if (!loadedImage) return;
+            resetDownload();
+            startPreview();
+        });
+
+        /* ── Record & download ── */
+        const recordingPanel = document.getElementById('recordingPanel');
+        const progressFill = document.getElementById('progressFill');
+        const recordingStatus = document.getElementById('recordingStatus');
+        const downloadBanner = document.getElementById('downloadBanner');
+        const downloadLink = document.getElementById('downloadLink');
+        const recordBtn = document.getElementById('recordBtn');
+
+        function resetDownload() {
+            downloadBanner.classList.remove('visible');
+            recordingPanel.classList.remove('visible');
+            progressFill.style.width = '0%';
+        }
+
+        document.getElementById('recordBtn').addEventListener('click', function () {
+            if (!loadedImage) return;
+            stopAnimation();
+            resetDownload();
+            recordVideo();
+        });
+
+        function recordVideo() {
+            const FPS = 30;
+            const totalFrames = Math.round(duration * FPS);
+            const chunks = [];
+
+            let stream;
+            try {
+                stream = canvas.captureStream(FPS);
+            } catch (e) {
+                alert('Sorry — your browser does not support canvas video recording. Try Chrome or Edge.');
+                return;
+            }
+
+            const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+                ? 'video/webm;codecs=vp9'
+                : MediaRecorder.isTypeSupported('video/webm')
+                    ? 'video/webm'
+                    : '';
+
+            if (!mimeType) {
+                alert('Video recording is not supported in this browser. Please use Chrome or Edge.');
+                return;
+            }
+
+            const recorder = new MediaRecorder(stream, { mimeType: mimeType, videoBitsPerSecond: 8000000 });
+            recorder.ondataavailable = function (e) { if (e.data.size > 0) chunks.push(e.data); };
+            recorder.onstop = function () {
+                const blob = new Blob(chunks, { type: mimeType });
+                const url = URL.createObjectURL(blob);
+                downloadLink.href = url;
+                downloadLink.download = 'room-swap-video.webm';
+                recordingPanel.classList.remove('visible');
+                downloadBanner.classList.add('visible');
+            };
+
+            recordBtn.disabled = true;
+            recordingPanel.classList.add('visible');
+            document.getElementById('canvasPlaceholder').style.display = 'none';
+            recorder.start();
+
+            let frame = 0;
+            function nextFrame() {
+                if (frame >= totalFrames) {
+                    recorder.stop();
+                    recordBtn.disabled = false;
+                    return;
+                }
+                const progress = frame / (totalFrames - 1);
+                renderFrame(progress);
+                progressFill.style.width = Math.round(progress * 100) + '%';
+                recordingStatus.textContent = 'Rendering frame ' + (frame + 1) + ' of ' + totalFrames + '…';
+                frame++;
+                requestAnimationFrame(nextFrame);
+            }
+            requestAnimationFrame(nextFrame);
+        }
+
+        /* ── Netlify identity ── */
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on('init', function (user) {
+                if (!user) {
+                    window.netlifyIdentity.on('login', function () {
+                        document.location.href = '/admin/';
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>
