@@ -195,6 +195,15 @@
                 <p>If you're <a href="vinyl-records-popularity-revival.html">new to the vinyl revival</a> or building your first real collection, start these habits now. Your future self &mdash; and whoever inherits your records one day &mdash; will thank you.</p>
             </div>
 
+            <div class="blog-share">
+                <span class="blog-share-label">Share:</span>
+                <div class="blog-share-buttons">
+                    <a href="#" class="share-btn share-facebook" target="_blank" rel="noopener" aria-label="Share on Facebook">Facebook</a>
+                    <a href="#" class="share-btn share-twitter" target="_blank" rel="noopener" aria-label="Share on X">X / Twitter</a>
+                    <a href="#" class="share-btn share-email" aria-label="Share by email">Email</a>
+                </div>
+            </div>
+
             <div class="blog-post-cta">
                 <h3>Find Vinyl Records in Holly Hill, SC</h3>
                 <p>Room Swap Consignments carries a rotating selection of vinyl records in our 4,000 sq ft showroom. We also buy vinyl collections &mdash; call or text us to learn more.</p>
@@ -236,6 +245,18 @@
                 nav.classList.remove('active');
             }
         });
+
+        // Share buttons
+        (function() {
+            var url = encodeURIComponent(window.location.href);
+            var title = encodeURIComponent(document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : document.title);
+            var fb = document.querySelector('.share-facebook');
+            var tw = document.querySelector('.share-twitter');
+            var em = document.querySelector('.share-email');
+            if (fb) fb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+            if (tw) tw.href = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + title;
+            if (em) em.href = 'mailto:?subject=' + title + '&body=' + url;
+        })();
     </script>
 </body>
 </html>

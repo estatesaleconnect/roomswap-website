@@ -151,6 +151,15 @@
                 <p>Skip the retail markup. Come see what&rsquo;s on the floor at Room Swap Consignments in Holly Hill &mdash; you might be surprised by what you find.</p>
             </div>
 
+            <div class="blog-share">
+                <span class="blog-share-label">Share:</span>
+                <div class="blog-share-buttons">
+                    <a href="#" class="share-btn share-facebook" target="_blank" rel="noopener" aria-label="Share on Facebook">Facebook</a>
+                    <a href="#" class="share-btn share-twitter" target="_blank" rel="noopener" aria-label="Share on X">X / Twitter</a>
+                    <a href="#" class="share-btn share-email" aria-label="Share by email">Email</a>
+                </div>
+            </div>
+
             <div class="blog-post-cta">
                 <h3>Find Modern Furniture for Less at Room Swap</h3>
                 <p>Quality contemporary and modern furniture at consignment prices. Open Tuesday–Saturday, 12–5 PM at 8531 Old State Road, Holly Hill, SC.</p>
@@ -192,6 +201,18 @@
                 nav.classList.remove('active');
             }
         });
+
+        // Share buttons
+        (function() {
+            var url = encodeURIComponent(window.location.href);
+            var title = encodeURIComponent(document.querySelector('h1') ? document.querySelector('h1').textContent.trim() : document.title);
+            var fb = document.querySelector('.share-facebook');
+            var tw = document.querySelector('.share-twitter');
+            var em = document.querySelector('.share-email');
+            if (fb) fb.href = 'https://www.facebook.com/sharer/sharer.php?u=' + url;
+            if (tw) tw.href = 'https://twitter.com/intent/tweet?url=' + url + '&text=' + title;
+            if (em) em.href = 'mailto:?subject=' + title + '&body=' + url;
+        })();
     </script>
 </body>
 </html>
