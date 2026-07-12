@@ -50,26 +50,16 @@ There are two parts:
 
 ## Part 2 — Connect Your Website (one line)
 
-Once your Square store address is ready (from Step 2 above):
+**✅ Done — this is already connected.** Your Shop page points to your live
+Square store, **Holly Hill Mercantile**:
 
-1. Open the file **`shop.html`** in your website.
-2. Near the bottom, find this line:
+```js
+var SQUARE_STORE_URL = "https://holly-hill-mercantile.square.site";
+```
 
-   ```js
-   var SQUARE_STORE_URL = "";
-   ```
-
-3. Paste your Square store address between the quotes, for example:
-
-   ```js
-   var SQUARE_STORE_URL = "https://roomswap.square.site";
-   ```
-
-4. Save the file, commit, and let Netlify publish (same as any other update). Or
-   just ask Claude to paste it in for you.
-
-That's it. The **Shop Online Now** buttons will now take customers straight to
-your Square store.
+If you ever rename the store (and its `.square.site` address changes), just
+update that one line in **`shop.html`** with the new address — or ask Claude to
+do it. The **Shop Online Now** buttons take customers straight to the store.
 
 > **Before you fill this in:** the Shop page automatically shows a friendly
 > "Our online shop is launching soon!" message and hides the buy buttons — so
