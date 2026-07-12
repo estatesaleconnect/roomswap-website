@@ -6,7 +6,7 @@ A custom-built website for Room Swap Consignments with integrated Decap CMS for 
 
 - Clean, rustic industrial design
 - Responsive (works great on mobile, tablet, desktop)
-- Easy-to-update photo gallery via Decap CMS
+- Online shop for new retail items (Square integration — see SQUARE-SETUP.md)
 - Business information, hours, and contact details
 - Social media integration
 - SEO-optimized
@@ -102,25 +102,14 @@ Once your domain is connected:
 3. Once verified, click "Provision certificate"
 4. Your site will now have HTTPS (secure/padlock icon)
 
-## How to Update Gallery Photos
+## Photo Gallery (Retired)
 
-1. Go to `your-domain.com/admin`
-2. Log in with your credentials
-3. Click "Gallery Photos"
-4. Click "New Gallery Photos"
-5. Upload your photo
-6. Add optional title/description
-7. Click "Publish"
-8. Photos appear on your site instantly!
+The public photo gallery has been removed — keeping it updated with new
+inventory each week wasn't practical. Old `/gallery` links now redirect to the
+Contact page automatically, so nothing breaks.
 
-## Tips for Gallery Management
-
-- **Update weekly** as you mentioned - just log in and add new items
-- **Keep photo file sizes reasonable** - under 2MB each for fast loading
-- **Use descriptive titles** if you want items labeled
-- **Add descriptions** for special pieces or prices
-- Photos are automatically sorted newest first
-- You can edit or delete photos anytime from the CMS
+The `/admin` CMS is still available if you'd like to manage content in the
+future. To sell items online instead, see **SQUARE-SETUP.md** for the Shop page.
 
 ## Updating Business Information
 

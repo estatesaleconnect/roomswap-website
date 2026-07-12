@@ -14,8 +14,19 @@
   status = 301
 
 [[redirects]]
+  from = "/shop"
+  to = "/shop.html"
+  status = 301
+
+# Gallery retired — send old links to Contact so nothing 404s
+[[redirects]]
   from = "/gallery"
-  to = "/gallery.html"
+  to = "/contact.html"
+  status = 301
+
+[[redirects]]
+  from = "/gallery.html"
+  to = "/contact.html"
   status = 301
 
 [[redirects]]
