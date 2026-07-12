@@ -748,6 +748,29 @@ section {
   padding: var(--spacing-lg) 0;
 }
 
+/* Shop / Online Store */
+.shop-hero-actions {
+  margin-top: var(--spacing-md);
+}
+
+.shop-notice {
+  background: var(--off-white);
+  border-left: 4px solid var(--green-primary);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.shop-notice p {
+  margin: 0;
+}
+
+.shop-featured {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
 /* Social Links */
 .social-links {
   display: flex;
