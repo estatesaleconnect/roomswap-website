@@ -520,98 +520,6 @@ section {
   text-align: center;
 }
 
-/* Gallery Search */
-.gallery-search-wrap {
-  position: relative;
-  max-width: 500px;
-  margin-bottom: var(--spacing-sm);
-}
-
-.gallery-search {
-  width: 100%;
-  padding: 0.9rem 1rem 0.9rem 2.8rem;
-  font-family: 'Crimson Text', Georgia, serif;
-  font-size: 1.1rem;
-  color: var(--dark-brown);
-  background: var(--off-white);
-  border: 2px solid var(--dark-brown);
-  -webkit-appearance: none;
-  border-radius: 0;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.gallery-search:focus {
-  outline: none;
-  border-color: var(--green-primary);
-  box-shadow: 0 0 0 3px rgba(61, 111, 60, 0.15);
-}
-
-.gallery-search::placeholder {
-  color: var(--warm-gray);
-  font-style: italic;
-}
-
-.gallery-search-icon {
-  position: absolute;
-  left: 0.9rem;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 1.1rem;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-.gallery-count {
-  font-size: 0.9rem;
-  color: var(--warm-gray);
-  margin-top: var(--spacing-xs);
-  font-style: italic;
-}
-
-/* Gallery Grid */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--spacing-md);
-  margin-top: var(--spacing-lg);
-}
-
-.gallery-item {
-  position: relative;
-  aspect-ratio: 4/3;
-  overflow: hidden;
-  border: 3px solid var(--dark-brown);
-  background: var(--warm-gray);
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.gallery-item:hover img {
-  transform: scale(1.05);
-}
-
-.gallery-caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(62, 50, 38, 0.9);
-  color: var(--cream);
-  padding: var(--spacing-sm);
-  font-size: 0.95rem;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-}
-
-.gallery-item:hover .gallery-caption {
-  transform: translateY(0);
-}
-
 /* Inline Contact (subtle, near top of pages) */
 .inline-contact {
   margin-top: var(--spacing-md);
@@ -651,11 +559,6 @@ section {
 
 .estate-experience p {
   max-width: none;
-}
-
-/* Gallery CTA Section */
-.gallery-cta-section {
-  text-align: center;
 }
 
 /* Contact Section */
@@ -944,14 +847,6 @@ footer a:hover {
   .info-grid,
   .contact-info {
     grid-template-columns: 1fr;
-  }
-
-  .gallery-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .gallery-search-wrap {
-    max-width: 100%;
   }
 
   .visit-banner {

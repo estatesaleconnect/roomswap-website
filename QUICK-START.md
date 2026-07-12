@@ -37,13 +37,12 @@ In GoDaddy:
 
 **Wait 2-24 hours for DNS to propagate**
 
-### 5. Update Photos Weekly
-- Go to yourdomain.com/admin
-- Login → Click "Gallery Photos"
-- Click "New Gallery Photos"
-- Upload photo, add details
-- Click "Publish"
-- **Done!** Photos appear instantly
+### 5. Sell Items Online (Square)
+- The public photo gallery has been retired — no more weekly photo uploads
+- To sell new items online, follow **SQUARE-SETUP.md**
+- Set up a free Square store, import your Faire items, then add the store
+  link to `shop.html`
+- **Done!** Customers can shop and check out online
 
 ## That's It!
 
