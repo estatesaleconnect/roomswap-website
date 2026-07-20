@@ -13,9 +13,15 @@
   to = "/about.html"
   status = 301
 
+# Shop page retired — send old links to the homepage so nothing 404s
 [[redirects]]
   from = "/shop"
-  to = "/shop.html"
+  to = "/index.html"
+  status = 301
+
+[[redirects]]
+  from = "/shop.html"
+  to = "/index.html"
   status = 301
 
 # Gallery retired — send old links to Contact so nothing 404s
