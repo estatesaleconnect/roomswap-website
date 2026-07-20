@@ -37,12 +37,11 @@ In GoDaddy:
 
 **Wait 2-24 hours for DNS to propagate**
 
-### 5. Sell Items Online (Square)
+### 5. Retired Pages
 - The public photo gallery has been retired — no more weekly photo uploads
-- To sell new items online, follow **SQUARE-SETUP.md**
-- Set up a free Square store, import your Faire items, then add the store
-  link to `shop.html`
-- **Done!** Customers can shop and check out online
+- The online Shop page has been retired too — old `/shop` links redirect to
+  the homepage
+- Both can be brought back later if you want them
 
 ## That's It!
 

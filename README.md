@@ -6,7 +6,6 @@ A custom-built website for Room Swap Consignments with integrated Decap CMS for 
 
 - Clean, rustic industrial design
 - Responsive (works great on mobile, tablet, desktop)
-- Online shop for new retail items (Square integration — see SQUARE-SETUP.md)
 - Business information, hours, and contact details
 - Social media integration
 - SEO-optimized
@@ -109,7 +108,14 @@ inventory each week wasn't practical. Old `/gallery` links now redirect to the
 Contact page automatically, so nothing breaks.
 
 The `/admin` CMS is still available if you'd like to manage content in the
-future. To sell items online instead, see **SQUARE-SETUP.md** for the Shop page.
+future.
+
+## Shop Page (Retired)
+
+The online Shop page has also been removed for now. Old `/shop` links redirect
+to the homepage automatically, so nothing breaks. If you want to sell online
+again later, the page and its Square setup guide can be restored from the
+site's history — just ask.
 
 ## Updating Business Information
 
