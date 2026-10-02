@@ -41,6 +41,11 @@
   status = 301
 
 [[redirects]]
+  from = "/sell-clothing"
+  to = "/sell-clothing.html"
+  status = 301
+
+[[redirects]]
   from = "/estate-sales"
   to = "/estate-sales.html"
   status = 301

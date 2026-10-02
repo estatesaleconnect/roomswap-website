@@ -1241,3 +1241,222 @@ footer a:hover {
     align-items: flex-start;
   }
 }
+
+/* Clothing Buy Appointments */
+.clothing-notice {
+  background: var(--off-white);
+  border: 2px solid var(--dark-brown);
+  border-left: 6px solid var(--green-primary);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+
+.clothing-notice h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-bottom: var(--spacing-sm);
+}
+
+.booking-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--spacing-md);
+  align-items: start;
+  margin-top: var(--spacing-md);
+}
+
+.booking-calendar {
+  background: var(--off-white);
+  border: 2px solid var(--dark-brown);
+  padding: var(--spacing-sm);
+}
+
+.cal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-xs);
+}
+
+.cal-month {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.cal-nav {
+  background: none;
+  border: 2px solid var(--dark-brown);
+  color: var(--dark-brown);
+  font-size: 1.5rem;
+  line-height: 1;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+}
+
+.cal-nav:hover:not(:disabled) {
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+  color: white;
+}
+
+.cal-nav:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-weekdays span {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--warm-gray);
+  padding: 0.25rem 0;
+}
+
+.cal-day {
+  aspect-ratio: 1;
+  border: 1px solid rgba(62, 50, 38, 0.25);
+  background: white;
+  color: var(--dark-brown);
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.cal-day:hover:not(:disabled) {
+  background: rgba(61, 111, 60, 0.15);
+  border-color: var(--green-primary);
+}
+
+.cal-day:disabled {
+  background: transparent;
+  color: rgba(62, 50, 38, 0.3);
+  border-color: transparent;
+  cursor: not-allowed;
+}
+
+.cal-day.is-today {
+  outline: 2px solid var(--dark-brown);
+  outline-offset: -3px;
+}
+
+.cal-day.is-selected {
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+  color: white;
+}
+
+.cal-legend {
+  font-size: 0.9rem;
+  color: var(--warm-gray);
+  font-style: italic;
+  margin: var(--spacing-xs) 0 0;
+}
+
+.time-slots {
+  border-top: 2px solid var(--dark-brown);
+  margin-top: var(--spacing-sm);
+  padding-top: var(--spacing-sm);
+}
+
+.time-slots h4 {
+  font-size: 1.15rem;
+  margin-bottom: var(--spacing-xs);
+}
+
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 6px;
+}
+
+.time-slot {
+  padding: 0.6rem 0.4rem;
+  border: 2px solid var(--dark-brown);
+  background: white;
+  color: var(--dark-brown);
+  font-family: 'Crimson Text', Georgia, serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.time-slot:hover {
+  border-color: var(--green-primary);
+  background: rgba(61, 111, 60, 0.15);
+}
+
+.time-slot.is-selected {
+  background: var(--green-primary);
+  border-color: var(--green-primary);
+  color: white;
+}
+
+.booking-form-wrap .site-form {
+  margin-top: 0;
+}
+
+.booking-selection {
+  padding: 0.9rem 1rem;
+  margin-bottom: var(--spacing-sm);
+  border: 2px dashed var(--warm-gray);
+  color: var(--warm-gray);
+  font-style: italic;
+}
+
+.booking-selection.is-set {
+  border-style: solid;
+  border-color: var(--green-primary);
+  background: rgba(61, 111, 60, 0.1);
+  color: var(--green-dark);
+  font-style: normal;
+  font-weight: 700;
+}
+
+.booking-selection.is-error {
+  border-style: solid;
+  border-color: #A33A2B;
+  color: #A33A2B;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.site-form .checkbox-label {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: var(--spacing-sm);
+}
+
+.site-form .checkbox-label input[type="checkbox"] {
+  -webkit-appearance: checkbox;
+  appearance: auto;
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+  margin: 0.2rem 0 0;
+  padding: 0;
+  accent-color: var(--green-primary);
+}
+
+@media (max-width: 768px) {
+  .booking-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .clothing-notice {
+    padding: var(--spacing-sm);
+  }
+}
