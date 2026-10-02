@@ -1,0 +1,10 @@
+{
+  "paused": false,
+  "paused_message": "Clothing appointments are paused for now. Call or text 843-900-1412 and we'll let you know when we're booking again.",
+  "days": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+  "start_time": "12:00 PM",
+  "end_time": "5:00 PM",
+  "slot_minutes": "30",
+  "weeks_ahead": 8,
+  "blocked_dates": []
+}

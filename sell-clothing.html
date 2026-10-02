@@ -156,9 +156,14 @@
 
         <section id="book">
             <h2 class="section-title">Book Your Clothing Appointment</h2>
-            <p>Appointments are available during store hours, Tuesday – Saturday, 12 – 5 PM. Choose a date, then a time. This is a request — we'll call or text to confirm. Not sure if your items qualify? Text photos to <a href="tel:8439001412"><strong>843-900-1412</strong></a> first.</p>
+            <p>Appointments are available <span id="schedule-summary">Tuesday – Saturday, 12 – 5 PM</span>. Choose a date, then a time. This is a request — we'll call or text to confirm. Not sure if your items qualify? Text photos to <a href="tel:8439001412"><strong>843-900-1412</strong></a> first.</p>
 
-            <div class="booking-layout">
+            <div class="form-success booking-paused" id="booking-paused" hidden>
+                <h3>Appointments Paused</h3>
+                <p id="paused-message"></p>
+            </div>
+
+            <div class="booking-layout" id="booking-layout">
                 <div class="booking-calendar" aria-label="Choose an appointment date">
                     <div class="cal-header">
                         <button type="button" class="cal-nav" id="cal-prev" aria-label="Previous month">&#8249;</button>
@@ -169,7 +174,7 @@
                         <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
                     </div>
                     <div class="cal-grid" id="cal-days" role="grid"></div>
-                    <p class="cal-legend">Open Tue – Sat. Closed Sun &amp; Mon.</p>
+                    <p class="cal-legend" id="cal-legend">Open Tue – Sat. Closed Sun &amp; Mon.</p>
 
                     <div class="time-slots" id="time-slots" hidden>
                         <h4 id="time-heading">Choose a time</h4>
@@ -266,19 +271,29 @@
             }
         });
 
-        // Appointment calendar — open Tue–Sat, 12–5 PM, last slot 4:30
+        // Appointment calendar. Schedule is set in /admin (Clothing Appointment Schedule),
+        // saved to data/clothing-schedule.json. Defaults below are used if that file can't load.
         (function() {
-            var OPEN_DAYS = [2, 3, 4, 5, 6];
-            var SLOTS = ['12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM'];
-            var CLOSE_HOUR = 17;
-            var MONTHS_AHEAD = 2;
+            var DEFAULTS = {
+                paused: false,
+                paused_message: 'Clothing appointments are paused for now. Call or text 843-900-1412 to ask when we\'re booking again.',
+                days: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                start_time: '12:00 PM',
+                end_time: '5:00 PM',
+                slot_minutes: 30,
+                weeks_ahead: 8,
+                blocked_dates: []
+            };
             var MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
             var DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var SHORT_DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+            var OPEN_DAYS, SLOTS, LAST_DAY, BLOCKED;
 
             var today = new Date();
             today.setHours(0, 0, 0, 0);
             var view = new Date(today.getFullYear(), today.getMonth(), 1);
-            var maxView = new Date(today.getFullYear(), today.getMonth() + MONTHS_AHEAD, 1);
+            var maxView;
             var selectedDate = null;
             var selectedTime = null;
 
@@ -294,9 +309,76 @@
             var timeInput = document.getElementById('appointment-time');
 
             function slotMinutes(label) {
-                var parts = label.match(/(\d+):(\d+) (AM|PM)/);
-                var h = parseInt(parts[1], 10) % 12 + (parts[3] === 'PM' ? 12 : 0);
+                var parts = String(label).match(/(\d+):(\d+)\s*(AM|PM)/i);
+                if (!parts) return null;
+                var h = parseInt(parts[1], 10) % 12 + (parts[3].toUpperCase() === 'PM' ? 12 : 0);
                 return h * 60 + parseInt(parts[2], 10);
+            }
+
+            function minutesToLabel(m) {
+                var h = Math.floor(m / 60), min = m % 60;
+                return ((h + 11) % 12 + 1) + ':' + (min < 10 ? '0' : '') + min + ' ' + (h >= 12 ? 'PM' : 'AM');
+            }
+
+            function shortTime(m) {
+                var label = minutesToLabel(m).replace(':00', '');
+                return label.replace(' PM', '').replace(' AM', '') + (m >= 720 ? ' PM' : ' AM');
+            }
+
+            function dateKey(date) {
+                var mm = date.getMonth() + 1, dd = date.getDate();
+                return date.getFullYear() + '-' + (mm < 10 ? '0' : '') + mm + '-' + (dd < 10 ? '0' : '') + dd;
+            }
+
+            // Turns ["Tuesday","Wednesday",...] into "Tuesday – Saturday" or "Tuesday, Thursday & Friday"
+            function describeDays(days) {
+                if (!days.length) return 'no days';
+                var runs = [], start = days[0], prev = days[0];
+                for (var i = 1; i <= days.length; i++) {
+                    if (days[i] === prev + 1) { prev = days[i]; continue; }
+                    runs.push(prev - start >= 2 ? DAY_NAMES[start] + ' – ' + DAY_NAMES[prev]
+                        : prev === start ? DAY_NAMES[start] : DAY_NAMES[start] + ', ' + DAY_NAMES[prev]);
+                    start = prev = days[i];
+                }
+                var text = runs.join(', ');
+                var last = text.lastIndexOf(', ');
+                return last === -1 ? text : text.slice(0, last) + ' &amp; ' + text.slice(last + 2);
+            }
+
+            function applySettings(cfg) {
+                OPEN_DAYS = (cfg.days || []).map(function(d) { return DAY_NAMES.indexOf(d); })
+                    .filter(function(i) { return i !== -1; }).sort();
+                var start = slotMinutes(cfg.start_time), end = slotMinutes(cfg.end_time);
+                if (start === null) start = slotMinutes(DEFAULTS.start_time);
+                if (end === null || end <= start) end = slotMinutes(DEFAULTS.end_time);
+                var step = parseInt(cfg.slot_minutes, 10) || 30;
+                SLOTS = [];
+                for (var m = start; m + step <= end; m += step) SLOTS.push(minutesToLabel(m));
+                var weeks = parseInt(cfg.weeks_ahead, 10) || DEFAULTS.weeks_ahead;
+                LAST_DAY = new Date(today.getFullYear(), today.getMonth(), today.getDate() + weeks * 7);
+                maxView = new Date(LAST_DAY.getFullYear(), LAST_DAY.getMonth(), 1);
+                BLOCKED = {};
+                (cfg.blocked_dates || []).forEach(function(b) {
+                    var key = typeof b === 'string' ? b : (b && b.date);
+                    if (key) BLOCKED[String(key).slice(0, 10)] = true;
+                });
+
+                var hours = shortTime(start) + ' – ' + shortTime(end);
+                document.getElementById('schedule-summary').innerHTML = describeDays(OPEN_DAYS) + ', ' + hours;
+                var closed = DAY_NAMES.map(function(n, i) { return i; })
+                    .filter(function(i) { return OPEN_DAYS.indexOf(i) === -1; })
+                    .map(function(i) { return SHORT_DAYS[i]; });
+                document.getElementById('cal-legend').textContent = 'Gray dates are unavailable.' +
+                    (closed.length ? ' No appointments on ' + closed.join(', ') + '.' : '');
+
+                if (cfg.paused || !OPEN_DAYS.length || !SLOTS.length) {
+                    document.getElementById('booking-layout').hidden = true;
+                    document.getElementById('paused-message').textContent = cfg.paused_message || DEFAULTS.paused_message;
+                    document.getElementById('booking-paused').hidden = false;
+                    document.getElementById('schedule-summary').textContent = 'by appointment when booking is open';
+                    return false;
+                }
+                return true;
             }
 
             // Skip slots less than an hour away so same-day requests are realistic
@@ -308,9 +390,9 @@
             }
 
             function isBookable(date) {
-                if (date < today) return false;
+                if (date < today || date > LAST_DAY) return false;
                 if (OPEN_DAYS.indexOf(date.getDay()) === -1) return false;
-                if (date.getTime() === today.getTime() && new Date().getHours() >= CLOSE_HOUR - 1) return false;
+                if (BLOCKED[dateKey(date)]) return false;
                 return availableSlots(date).length > 0;
             }
 
@@ -427,7 +509,12 @@
                 });
             });
 
-            renderCalendar();
+            fetch('data/clothing-schedule.json', { cache: 'no-cache' })
+                .then(function(res) { if (!res.ok) throw new Error(); return res.json(); })
+                .catch(function() { return DEFAULTS; })
+                .then(function(cfg) {
+                    if (applySettings(cfg)) renderCalendar();
+                });
         })();
     </script>
 </body>

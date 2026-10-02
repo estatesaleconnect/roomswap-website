@@ -1460,3 +1460,8 @@ footer a:hover {
     padding: var(--spacing-sm);
   }
 }
+
+.booking-paused[hidden],
+.booking-layout[hidden] {
+  display: none;
+}
