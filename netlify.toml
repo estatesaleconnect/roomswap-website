@@ -13,6 +13,11 @@
   to = "/about.html"
   status = 301
 
+[[redirects]]
+  from = "/accessibility"
+  to = "/accessibility.html"
+  status = 301
+
 # Shop page retired — send old links to the homepage so nothing 404s
 [[redirects]]
   from = "/shop"

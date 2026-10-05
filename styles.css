@@ -1249,6 +1249,15 @@ footer a:hover {
 }
 
 /* Accessibility */
+.accessibility-list {
+  max-width: 65ch;
+  margin: 0 0 var(--spacing-sm) 1.5rem;
+}
+
+.accessibility-list li {
+  margin-bottom: 0.5rem;
+}
+
 .info-card h2 {
   font-size: clamp(1.5rem, 3vw, 2rem);
 }
