@@ -62,6 +62,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="header-container">
             <a href="index.html" class="logo-container" aria-label="Room Swap - Where Modern Meets Vintage - Home">
@@ -70,9 +71,9 @@
                 <span class="logo-divider"></span>
                 <span class="logo-sub">Where Modern Meets Vintage</span>
             </a>
-            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us">843-900-1412</a>
-            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-            <nav>
+            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us at 843-900-1412">843-900-1412</a>
+            <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
+            <nav id="site-nav" aria-label="Main">
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">How It Works</a></li>
@@ -85,7 +86,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
         <section>
             <h1 class="section-title">Visit Us</h1>
             <p>The best way to experience Room Swap is to stop by in person. Browse our 4,000 square foot showroom, check out the quality of our pieces, and talk with us about consignment or selling options. We're conveniently located on Old State Road in Holly Hill, just minutes from Orangeburg, St. George, Eutawville, and an easy drive from Charleston, Summerville, Goose Creek, and Moncks Corner.</p>
@@ -94,22 +95,22 @@
         <section>
             <div class="contact-info">
                 <div class="contact-card">
-                    <h3>Hours</h3>
+                    <h2>Hours</h2>
                     <p><strong>Tuesday – Saturday</strong><br>12:00 PM – 5:00 PM</p>
                     <p style="margin-top: 1rem;">Closed Sunday &amp; Monday</p>
                 </div>
                 <div class="contact-card">
-                    <h3>Location</h3>
+                    <h2>Location</h2>
                     <p><strong>Room Swap Consignments</strong><br>8531 Old State Road<br>Holly Hill, SC 29059</p>
                     <p style="margin-top: 1rem;">4,000 sq ft showroom<br>Ample parking available</p>
                 </div>
                 <div class="contact-card">
-                    <h3>Phone</h3>
+                    <h2>Phone</h2>
                     <p><a href="tel:8439001412">843-900-1412</a></p>
                     <p style="margin-top: 1rem; font-size: 0.95rem; opacity: 0.8;">Call or text during business hours for questions about inventory, consignment, or buying services</p>
                 </div>
                 <div class="contact-card">
-                    <h3>Email</h3>
+                    <h2>Email</h2>
                     <p><a href="mailto:roomswapsc@gmail.com">roomswapsc@gmail.com</a></p>
                     <p style="margin-top: 1rem; font-size: 0.95rem; opacity: 0.8;">Send photos of items you'd like to consign or sell, or inquire about estate purchases. Text photos of items for consignment or selling consideration or free valuation.</p>
                 </div>
@@ -132,7 +133,7 @@
                 <button type="submit" class="form-submit">Send Message</button>
                 <p class="form-note">We typically respond within one business day.</p>
             </form>
-            <div class="form-success" style="display: none;">
+            <div class="form-success" role="status" tabindex="-1" style="display: none;">
                 <h3>Thank You!</h3>
                 <p>We've received your message and will get back to you soon. If you need a faster response, call or text <a href="tel:8439001412">843-900-1412</a>.</p>
             </div>
@@ -232,5 +233,6 @@
             });
         });
     </script>
+    <script src="a11y.js" defer></script>
 </body>
 </html>

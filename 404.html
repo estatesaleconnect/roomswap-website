@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="header-container">
             <a href="index.html" class="logo-container" aria-label="Room Swap - Where Modern Meets Vintage - Home">
@@ -20,8 +21,8 @@
                 <span class="logo-divider"></span>
                 <span class="logo-sub">Where Modern Meets Vintage</span>
             </a>
-            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
-            <nav>
+            <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">&#9776;</button>
+            <nav id="site-nav" aria-label="Main">
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">How It Works</a></li>
@@ -34,7 +35,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
         <section style="text-align: center; min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
             <h1>Page Not Found</h1>
             <p>Sorry, we couldn't find that page. It may have been moved or no longer exists.</p>
@@ -60,5 +61,6 @@
             document.querySelector('nav').classList.toggle('active');
         });
     </script>
+    <script src="a11y.js" defer></script>
 </body>
 </html>

@@ -51,6 +51,7 @@
     </script>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="header-container">
             <a href="index.html" class="logo-container" aria-label="Room Swap - Where Modern Meets Vintage - Home">
@@ -59,9 +60,9 @@
                 <span class="logo-divider"></span>
                 <span class="logo-sub">Where Modern Meets Vintage</span>
             </a>
-            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us">843-900-1412</a>
-            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
-            <nav>
+            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us at 843-900-1412">843-900-1412</a>
+            <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">&#9776;</button>
+            <nav id="site-nav" aria-label="Main">
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">How It Works</a></li>
@@ -74,7 +75,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
         <section>
             <h1 class="section-title">Full-Service Estate Sales</h1>
             <p>Settling an estate is one of the most overwhelming tasks a family can face. Whether you've lost a loved one, are downsizing, or managing a property transition, you shouldn't have to navigate it alone. Room Swap <strong>runs full-service estate sales</strong> from start to finish — we handle the sorting, pricing, staging, marketing, staffing, and sale-day management, so you don't have to lift a finger. It all starts with a <strong>free in-home consultation</strong>.</p>
@@ -178,7 +179,7 @@
                 <button type="submit" class="form-submit">Send Request</button>
                 <p class="form-note">We typically respond within one business day.</p>
             </form>
-            <div class="form-success" style="display: none;">
+            <div class="form-success" role="status" tabindex="-1" style="display: none;">
                 <h3>Thank You!</h3>
                 <p>We've received your request and will be in touch soon. If you need immediate help, call or text <a href="tel:8439001412">843-900-1412</a>.</p>
             </div>
@@ -230,5 +231,6 @@
             });
         });
     </script>
+    <script src="a11y.js" defer></script>
 </body>
 </html>
