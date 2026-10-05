@@ -372,6 +372,7 @@ section {
   border: 2px solid var(--dark-brown);
 }
 
+.value-prop h2,
 .value-prop h3 {
   color: var(--green-primary);
   font-size: clamp(1.5rem, 3vw, 2rem);
@@ -445,6 +446,7 @@ section {
   opacity: 1;
 }
 
+.info-card h2,
 .info-card h3 {
   color: var(--green-primary);
   margin-bottom: var(--spacing-sm);
@@ -575,6 +577,7 @@ section {
   border-left: 4px solid var(--green-primary);
 }
 
+.contact-card h2,
 .contact-card h3 {
   font-size: 1.3rem;
   margin-bottom: var(--spacing-sm);
@@ -736,7 +739,7 @@ footer a:hover {
 
 .footer-fine-print {
   font-size: 0.75rem;
-  color: #999;
+  color: #bdb3a6;
   text-align: center;
   margin-top: 0.5rem;
   max-width: 60ch;
@@ -773,11 +776,14 @@ footer a:hover {
     border-top: 2px solid var(--dark-brown);
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease;
+    visibility: hidden;
+    transition: max-height 0.3s ease, visibility 0s linear 0.3s;
   }
 
   nav.active {
     max-height: 400px;
+    visibility: visible;
+    transition: max-height 0.3s ease;
   }
 
   nav ul {
@@ -1239,5 +1245,74 @@ footer a:hover {
   .blog-share {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+/* Accessibility */
+.accessibility-list {
+  max-width: 65ch;
+  margin: 0 0 var(--spacing-sm) 1.5rem;
+}
+
+.accessibility-list li {
+  margin-bottom: 0.5rem;
+}
+
+.info-card h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -100px;
+  z-index: 1000;
+  padding: 0.75rem 1.25rem;
+  background: var(--dark-brown);
+  color: var(--off-white);
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--green-primary);
+  outline-offset: 3px;
+}
+
+footer :focus-visible,
+.visit-banner :focus-visible,
+.hero :focus-visible {
+  outline-color: var(--off-white);
+}
+
+#main-content:focus,
+.form-success:focus {
+  outline: none;
+}
+
+main p a,
+main li a,
+main td a,
+.blog-hero p a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -189,6 +189,7 @@
     </script>
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="header-container">
             <a href="index.html" class="logo-container" aria-label="Room Swap - Where Modern Meets Vintage - Home">
@@ -197,9 +198,9 @@
                 <span class="logo-divider"></span>
                 <span class="logo-sub">Where Modern Meets Vintage</span>
             </a>
-            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us">843-900-1412</a>
-            <button class="menu-toggle" aria-label="Toggle menu">☰</button>
-            <nav>
+            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us at 843-900-1412">843-900-1412</a>
+            <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">☰</button>
+            <nav id="site-nav" aria-label="Main">
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html">How It Works</a></li>
@@ -212,9 +213,9 @@
         </div>
     </header>
 
-    <section class="blog-hero">
+    <section class="blog-hero" id="main-content" tabindex="-1" aria-labelledby="page-title">
         <div class="blog-hero-content">
-            <h1>Antique, Vintage &amp; Consignment Tips from Holly Hill's Favorite Shop</h1>
+            <h1 id="page-title">Antique, Vintage &amp; Consignment Tips from Holly Hill's Favorite Shop</h1>
             <p class="tagline">Expert advice on buying antiques, finding vintage gems, selling modern furniture, and making the most of consignment shopping in the South Carolina Lowcountry</p>
         </div>
     </section>
@@ -477,6 +478,7 @@
                 <a href="estate-sales.html">Estate Sales</a>
                 <a href="blog.html">Blog</a>
                 <a href="contact.html">Contact</a>
+                <a href="accessibility.html">Accessibility</a>
             </div>
             <p class="footer-fine-print">Room Swap Consignments is Holly Hill's curated alternative to the typical thrift store — quality consignment, antiques &amp; vintage finds since 2019.</p>
         </div>
@@ -494,5 +496,6 @@
             }
         });
     </script>
+    <script src="a11y.js" defer></script>
 </body>
 </html>

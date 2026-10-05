@@ -22,6 +22,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
         <div class="header-container">
             <a href="index.html" class="logo-container" aria-label="Room Swap - Where Modern Meets Vintage - Home">
@@ -30,9 +31,9 @@
                 <span class="logo-divider"></span>
                 <span class="logo-sub">Where Modern Meets Vintage</span>
             </a>
-            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us">843-900-1412</a>
-            <button class="menu-toggle" aria-label="Toggle menu">&#9776;</button>
-            <nav>
+            <a href="tel:8439001412" class="header-phone" aria-label="Call or text us at 843-900-1412">843-900-1412</a>
+            <button class="menu-toggle" aria-label="Menu" aria-expanded="false" aria-controls="site-nav">&#9776;</button>
+            <nav id="site-nav" aria-label="Main">
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="about.html" class="active">How It Works</a></li>
@@ -45,7 +46,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content" tabindex="-1">
         <section>
             <h1 class="section-title">How Consignment Works at Room Swap</h1>
             <p>Whether you have a single piece to consign, a houseful of modern furniture to sell, vintage antiques to find new homes for, or an entire estate to settle — Room Swap makes it easy. We're Holly Hill's go-to consignment shop for everything from contemporary furniture to true antiques and collectibles, and we offer consignment, direct buying, and <a href="estate-sales.html">full-service estate sales</a> from our showroom on Old State Road.</p>
@@ -61,7 +62,7 @@
 
         <section class="text-photos-section">
             <div class="info-card">
-                <h3>Text Us Photos</h3>
+                <h2>Text Us Photos</h2>
                 <p>Not sure if your items are a good fit? Text photos of your furniture, jewelry, or other items to <a href="tel:8439001412"><strong>843-900-1412</strong></a> and we'll let you know. It's the fastest way to get a quick assessment — no visit needed. Include a brief description and we'll get back to you with honest feedback on consignment or buying options.</p>
             </div>
         </section>
@@ -161,6 +162,7 @@
                 <a href="estate-sales.html">Estate Sales</a>
                 <a href="blog.html">Blog</a>
                 <a href="contact.html">Contact</a>
+                <a href="accessibility.html">Accessibility</a>
             </div>
             <p class="footer-fine-print">Room Swap Consignments is Holly Hill's curated alternative to the typical thrift store — quality consignment, antiques &amp; vintage finds since 2019.</p>
         </div>
@@ -178,5 +180,6 @@
             }
         });
     </script>
+    <script src="a11y.js" defer></script>
 </body>
 </html>
