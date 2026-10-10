@@ -1,0 +1,95 @@
+/* Room Swap Consignments — consignor recruitment ads
+   Palette and type pulled from the website (styles.css, logo.png). */
+:root {
+  --green: #3D6F3C;
+  --green-dark: #2A4E2A;
+  --logo-green: #2E7A32;
+  --cream: #F5F3ED;
+  --off-white: #FAF9F6;
+  --brown: #3E3226;
+  --warm-gray: #6B675F;
+  --gold: #A08B6A;
+  --stamp-red: #B3261E;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body { width: var(--w); height: var(--h); overflow: hidden; }
+body {
+  font-family: 'Crimson Text', Georgia, serif;
+  color: var(--brown);
+  background: var(--cream);
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+}
+
+body.sq { --w: 1080px; --h: 1080px; }
+body.pt { --w: 1080px; --h: 1350px; }
+body.st { --w: 1080px; --h: 1920px; }
+
+h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 900;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+}
+
+/* Logo badge: real logo on a cream card + location line */
+.badge {
+  position: absolute;
+  background: var(--off-white);
+  border-radius: 18px;
+  padding: 18px 24px 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  z-index: 5;
+}
+.badge img { display: block; width: 300px; height: auto; }
+.badge .loc {
+  margin-top: 8px;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-weight: 700;
+  font-size: 25px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--brown);
+}
+.badge .loc::before, .badge .loc::after {
+  content: "";
+  display: inline-block;
+  width: 26px; height: 2px;
+  background: var(--green);
+  vertical-align: middle;
+  margin: 0 12px 4px;
+}
+
+/* Call-to-action pill */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--off-white);
+  color: var(--green-dark);
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 700;
+  font-size: 40px;
+  padding: 18px 40px;
+  border-radius: 999px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+.cta.green { background: var(--green); color: var(--off-white); }
+.cta .arrow { font-family: Georgia, serif; font-size: 40px; line-height: 1; }
+
+.tag {
+  position: absolute;
+  font-family: 'Crimson Text', Georgia, serif;
+  font-weight: 700;
+  font-size: 28px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 8px 18px 6px;
+  border-radius: 8px;
+  z-index: 4;
+}
+
+.photo { position: absolute; background-size: cover; background-repeat: no-repeat; }

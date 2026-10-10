@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Concept 1 – Declutter for cash</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ads.css">
+<style>
+  /* Before: a room's worth of real pieces from the showroom floor */
+  .before { position: absolute; left: 0; top: 0; width: 100%; display: grid; grid-template-columns: 1.15fr 1fr 1fr; gap: 6px; background: var(--off-white); }
+  .before div { background-size: cover; background-position: center; }
+  .before .p1 { background-image: url('img/img_3422.jpg'); background-position: 40% 55%; }
+  .before .p2 { background-image: url('img/img_3414.jpg'); background-position: center 60%; }
+  .before .p3 { background-image: url('img/img_1933.jpg'); background-position: center 30%; }
+  .before::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 30%); }
+  .tag.b { background: rgba(62, 50, 38, 0.88); color: var(--off-white); left: 40px; }
+
+  /* After: money panel */
+  .after { position: absolute; left: 0; right: 0; bottom: 0; background: var(--green-dark); color: var(--off-white);
+    background-image: radial-gradient(circle at 85% 20%, rgba(255,255,255,0.08) 0, rgba(255,255,255,0) 45%); }
+  .tag.a { background: var(--off-white); color: var(--green-dark); position: static; display: inline-block; }
+  .after .inner { position: absolute; left: 64px; right: 64px; }
+  .after h1 { color: #fff; margin: 22px 0 18px; }
+  .after p.sub { font-size: 40px; line-height: 1.3; color: #E8F0E4; max-width: 820px; }
+  .after .cta { margin-top: 30px; }
+
+  /* "$" coin bridging before -> after */
+  .coin { position: absolute; right: 70px; width: 170px; height: 170px; border-radius: 50%; z-index: 6;
+    background: radial-gradient(circle at 35% 30%, #F3E7C4 0%, #D9C08A 55%, #A08B6A 100%);
+    border: 8px solid var(--off-white); box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', Georgia, serif; font-weight: 900; font-size: 104px; color: var(--green-dark); }
+
+  /* Square */
+  .sq .before { height: 520px; }
+  .sq .badge { left: 36px; top: 36px; }
+  .sq .tag.b { top: 452px; }
+  .sq .after { height: 560px; }
+  .sq .after .inner { top: 44px; }
+  .sq .after h1 { font-size: 84px; }
+  .sq .coin { top: 435px; }
+
+  /* Portrait */
+  .pt .before { height: 680px; }
+  .pt .badge { left: 40px; top: 40px; }
+  .pt .tag.b { top: 610px; }
+  .pt .after { height: 670px; }
+  .pt .after .inner { top: 64px; }
+  .pt .after h1 { font-size: 96px; }
+  .pt .coin { top: 595px; }
+
+  /* Story: keep top/bottom 250px free of text */
+  .st .before { height: 1000px; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
+  .st .before .p1 { grid-row: span 2; }
+  .st .badge { left: 40px; top: 270px; }
+  .st .tag.b { top: 920px; }
+  .st .after { height: 920px; }
+  .st .after .inner { top: 70px; }
+  .st .after h1 { font-size: 112px; }
+  .st .after p.sub { font-size: 46px; }
+  .st .after .cta { font-size: 46px; }
+  .st .coin { top: 905px; width: 190px; height: 190px; font-size: 116px; }
+</style>
+<script>document.addEventListener('DOMContentLoaded', () => { document.body.className = new URLSearchParams(location.search).get('size') || 'sq'; });</script>
+</head>
+<body>
+  <div class="before"><div class="p1"></div><div class="p2"></div><div class="p3"></div></div>
+  <div class="badge"><img src="img/logo.png" alt="Room Swap Consignments"><div class="loc">Holly Hill, SC</div></div>
+  <div class="tag b">Before</div>
+  <div class="coin">$</div>
+  <div class="after">
+    <div class="inner">
+      <span class="tag a">After</span>
+      <h1>Turn a full room into cash.</h1>
+      <p class="sub">We price it, display it, and sell it. You get paid when it sells.</p>
+      <div class="cta">Bring your items in <span class="arrow">→</span></div>
+    </div>
+  </div>
+</body>
+</html>

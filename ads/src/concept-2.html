@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Concept 2 – Sold fast</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ads.css">
+<style>
+  /* Real dining set from the showroom floor */
+  .hero { inset: 0; background-image: url('img/img_1952.jpg'); background-position: center 62%; }
+  .shade { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+    background: linear-gradient(180deg, rgba(20,16,12,0) 0%, rgba(20,16,12,0.72) 38%, rgba(20,16,12,0.9) 100%); }
+
+  /* Rubber "SOLD" stamp */
+  .stamp { position: absolute; z-index: 4; transform: rotate(-14deg);
+    font-family: 'Playfair Display', Georgia, serif; font-weight: 900; letter-spacing: 0.08em;
+    color: var(--stamp-red); border: 12px solid var(--stamp-red); border-radius: 22px;
+    padding: 0 40px; line-height: 1.15;
+    background: rgba(255, 250, 240, 0.82);
+    box-shadow: 0 0 0 6px rgba(255, 250, 240, 0.82), 0 14px 40px rgba(0,0,0,0.35);
+    -webkit-mask-image: radial-gradient(circle at 20% 30%, #000 60%, rgba(0,0,0,0.82) 61%),
+                        radial-gradient(circle at 70% 70%, #000 55%, rgba(0,0,0,0.88) 56%);
+    -webkit-mask-composite: source-in; }
+  .stamp::after { content: ""; position: absolute; left: 22px; right: 22px; top: 50%; height: 0; }
+
+  .copy { position: absolute; left: 64px; right: 64px; z-index: 3; color: #fff; }
+  .copy h1 { color: #fff; text-shadow: 0 2px 16px rgba(0,0,0,0.4); }
+  .copy .q { display: inline-block; margin-top: 18px; font-family: 'Playfair Display', Georgia, serif; font-weight: 900;
+    background: var(--green); color: #fff; padding: 4px 26px 10px; border-radius: 12px; }
+  .copy .row { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+
+  /* Square */
+  .sq .badge { left: 36px; top: 36px; }
+  .sq .stamp { right: 70px; top: 120px; font-size: 150px; }
+  .sq .shade { height: 560px; }
+  .sq .copy { bottom: 56px; }
+  .sq .copy h1 { font-size: 80px; }
+  .sq .copy .q { font-size: 64px; }
+
+  /* Portrait */
+  .pt .badge { left: 40px; top: 40px; }
+  .pt .stamp { right: 70px; top: 200px; font-size: 168px; }
+  .pt .shade { height: 640px; }
+  .pt .copy { bottom: 70px; }
+  .pt .copy h1 { font-size: 92px; }
+  .pt .copy .q { font-size: 72px; }
+  .pt .copy .row { flex-direction: column; align-items: flex-start; gap: 28px; }
+
+  /* Story: text kept between 250px and 1670px */
+  .st .hero { background-position: center 60%; }
+  .st .badge { left: 40px; top: 270px; }
+  .st .stamp { right: 70px; top: 560px; font-size: 190px; }
+  .st .shade { height: 1000px; }
+  .st .copy { bottom: 290px; }
+  .st .copy h1 { font-size: 104px; }
+  .st .copy .q { font-size: 84px; }
+  .st .copy .row { flex-direction: column; align-items: flex-start; gap: 34px; }
+  .st .cta { font-size: 46px; }
+</style>
+<script>document.addEventListener('DOMContentLoaded', () => { document.body.className = new URLSearchParams(location.search).get('size') || 'sq'; });</script>
+</head>
+<body>
+  <div class="photo hero"></div>
+  <div class="badge"><img src="img/logo.png" alt="Room Swap Consignments"><div class="loc">Holly Hill, SC</div></div>
+  <div class="stamp">SOLD</div>
+  <div class="shade"></div>
+  <div class="copy">
+    <h1>Furniture and décor move fast here.</h1>
+    <div class="row">
+      <span class="q">Got some?</span>
+      <div class="cta">Message us to consign <span class="arrow">→</span></div>
+    </div>
+  </div>
+</body>
+</html>

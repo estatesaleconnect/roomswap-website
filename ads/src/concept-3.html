@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Concept 3 – Estate &amp; downsizing</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="ads.css">
+<style>
+  body { background: var(--cream);
+    background-image: radial-gradient(circle at 50% 0%, #FFFDF7 0%, var(--cream) 60%); }
+
+  /* Real heirloom-style piece from the store: drop-leaf table, framed art, oyster centerpiece */
+  .frame { position: absolute; left: 56px; right: 56px; border-radius: 22px; overflow: hidden;
+    border: 10px solid #fff; outline: 3px solid var(--gold); outline-offset: 6px;
+    box-shadow: 0 18px 40px rgba(62, 50, 38, 0.28); }
+  .frame .photo { inset: 0; background-image: url('img/img_3420.jpg'); background-position: 45% 55%; }
+  .frame::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(255,214,150,0.10), rgba(62,50,38,0.12)); }
+
+  .badge { box-shadow: none; background: transparent; padding: 0; }
+  .badge img { width: 330px; }
+
+  .copy { position: absolute; left: 64px; right: 64px; text-align: center; }
+  .rule { width: 160px; height: 3px; margin: 0 auto 26px; background: var(--gold); position: relative; }
+  .rule::after { content: ""; position: absolute; left: 50%; top: -6px; width: 12px; height: 12px; background: var(--green);
+    transform: translateX(-50%) rotate(45deg); }
+  .copy h1 { color: var(--brown); }
+  .copy h1 em { font-style: italic; color: var(--green-dark); }
+  .copy p.sub { font-size: 40px; line-height: 1.3; margin: 20px auto 0; max-width: 880px; color: var(--brown); }
+  .copy .cta { margin-top: 30px; }
+
+  /* Square */
+  .sq .badge { left: 50%; transform: translateX(-50%); top: 34px; }
+  .sq .frame { top: 230px; height: 430px; }
+  .sq .copy { top: 712px; }
+  .sq .copy h1 { font-size: 68px; }
+  .sq .copy p.sub { font-size: 34px; margin-top: 14px; }
+  .sq .copy .cta { margin-top: 22px; font-size: 36px; padding: 14px 36px; }
+  .sq .rule { display: none; }
+
+  /* Portrait */
+  .pt .badge { left: 50%; transform: translateX(-50%); top: 44px; }
+  .pt .frame { top: 250px; height: 560px; }
+  .pt .copy { top: 868px; }
+  .pt .copy h1 { font-size: 78px; }
+
+  /* Story: text kept between 250px and 1670px */
+  .st .badge { left: 50%; transform: translateX(-50%); top: 270px; }
+  .st .frame { top: 470px; height: 690px; }
+  .st .copy { top: 1195px; }
+  .st .copy h1 { font-size: 84px; }
+  .st .copy p.sub { font-size: 42px; }
+  .st .copy .cta { font-size: 44px; }
+</style>
+<script>document.addEventListener('DOMContentLoaded', () => { document.body.className = new URLSearchParams(location.search).get('size') || 'sq'; });</script>
+</head>
+<body>
+  <div class="badge"><img src="img/logo.png" alt="Room Swap Consignments"><div class="loc">Holly Hill, SC</div></div>
+  <div class="frame"><div class="photo"></div></div>
+  <div class="copy">
+    <div class="rule"></div>
+    <h1>Downsizing or clearing a <em>loved one's</em> home?</h1>
+    <p class="sub">We'll handle it all with care. We price it, display it, and sell it. You get paid when it sells.</p>
+    <div class="cta green">Message us to consign <span class="arrow">→</span></div>
+  </div>
+</body>
+</html>
