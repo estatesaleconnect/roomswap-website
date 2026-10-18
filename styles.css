@@ -1317,40 +1317,7 @@ main td a,
   }
 }
 
-/* Photo Grids — real showroom photos */
-.photo-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-sm);
-  margin-top: var(--spacing-md);
-}
-
-.photo-grid figure {
-  margin: 0;
-  background: var(--off-white);
-  border: 2px solid var(--dark-brown);
-}
-
-.photo-grid img {
-  display: block;
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  height: auto;
-}
-
-.photo-grid figcaption {
-  padding: var(--spacing-xs) var(--spacing-sm);
-  font-size: 0.95rem;
-  line-height: 1.4;
-}
-
-.photo-note {
-  margin-top: var(--spacing-sm);
-  font-size: 0.95rem;
-  color: var(--warm-gray);
-}
-
+/* Storefront photo */
 .storefront-photo {
   margin: var(--spacing-md) 0 0;
 }
@@ -1367,16 +1334,4 @@ main td a,
   margin-top: var(--spacing-xs);
   font-size: 0.95rem;
   color: var(--warm-gray);
-}
-
-@media (max-width: 1024px) {
-  .photo-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .photo-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }

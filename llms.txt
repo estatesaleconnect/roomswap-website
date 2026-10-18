@@ -21,7 +21,7 @@
 
 ## Main pages
 
-- [Home](https://www.roomswapsc.com/): What the store sells, hours, location, and recent finds
+- [Home](https://www.roomswapsc.com/): What the store sells, hours, and location
 - [How Consignment Works](https://www.roomswapsc.com/about.html): The consignment process, what we accept, and what we buy outright
 - [Sell to Us](https://www.roomswapsc.com/sell.html): Two ways to get paid — sell outright or consign
 - [Estate Sales](https://www.roomswapsc.com/estate-sales.html): Full-service estate sales, buyouts, and free consultations
