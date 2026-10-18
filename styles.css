@@ -1439,8 +1439,7 @@ main td a,
 }
 
 .blog-feature-image figcaption,
-.blog-figure figcaption,
-.blog-figure-pair figcaption {
+.blog-figure figcaption {
   margin-top: 0.5rem;
   font-size: 0.95rem;
   font-style: italic;
@@ -1453,24 +1452,6 @@ main td a,
 
 .blog-figure img {
   border: 2px solid var(--dark-brown);
-}
-
-.blog-figure-pair {
-  margin: var(--spacing-md) 0;
-}
-
-.blog-figure-pair .pair-images {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-sm);
-}
-
-.blog-figure-pair .pair-images img {
-  display: block;
-  width: 100%;
-  height: auto;
-  border: 2px solid var(--dark-brown);
-  background: var(--theme-tint, var(--cream));
 }
 
 .blog-post-themed .blog-post-body h2 {
