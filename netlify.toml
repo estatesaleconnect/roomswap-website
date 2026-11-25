@@ -6,17 +6,50 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Redirect non-.html versions to .html for clean URL handling
+# Keep the staff pricing tool and the CMS out of search and AI results
+[[headers]]
+  for = "/pricing-tool*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+# Images rarely change: let browsers cache them for a week (faster repeat visits)
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/og-image.jpg"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# Serve llms.txt as UTF-8 text for AI crawlers
+[[headers]]
+  for = "/llms.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+
+# Redirect non-.html versions to .html so each page has one URL.
+# force = true is needed because Netlify would otherwise serve /about as a
+# duplicate copy of about.html instead of redirecting.
 [[redirects]]
   from = "/about"
   to = "/about.html"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/accessibility"
   to = "/accessibility.html"
   status = 301
+  force = true
 
 # Shop page retired — send old links to the homepage so nothing 404s
 [[redirects]]
@@ -44,21 +77,25 @@
   from = "/sell"
   to = "/sell.html"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/estate-sales"
   to = "/estate-sales.html"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/contact"
   to = "/contact.html"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/blog"
   to = "/blog.html"
   status = 301
+  force = true
 
 # Proper 404 for all unmatched routes
 [[redirects]]

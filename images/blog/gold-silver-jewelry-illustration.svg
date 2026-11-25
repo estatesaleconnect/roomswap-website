@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img"><title>Illustration of a velvet jewelry tray holding gold rings, chains and a brooch beside a sterling silver teapot and a small jeweler's scale</title>
+<rect width="1200" height="800" fill="#1E2B45"/>
+<g fill="#F2DE9C" opacity=".18"><circle cx="120" cy="90" r="3"/><circle cx="300" cy="150" r="2"/><circle cx="1050" cy="80" r="3"/><circle cx="900" cy="170" r="2"/><circle cx="620" cy="60" r="2.5"/><circle cx="1130" cy="260" r="2"/><circle cx="70" cy="300" r="2"/></g>
+<rect y="540" width="1200" height="260" fill="#8C6A4A"/>
+<rect y="536" width="1200" height="8" fill="#131C2E" opacity=".6"/>
+<g stroke="#2A2015" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M110 600l40-150h460l40 150z" fill="#6B1F2E"/>
+<path d="M150 450h460" fill="none"/>
+<rect x="100" y="600" width="560" height="40" rx="6" fill="#8A6A3A"/>
+<path d="M190 480h120v95H175zM330 480h110v95H330zM460 480h130l15 95H460z" fill="#7E2638"/>
+<ellipse cx="240" cy="525" rx="36" ry="22" fill="none" stroke="#D4AF37" stroke-width="12"/>
+<ellipse cx="240" cy="525" rx="36" ry="22" fill="none" stroke="#2A2015" stroke-width="3"/>
+<path d="M232 497l8-16 8 16z" fill="#BFE3F0" stroke-width="3"/>
+<ellipse cx="290" cy="550" rx="22" ry="13" fill="none" stroke="#E7C65A" stroke-width="9"/>
+<path d="M345 500c20 40 60 60 80 10" fill="none" stroke="#D4AF37" stroke-width="7"/>
+<path d="M350 520c25 40 60 40 76 0" fill="none" stroke="#E7C65A" stroke-width="5" stroke-dasharray="2 8"/>
+<circle cx="385" cy="560" r="10" fill="#D4AF37" stroke-width="3"/>
+<path d="M530 500l26 26-26 26-26-26z" fill="#D4AF37"/>
+<circle cx="530" cy="526" r="9" fill="#8FC7A8" stroke-width="3"/>
+<circle cx="490" cy="560" r="6" fill="#D4AF37" stroke-width="3"/><circle cx="570" cy="562" r="6" fill="#D4AF37" stroke-width="3"/>
+<path d="M760 540c-6-80 30-130 100-140h60c70 10 106 60 100 140z" fill="#C9CED6"/>
+<path d="M760 540h260" fill="none"/>
+<path d="M840 400c0-30 20-44 50-44s50 14 50 44" fill="#B5BBC5"/>
+<circle cx="890" cy="346" r="12" fill="#D9DDE3"/>
+<path d="M1020 440c60-10 80 50 30 80" fill="none" stroke-width="12"/>
+<path d="M1020 440c60-10 80 50 30 80" fill="none" stroke="#C9CED6" stroke-width="5"/>
+<path d="M766 460c-50-30-90-20-110-40 10 40 50 70 100 80z" fill="#C9CED6"/>
+<path d="M790 470c50-20 150-20 200 0" fill="none" stroke="#E8EBEF" stroke-width="4"/>
+<rect x="740" y="540" width="300" height="20" rx="6" fill="#B5BBC5"/>
+<rect x="1060" y="520" width="110" height="40" rx="6" fill="#3E3226"/>
+<rect x="1072" y="530" width="56" height="20" rx="3" fill="#9BD4A9"/>
+<circle cx="1150" cy="540" r="7" fill="#C9A253"/>
+<rect x="1070" y="500" width="90" height="20" rx="4" fill="#C9CED6"/>
+</g>
+<g font-family="Georgia, serif" font-weight="700" fill="#1E2B45"><text x="1078" y="546" font-size="16">14K</text></g>
+<g fill="#F2DE9C"><path d="M240 410l6 14 14 6-14 6-6 14-6-14-14-6 14-6z"/><path d="M540 420l5 11 11 5-11 5-5 11-5-11-11-5 11-5z"/><path d="M940 300l5 11 11 5-11 5-5 11-5-11-11-5 11-5z"/></g>
+</svg>

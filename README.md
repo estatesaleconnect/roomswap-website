@@ -117,6 +117,25 @@ to the homepage automatically, so nothing breaks. If you want to sell online
 again later, the page and its Square setup guide can be restored from the
 site's history — just ask.
 
+## SEO & AI Search Checklist
+
+The live site's main address is **https://roomswapsc.com** (no "www"; Netlify
+redirects www to it). Every canonical tag, sitemap entry, schema URL and
+`llms.txt` link uses that address, so keep new pages consistent with it.
+
+When you add a new blog post:
+
+1. Give it a `<title>` of about 60 characters or fewer and a meta description of
+   about 155 characters or fewer.
+2. Include `BlogPosting`, `FAQPage` (if it has FAQs) and `BreadcrumbList`
+   structured data. Copy the pattern from any 2026 post.
+3. Add it to `blog.html` (both the visible card and the `Blog` schema list),
+   `sitemap.xml` and `llms.txt`.
+4. Link to it from at least two related posts or pages.
+
+After a big update, resubmit `sitemap.xml` in Google Search Console and Bing
+Webmaster Tools (Bing powers ChatGPT search and Copilot).
+
 ## Updating Business Information
 
 To change hours, phone, address, etc:

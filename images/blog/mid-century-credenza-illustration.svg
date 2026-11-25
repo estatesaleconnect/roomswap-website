@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img"><title>Illustration of a walnut mid-century modern credenza on tapered legs with a starburst clock, a ceramic lamp and a potted plant</title>
+<rect width="1200" height="800" fill="#F3E6D3"/>
+<rect x="0" y="0" width="420" height="600" fill="#E9D6BC"/>
+<rect y="596" width="1200" height="204" fill="#C9A47A"/>
+<rect y="592" width="1200" height="8" fill="#3E3226" opacity=".4"/>
+<rect x="250" y="640" width="700" height="110" rx="55" fill="#1F5A5A" opacity=".85"/>
+<rect x="290" y="660" width="620" height="70" rx="35" fill="none" stroke="#F3E6D3" stroke-width="4" opacity=".6"/>
+<g stroke="#3E3226" stroke-width="5" stroke-linecap="round">
+<g transform="translate(600 170)">
+<line x1="0" y1="-95" x2="0" y2="95"/><line x1="-95" y1="0" x2="95" y2="0"/><line x1="-67" y1="-67" x2="67" y2="67"/><line x1="67" y1="-67" x2="-67" y2="67"/>
+<line x1="-36" y1="-88" x2="36" y2="88"/><line x1="36" y1="-88" x2="-36" y2="88"/><line x1="-88" y1="-36" x2="88" y2="36"/><line x1="88" y1="-36" x2="-88" y2="36"/>
+<circle r="44" fill="#E0A13A"/><circle r="30" fill="#FAF5EA"/>
+<line x1="0" y1="0" x2="0" y2="-20" stroke-width="4"/><line x1="0" y1="0" x2="14" y2="6" stroke-width="4"/>
+</g>
+</g>
+<g fill="#E0A13A" stroke="#3E3226" stroke-width="3"><circle cx="600" cy="75" r="7"/><circle cx="600" cy="265" r="7"/><circle cx="505" cy="170" r="7"/><circle cx="695" cy="170" r="7"/></g>
+<g stroke="#3E3226" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<path d="M300 560l-22 70M900 560l22 70M360 560l-8 64M840 560l8 64" fill="none" stroke-width="10"/>
+<rect x="260" y="380" width="680" height="190" rx="8" fill="#7A4A26"/>
+<rect x="280" y="398" width="200" height="154" rx="4" fill="#8E5A30"/>
+<rect x="500" y="398" width="200" height="154" rx="4" fill="#8E5A30"/>
+<rect x="720" y="398" width="200" height="154" rx="4" fill="#8E5A30"/>
+<line x1="500" y1="450" x2="700" y2="450"/><line x1="500" y1="500" x2="700" y2="500"/>
+<path d="M440 440v70M740 440v70" stroke-width="8"/>
+<path d="M570 424h60M570 474h60M570 526h60" stroke-width="7" stroke="#C9A253"/>
+<path d="M800 380c0-60 10-100 40-110 30 10 40 50 40 110z" fill="#1F5A5A"/>
+<path d="M812 330h56" stroke="#F3E6D3" stroke-width="4"/>
+<path d="M800 270h80l-14-60h-52z" fill="#F6D8A2"/>
+<line x1="840" y1="270" x2="840" y2="282"/>
+<path d="M320 380h70l-8-60h-54z" fill="#C46A3A"/>
+<path d="M355 320c-30-40-60-50-80-40 20 20 40 40 80 40zM355 320c10-50 30-80 60-90 0 30-20 70-60 90zM355 320c-10-40-5-80 10-110 15 30 15 80-10 110z" fill="#5C7A3A"/>
+<rect x="530" y="350" width="140" height="30" rx="4" fill="#FAF5EA"/>
+<rect x="545" y="330" width="110" height="20" rx="4" fill="#E0A13A"/>
+<rect x="1000" y="250" width="22" height="340" fill="#3E3226"/>
+<path d="M940 250c0-40 30-60 71-60s71 20 71 60z" fill="#E0A13A"/>
+<path d="M980 590h62" stroke-width="10"/>
+<path d="M120 420c0-70 30-110 70-110s70 40 70 110v70H120z" fill="#C46A3A"/>
+<rect x="110" y="480" width="160" height="40" rx="14" fill="#D27B48"/>
+<path d="M130 520l-14 70M250 520l14 70" stroke-width="9"/>
+</g>
+</svg>
