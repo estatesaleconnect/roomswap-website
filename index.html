@@ -3,83 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Swap Consignments | Antique, Vintage &amp; Modern Consignment Store in Holly Hill, SC</title>
-    <meta name="description" content="Holly Hill's favorite consignment shop — a cut above your average thrift store. Modern furniture, vintage antiques, jewelry & unique finds. 4,000 sq ft changing daily. Open Tue–Sat.">
-    <link rel="canonical" href="https://www.roomswapsc.com/">
+    <title>Room Swap Consignments | Consignment &amp; Antique Store, Holly Hill SC</title>
+    <meta name="description" content="Holly Hill, SC consignment and antique store: 4,000 sq ft of furniture, vintage decor, jewelry and vinyl, changing daily. We buy, consign and run estate sales.">
+    <link rel="canonical" href="https://roomswapsc.com/">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <meta property="og:title" content="Room Swap Consignments | Antique, Vintage & Modern Consignment Store in Holly Hill, SC">
-    <meta property="og:description" content="Holly Hill's favorite consignment shop — a cut above your average thrift store. Modern furniture, vintage antiques, jewelry & unique finds. 4,000 sq ft changing daily. Open Tue–Sat.">
+    <meta property="og:description" content="Holly Hill, SC consignment and antique store: 4,000 sq ft of furniture, vintage decor, jewelry and vinyl, changing daily. We buy, consign and run estate sales.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.roomswapsc.com/">
+    <meta property="og:url" content="https://roomswapsc.com/">
     <meta property="og:locale" content="en_US">
     <meta property="og:site_name" content="Room Swap Consignments">
-    <meta property="og:image" content="https://www.roomswapsc.com/og-image.jpg">
+    <meta property="og:image" content="https://roomswapsc.com/og-image.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Room Swap Consignments showroom in Holly Hill, SC">
-    <link rel="stylesheet" href="styles.css">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Crimson+Text:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+        // The Netlify Identity widget is only needed when someone opens a CMS
+        // invite or password link, so only load it then (keeps the homepage fast).
+        if (/(invite|recovery|confirmation|email_change)_token=|access_token=/.test(window.location.hash)) {
+            document.write('<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"><\/script>');
+        }
+    </script>
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Store",
-        "name": "Room Swap Consignments",
-        "description": "Holly Hill's favorite consignment shop for modern furniture, vintage antiques, jewelry, and unique finds. A quality alternative to the typical thrift store — every piece hand-selected and quality-inspected.",
-        "@id": "https://www.roomswapsc.com/#store",
-        "url": "https://www.roomswapsc.com/",
-        "logo": "https://www.roomswapsc.com/logo.png",
-        "image": [
-            "https://www.roomswapsc.com/images/room-swap-storefront-holly-hill-sc.jpg",
-            "https://www.roomswapsc.com/og-image.jpg"
-        ],
-        "foundingDate": "2019",
-        "telephone": "+18439001412",
-        "email": "roomswapsc@gmail.com",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "8531 Old State Road",
-            "addressLocality": "Holly Hill",
-            "addressRegion": "SC",
-            "postalCode": "29059",
-            "addressCountry": "US"
-        },
-        "geo": {
-            "@type": "GeoCoordinates",
-            "latitude": 33.3254,
-            "longitude": -80.4118
-        },
-        "openingHoursSpecification": [
+        "@graph": [
             {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Tuesday","Wednesday","Thursday","Friday"],
-                "opens": "12:00",
-                "closes": "17:00"
+                "@type": "Organization",
+                "@id": "https://roomswapsc.com/#organization",
+                "name": "Room Swap Consignments",
+                "alternateName": [
+                    "Room Swap",
+                    "Room Swap SC"
+                ],
+                "url": "https://roomswapsc.com/",
+                "logo": {
+                    "@type": "ImageObject",
+                    "url": "https://roomswapsc.com/logo.png",
+                    "width": 1024,
+                    "height": 1024
+                },
+                "slogan": "Where Modern Meets Vintage",
+                "foundingDate": "2019",
+                "telephone": "+1-843-900-1412",
+                "email": "roomswapsc@gmail.com",
+                "contactPoint": {
+                    "@type": "ContactPoint",
+                    "telephone": "+1-843-900-1412",
+                    "contactType": "customer service",
+                    "areaServed": "US-SC",
+                    "availableLanguage": "English"
+                },
+                "sameAs": [
+                    "https://www.facebook.com/RoomSwapSC",
+                    "https://www.instagram.com/roomswapconsignments/"
+                ]
             },
             {
-                "@type": "OpeningHoursSpecification",
-                "dayOfWeek": "Saturday",
-                "opens": "10:00",
-                "closes": "17:00"
+                "@type": "WebSite",
+                "@id": "https://roomswapsc.com/#website",
+                "url": "https://roomswapsc.com/",
+                "name": "Room Swap Consignments",
+                "inLanguage": "en-US",
+                "publisher": {
+                    "@id": "https://roomswapsc.com/#organization"
+                }
+            },
+            {
+                "@type": [
+                    "Store",
+                    "AntiqueStore",
+                    "FurnitureStore",
+                    "HomeGoodsStore"
+                ],
+                "@id": "https://roomswapsc.com/#store",
+                "name": "Room Swap Consignments",
+                "description": "Antique, vintage and modern consignment store in Holly Hill, South Carolina. A curated 4,000 sq ft showroom of furniture, antiques, home decor, jewelry, books and vinyl records that changes daily. Room Swap also buys items outright (including gold, silver and jewelry) and runs full-service estate sales across the SC Lowcountry.",
+                "slogan": "Where Modern Meets Vintage",
+                "url": "https://roomswapsc.com/",
+                "parentOrganization": {
+                    "@id": "https://roomswapsc.com/#organization"
+                },
+                "logo": "https://roomswapsc.com/logo.png",
+                "image": [
+                    "https://roomswapsc.com/images/room-swap-storefront-holly-hill-sc.jpg",
+                    "https://roomswapsc.com/og-image.jpg"
+                ],
+                "foundingDate": "2019",
+                "telephone": "+1-843-900-1412",
+                "email": "roomswapsc@gmail.com",
+                "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "8531 Old State Road",
+                    "addressLocality": "Holly Hill",
+                    "addressRegion": "SC",
+                    "postalCode": "29059",
+                    "addressCountry": "US"
+                },
+                "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 33.3254,
+                    "longitude": -80.4118
+                },
+                "hasMap": "https://www.google.com/maps/search/?api=1&query=Room+Swap+Consignments+8531+Old+State+Road+Holly+Hill+SC+29059",
+                "openingHoursSpecification": [
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "dayOfWeek": [
+                            "Tuesday",
+                            "Wednesday",
+                            "Thursday",
+                            "Friday"
+                        ],
+                        "opens": "12:00",
+                        "closes": "17:00"
+                    },
+                    {
+                        "@type": "OpeningHoursSpecification",
+                        "dayOfWeek": "Saturday",
+                        "opens": "10:00",
+                        "closes": "17:00"
+                    }
+                ],
+                "areaServed": [
+                    {
+                        "@type": "City",
+                        "name": "Holly Hill, SC"
+                    },
+                    {
+                        "@type": "City",
+                        "name": "Charleston, SC"
+                    },
+                    {
+                        "@type": "City",
+                        "name": "Summerville, SC"
+                    },
+                    {
+                        "@type": "City",
+                        "name": "Goose Creek, SC"
+                    },
+                    {
+                        "@type": "City",
+                        "name": "Moncks Corner, SC"
+                    },
+                    {
+                        "@type": "City",
+                        "name": "Orangeburg, SC"
+                    },
+                    {
+                        "@type": "City",
+                        "name": "St. George, SC"
+                    },
+                    {
+                        "@type": "City",
+                        "name": "Santee, SC"
+                    },
+                    {
+                        "@type": "City",
+                        "name": "Eutawville, SC"
+                    },
+                    {
+                        "@type": "AdministrativeArea",
+                        "name": "South Carolina Lowcountry"
+                    }
+                ],
+                "priceRange": "$$",
+                "currenciesAccepted": "USD",
+                "paymentAccepted": "Cash, Credit Card, Venmo, PayPal",
+                "publicAccess": true,
+                "amenityFeature": [
+                    {
+                        "@type": "LocationFeatureSpecification",
+                        "name": "On-site parking",
+                        "value": true
+                    }
+                ],
+                "knowsAbout": [
+                    "Furniture consignment",
+                    "Antique furniture",
+                    "Mid-century modern furniture",
+                    "Vintage home decor",
+                    "Estate sales",
+                    "Estate buyouts",
+                    "Gold, silver and jewelry buying",
+                    "Vinyl records",
+                    "Furniture resale value"
+                ],
+                "makesOffer": [
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Furniture and home decor consignment",
+                            "description": "Consignors receive 40% of the sale price when an item sells, paid by check, Venmo or PayPal.",
+                            "url": "https://roomswapsc.com/about.html"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "We buy furniture, estate contents, gold, silver and jewelry",
+                            "description": "Outright purchases with same-day payment available. Text photos to 843-900-1412 for a free evaluation.",
+                            "url": "https://roomswapsc.com/sell.html"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Full-service estate sales and estate buyouts",
+                            "description": "Sorting, pricing, staging, marketing, staffing and sale-day management, starting with a free in-home consultation.",
+                            "url": "https://roomswapsc.com/estate-sales.html"
+                        }
+                    }
+                ],
+                "sameAs": [
+                    "https://www.facebook.com/RoomSwapSC",
+                    "https://www.instagram.com/roomswapconsignments/"
+                ]
+            },
+            {
+                "@type": "WebPage",
+                "@id": "https://roomswapsc.com/#webpage",
+                "url": "https://roomswapsc.com/",
+                "name": "Room Swap Consignments | Consignment & Antique Store, Holly Hill SC",
+                "isPartOf": {
+                    "@id": "https://roomswapsc.com/#website"
+                },
+                "about": {
+                    "@id": "https://roomswapsc.com/#store"
+                },
+                "primaryImageOfPage": {
+                    "@type": "ImageObject",
+                    "url": "https://roomswapsc.com/images/room-swap-storefront-holly-hill-sc.jpg",
+                    "width": 1000,
+                    "height": 750
+                },
+                "inLanguage": "en-US"
             }
-        ],
-        "additionalType": [
-            "https://schema.org/AntiqueStore",
-            "https://schema.org/HomeGoodsStore",
-            "https://schema.org/ThriftStore"
-        ],
-        "keywords": "consignment store, antique store, vintage shop, modern furniture, thrift store, furniture consignment, estate sales, Holly Hill SC, Lowcountry South Carolina",
-        "areaServed": [
-            "Holly Hill SC", "Summerville SC", "Charleston SC", "Orangeburg SC",
-            "Goose Creek SC", "Moncks Corner SC", "St. George SC", "Santee SC"
-        ],
-        "priceRange": "$$",
-        "paymentAccepted": "Cash, Credit Card, Venmo, PayPal",
-        "sameAs": [
-            "https://www.facebook.com/RoomSwapSC",
-            "https://www.instagram.com/roomswapconsignments/"
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "@id": "https://roomswapsc.com/#faq",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is Room Swap Consignments?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Room Swap Consignments is a curated antique, vintage and modern consignment store at 8531 Old State Road in Holly Hill, South Carolina. The 4,000 sq ft showroom carries furniture, antiques, home decor, jewelry, books and vinyl records, and the inventory changes daily. Room Swap also buys items outright and runs full-service estate sales."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is Room Swap a thrift store?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Not exactly. Prices are secondhand prices, but unlike a donation-based thrift store, every piece at Room Swap is hand-selected and inspected for quality and condition before it goes on the floor. Most items are consigned by local sellers or bought from estates."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where is Room Swap located, and how far is it from Charleston and Orangeburg?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Room Swap is at 8531 Old State Road, Holly Hill, SC 29059, in eastern Orangeburg County near Lake Marion. It is about 30 minutes from Orangeburg and roughly an hour from Charleston, and an easy drive from Santee, Eutawville, St. George, Moncks Corner and Summerville."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are Room Swap's hours?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Tuesday through Friday 12:00 PM to 5:00 PM, and Saturday 10:00 AM to 5:00 PM. Closed Sunday and Monday. No appointment is needed to shop or to bring items in during business hours."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I sell or consign furniture at Room Swap?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Text photos of your items to 843-900-1412 for a free evaluation. You can consign (you receive 40% of the sale price when the item sells, paid by check, Venmo or PayPal) or, for many items, sell outright with same-day payment. Room Swap also buys gold, silver, jewelry and entire estates."
+                }
+            }
         ]
     }
     </script>
@@ -173,6 +389,48 @@
                     <p>Turn your quality furniture into cash without the hassle of private selling. We handle everything from pricing to sales, and you get paid when your items sell. We can also make cash offers on many items!</p>
                 </div>
             </div>
+        </section>
+
+        <section class="quick-facts-section" aria-labelledby="facts-heading">
+            <h2 id="facts-heading" class="section-title centered-title">Room Swap at a Glance</h2>
+            <dl class="quick-facts">
+                <div><dt>What we are</dt><dd>Curated antique, vintage &amp; modern consignment store with a 4,000 sq ft showroom that changes daily</dd></div>
+                <div><dt>Address</dt><dd>8531 Old State Road, Holly Hill, SC 29059</dd></div>
+                <div><dt>Hours</dt><dd>Tue&ndash;Fri 12&ndash;5 PM &middot; Sat 10 AM&ndash;5 PM &middot; Closed Sun &amp; Mon</dd></div>
+                <div><dt>Consignor payout</dt><dd>40% of the sale price, by check, Venmo or PayPal</dd></div>
+                <div><dt>We buy outright</dt><dd>Furniture, estate contents, gold, silver &amp; jewelry, with same-day payment available</dd></div>
+                <div><dt>Estate services</dt><dd>Full-service estate sales, buyouts &amp; free in-home consultations</dd></div>
+                <div><dt>Free evaluation</dt><dd>Text photos to <a href="tel:8439001412">843-900-1412</a></dd></div>
+                <div><dt>We accept</dt><dd>Cash, credit cards, Venmo &amp; PayPal</dd></div>
+                <div><dt>Serving</dt><dd>Holly Hill, Santee, Eutawville, Orangeburg, St. George, Moncks Corner, Summerville, Goose Creek, Charleston &amp; the SC Lowcountry</dd></div>
+            </dl>
+        </section>
+
+        <section class="faq-section" aria-labelledby="faq-heading">
+            <h2 id="faq-heading" class="section-title centered-title">Common Questions</h2>
+            <div class="faq-list">
+                <details class="faq-item">
+                    <summary>What is Room Swap Consignments?</summary>
+                    <p>Room Swap Consignments is a curated antique, vintage and modern consignment store at 8531 Old State Road in Holly Hill, South Carolina. The 4,000 sq ft showroom carries furniture, antiques, home decor, jewelry, books and vinyl records, and the inventory changes daily. Room Swap also buys items outright and runs full-service estate sales.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Is Room Swap a thrift store?</summary>
+                    <p>Not exactly. Prices are secondhand prices, but unlike a donation-based thrift store, every piece at Room Swap is hand-selected and inspected for quality and condition before it goes on the floor. Most items are consigned by local sellers or bought from estates. <a href="blog/consignment-vs-thrift-store.html">Consignment vs. thrift store: what&rsquo;s the difference?</a>.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>Where is Room Swap located, and how far is it from Charleston and Orangeburg?</summary>
+                    <p>Room Swap is at 8531 Old State Road, Holly Hill, SC 29059, in eastern Orangeburg County near Lake Marion. It is about 30 minutes from Orangeburg and roughly an hour from Charleston, and an easy drive from Santee, Eutawville, St. George, Moncks Corner and Summerville. <a href="contact.html">Get directions</a>.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>What are Room Swap's hours?</summary>
+                    <p>Tuesday through Friday 12:00 PM to 5:00 PM, and Saturday 10:00 AM to 5:00 PM. Closed Sunday and Monday. No appointment is needed to shop or to bring items in during business hours.</p>
+                </details>
+                <details class="faq-item">
+                    <summary>How do I sell or consign furniture at Room Swap?</summary>
+                    <p>Text photos of your items to 843-900-1412 for a free evaluation. You can consign (you receive 40% of the sale price when the item sells, paid by check, Venmo or PayPal) or, for many items, sell outright with same-day payment. Room Swap also buys gold, silver, jewelry and entire estates. <a href="sell.html">Two ways to get paid</a>.</p>
+                </details>
+            </div>
+            <p class="centered-text faq-more">More answers on our <a href="contact.html#faq">Contact &amp; FAQ page</a>.</p>
         </section>
 
         <section class="compact-form-section">

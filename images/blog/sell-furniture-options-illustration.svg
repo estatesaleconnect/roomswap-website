@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img"><title>Illustration of a smartphone sending a photo of an armchair, next to the same armchair with a SOLD tag and a stack of cash</title>
+<rect width="1200" height="800" fill="#E3EFEB"/>
+<circle cx="980" cy="170" r="210" fill="#CFE3DD"/>
+<rect y="580" width="1200" height="220" fill="#C29A6B"/>
+<rect y="576" width="1200" height="8" fill="#3E3226" opacity=".4"/>
+<g stroke="#3E3226" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">
+<rect x="150" y="150" width="270" height="520" rx="36" fill="#1D4F4F"/>
+<rect x="172" y="200" width="226" height="420" rx="10" fill="#F7F5EE"/>
+<rect x="245" y="170" width="80" height="12" rx="6" fill="#123636"/>
+<rect x="190" y="220" width="170" height="130" rx="14" fill="#D9E9E4"/>
+<path d="M230 330c0-40 10-60 45-60s45 20 45 60z" fill="#C46A3A" stroke-width="4"/>
+<rect x="220" y="310" width="110" height="26" rx="8" fill="#D27B48" stroke-width="4"/>
+<path d="M232 336l-6 10M318 336l6 10" stroke-width="4"/>
+<rect x="210" y="370" width="170" height="70" rx="14" fill="#D9A441" stroke-width="4"/>
+<path d="M226 392h120M226 416h90" stroke-width="4"/>
+<rect x="190" y="460" width="150" height="56" rx="14" fill="#E8E4D8" stroke-width="4"/>
+<path d="M206 480h100M206 498h70" stroke-width="4"/>
+<circle cx="285" cy="645" r="12" fill="#123636" stroke-width="3"/>
+<path d="M470 360c60-40 130-40 190 0" fill="none" stroke-dasharray="4 16" stroke-width="7"/>
+<path d="M650 336l20 26-32 6" fill="none" stroke-width="7"/>
+<path d="M720 520c0-110 30-160 120-160s120 50 120 160z" fill="#C46A3A"/>
+<rect x="690" y="470" width="300" height="80" rx="22" fill="#D27B48"/>
+<rect x="680" y="420" width="50" height="140" rx="20" fill="#B85E30"/>
+<rect x="950" y="420" width="50" height="140" rx="20" fill="#B85E30"/>
+<path d="M710 560l-14 50M970 560l14 50" stroke-width="12"/>
+<path d="M960 400l40-40" fill="none" stroke-width="4"/>
+<path d="M990 330h110l26 32-26 32H990z" fill="#FAF5EA"/>
+<circle cx="1006" cy="362" r="6" fill="#3E3226"/>
+<rect x="1010" y="640" width="150" height="30" rx="4" fill="#8DB580"/>
+<rect x="1020" y="615" width="150" height="30" rx="4" fill="#9CC48E"/>
+<rect x="1000" y="590" width="150" height="30" rx="4" fill="#AED4A0"/>
+<circle cx="1075" cy="605" r="10" fill="none" stroke-width="3"/>
+</g>
+<text x="1022" y="372" font-family="Georgia, serif" font-weight="700" font-size="28" fill="#1D4F4F">SOLD</text>
+<g fill="#D9A441"><path d="M600 230l7 16 16 7-16 7-7 16-7-16-16-7 16-7z"/><path d="M1130 470l6 13 13 6-13 6-6 13-6-13-13-6 13-6z"/></g>
+</svg>

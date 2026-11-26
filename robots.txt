@@ -1,4 +1,30 @@
+# Room Swap Consignments — https://roomswapsc.com
+# Search engines and AI assistants are welcome to crawl and cite the public site.
+
 User-agent: *
 Allow: /
+Disallow: /admin/
 
-Sitemap: https://www.roomswapsc.com/sitemap.xml
+# AI search and assistant crawlers: explicitly allowed so Room Swap can be
+# found and cited in ChatGPT, Claude, Perplexity, Gemini, Copilot and others.
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot
+User-agent: Applebot-Extended
+User-agent: Bingbot
+User-agent: DuckAssistBot
+User-agent: Amazonbot
+User-agent: meta-externalagent
+User-agent: MistralAI-User
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+
+Sitemap: https://roomswapsc.com/sitemap.xml
